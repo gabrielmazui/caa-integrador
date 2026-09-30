@@ -1,0 +1,69 @@
+@if (selectedPost(); as post) {
+  @if (crianca(); as c) {
+    <app-post-detail
+      [registro]="post"
+      [crianca]="c"
+      (close)="selectedPost.set(null)"
+      (commented)="onCommented(post.id)"
+    />
+  }
+}
+
+@if (crianca(); as c) {
+  <div class="flex flex-col gap-4">
+    <!-- Post composer -->
+    @if (c.podePublicar) {
+      <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-4 gap-3">
+          <div class="flex items-start gap-3">
+            <app-avatar [fotoUrl]="auth.currentUser()?.fotoUrl ?? null" [nome]="auth.currentUser()?.nome ?? 'U'" size="sm" />
+            <textarea
+              class="textarea textarea-bordered flex-1 resize-none text-sm"
+              rows="3"
+              placeholder="O que você observou hoje?"
+              name="newContent"
+              [ngModel]="newContent()"
+              (ngModelChange)="newContent.set($event)"
+            ></textarea>
+          </div>
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            @if (auth.isProfissional()) {
+              <select class="select select-bordered select-sm"
+                [ngModel]="newVisibilidade()"
+                (ngModelChange)="newVisibilidade.set($event)">
+                <option value="todos">Visível para todos</option>
+                <option value="profissionais">Apenas profissionais</option>
+              </select>
+            } @else {
+              <div></div>
+            }
+            <button class="btn btn-primary btn-sm" (click)="post()" [disabled]="posting() || !newContent().trim()">
+              @if (posting()) { <span class="loading loading-spinner loading-xs"></span> }
+              Publicar
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (loading()) {
+      <app-loading-spinner />
+    } @else if (registros().length === 0) {
+      <app-empty-state
+        titulo="Nenhuma publicação ainda"
+        [descricao]="'Seja o primeiro a registrar algo sobre ' + c.nome + '.'"
+      />
+    } @else {
+      @for (r of registros(); track r.id) {
+        <app-post-card [registro]="r" [crianca]="c" (openDetail)="selectedPost.set($event)" />
+      }
+      <div id="scroll-sentinel" class="h-4">
+        @if (loadingMore()) {
+          <div class="flex justify-center py-4">
+            <span class="loading loading-spinner loading-sm text-primary"></span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

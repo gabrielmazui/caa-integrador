@@ -1,0 +1,50 @@
+<article
+  class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+  (click)="openDetail.emit(registro())">
+  <div class="card-body p-4 gap-3">
+
+    <!-- Header -->
+    <div class="flex items-start gap-3">
+      <app-avatar [fotoUrl]="registro().autorFotoUrl" [nome]="registro().autorNome" size="sm" />
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="font-semibold text-sm">{{ registro().autorNome }}</span>
+          <span class="text-xs text-base-content/50">{{ registro().criadoEm | relativeTime }}</span>
+        </div>
+        <div class="flex items-center gap-1 mt-0.5 flex-wrap">
+          @if (registro().fixado) {
+            <span class="badge badge-accent badge-xs gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/>
+              </svg>
+              Fixado
+            </span>
+          }
+          @if (registro().visibilidade === 'profissionais') {
+            <span class="badge badge-warning badge-xs gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+              </svg>
+              Equipe
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Content preview (3 lines max) -->
+    <p class="text-sm leading-relaxed line-clamp-3">{{ registro().conteudo }}</p>
+
+    <!-- Footer -->
+    <div class="flex items-center gap-2 border-t border-base-200 pt-2 -mx-4 px-4">
+      <span class="text-xs text-base-content/50 flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7z" clip-rule="evenodd"/>
+        </svg>
+        {{ registro().totalComentarios }}
+      </span>
+      <span class="flex-1"></span>
+      <span class="text-xs text-primary/60 font-medium">Ver post →</span>
+    </div>
+  </div>
+</article>

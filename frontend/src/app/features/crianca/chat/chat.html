@@ -1,0 +1,49 @@
+<div class="flex flex-col flex-1 min-h-0">
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else {
+    <!-- Message list -->
+    <div #messageList class="flex-1 overflow-y-auto flex flex-col gap-2 p-4">
+      @if (mensagens().length === 0) {
+        <div class="flex items-center justify-center h-full text-base-content/40 text-sm">
+          Nenhuma mensagem ainda. Comece a conversa! 💬
+        </div>
+      }
+      @for (m of mensagens(); track m.id) {
+        <div class="chat" [class.chat-end]="isOwn(m)" [class.chat-start]="!isOwn(m)">
+          <div class="chat-header text-xs text-base-content/50 mb-0.5">
+            {{ isOwn(m) ? 'Você' : m.remetenteNome }}
+            <time class="ml-1">{{ m.criadoEm | relativeTime }}</time>
+          </div>
+          <div class="chat-bubble text-sm"
+            [class.chat-bubble-primary]="isOwn(m)">
+            {{ m.conteudo }}
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Input -->
+    <div class="flex gap-2 p-3 border-t border-base-200 bg-base-100">
+      <textarea
+        class="textarea textarea-bordered flex-1 resize-none text-sm"
+        rows="1"
+        placeholder="Digite uma mensagem..."
+        [ngModel]="newMessage()"
+        (ngModelChange)="newMessage.set($event)"
+        (keydown)="onKeydown($event)"
+        aria-label="Campo de mensagem"
+      ></textarea>
+      <button
+        class="btn btn-primary btn-circle"
+        (click)="send()"
+        [disabled]="sending() || !newMessage().trim()"
+        aria-label="Enviar mensagem"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+        </svg>
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-base-200 flex items-center justify-center p-4">
+  <div class="card bg-base-100 shadow-xl w-full max-w-md">
+    <div class="card-body gap-6">
+      <div class="text-center">
+        <div class="text-5xl mb-2">🌸</div>
+        <h1 class="text-2xl font-extrabold text-primary">CAA Integrador</h1>
+        <p class="text-sm text-base-content/60 mt-1">Bem-vindo de volta</p>
+      </div>
+
+      @if (error()) {
+        <div class="alert alert-error text-sm" role="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">E-mail</span></div>
+          <input
+            type="email"
+            class="input input-bordered w-full"
+            placeholder="seu@email.com"
+            name="email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            required
+            autocomplete="email"
+          />
+        </label>
+
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">Senha</span></div>
+          <input
+            type="password"
+            class="input input-bordered w-full"
+            placeholder="••••••••"
+            name="senha"
+            [ngModel]="senha()"
+            (ngModelChange)="senha.set($event)"
+            required
+            autocomplete="current-password"
+          />
+        </label>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-full mt-2"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+          }
+          Entrar
+        </button>
+      </form>
+
+      <p class="text-center text-sm text-base-content/60">
+        Não tem conta?
+        <a routerLink="/register" class="link link-primary font-semibold">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+</div>

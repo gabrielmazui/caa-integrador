@@ -1,0 +1,61 @@
+@if (crianca(); as c) {
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="font-bold text-lg">Equipe de {{ c.nome }}</h3>
+      @if (c.podeConvidar) {
+        <button class="btn btn-primary btn-sm gap-2" (click)="showModal.set(true)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+          </svg>
+          Convidar
+        </button>
+      }
+    </div>
+
+    @if (loading()) {
+      <app-loading-spinner />
+    } @else if (membros().length === 0) {
+      <app-empty-state titulo="Nenhum membro ainda" />
+    } @else {
+      <ul class="flex flex-col gap-3">
+        @for (m of membros(); track m.id) {
+          <li class="card card-compact bg-base-100 shadow-sm">
+            <div class="card-body flex-row items-center gap-4">
+              <app-avatar [fotoUrl]="m.fotoUrl" [nome]="m.nome" size="md" />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-semibold">{{ m.nome }}</span>
+                  @if (m.status === 'convidado') {
+                    <span class="badge badge-warning badge-xs">Convite pendente</span>
+                  }
+                </div>
+                <div class="flex items-center gap-2 mt-1 flex-wrap">
+                  <span class="badge badge-outline badge-xs">{{ papelLabels[m.papel] }}</span>
+                  @if (m.tipoUsuario === 'profissional') {
+                    <span class="badge badge-secondary badge-xs">Profissional</span>
+                  } @else {
+                    <span class="badge badge-accent badge-xs">Familiar</span>
+                  }
+                </div>
+                @if (m.especialidade) {
+                  <p class="text-xs text-base-content/50 mt-0.5">{{ m.especialidade }}</p>
+                }
+                @if (m.descricaoFuncao) {
+                  <p class="text-xs text-base-content/50">{{ m.descricaoFuncao }}</p>
+                }
+              </div>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+
+    @if (showModal()) {
+      <app-invite-member
+        [criancaId]="c.id"
+        (created)="onMemberAdded($event)"
+        (close)="showModal.set(false)"
+      />
+    }
+  </div>
+}

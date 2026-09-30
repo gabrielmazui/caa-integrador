@@ -1,0 +1,16 @@
+<div class="avatar" [class.avatar-placeholder]="!fotoUrl()">
+  <div
+    class="rounded-full"
+    [class]="sizeClass()"
+    [class.bg-primary]="!fotoUrl()"
+    [class.text-primary-content]="!fotoUrl()"
+  >
+    @if (fotoUrl()) {
+      <img [src]="fotoUrl()" [alt]="nome()" class="rounded-full object-cover" />
+    } @else {
+      <span [class]="size() === 'xs' ? 'text-xs' : size() === 'sm' ? 'text-sm' : 'text-base'">
+        {{ initials() }}
+      </span>
+    }
+  </div>
+</div>

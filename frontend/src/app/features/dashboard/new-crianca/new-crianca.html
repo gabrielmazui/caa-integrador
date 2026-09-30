@@ -1,0 +1,39 @@
+<div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box max-w-sm">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close()" aria-label="Fechar">✕</button>
+    <h2 id="modal-title" class="font-bold text-lg mb-4">Adicionar criança</h2>
+
+    @if (error()) {
+      <div class="alert alert-error text-sm mb-4" role="alert">{{ error() }}</div>
+    }
+
+    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">Nome *</span></div>
+        <input type="text" class="input input-bordered" placeholder="Nome da criança"
+          [ngModel]="nome()" (ngModelChange)="nome.set($event)" required name="nome" />
+      </label>
+
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">Data de nascimento</span></div>
+        <input type="date" class="input input-bordered"
+          [ngModel]="dataNascimento()" (ngModelChange)="dataNascimento.set($event)" name="dataNascimento" />
+      </label>
+
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">Observações</span></div>
+        <textarea class="textarea textarea-bordered resize-none" rows="3" placeholder="Contexto, diagnóstico, observações gerais..."
+          [ngModel]="observacoes()" (ngModelChange)="observacoes.set($event)" name="observacoes"></textarea>
+      </label>
+
+      <div class="modal-action mt-2">
+        <button type="button" class="btn btn-ghost" (click)="close()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="loading() || !nome().trim()">
+          @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
+          Criar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-backdrop" (click)="close()"></div>
+</div>

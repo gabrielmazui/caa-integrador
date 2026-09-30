@@ -1,0 +1,109 @@
+<div class="modal modal-open" role="dialog" aria-modal="true" (click)="close.emit()">
+  <div class="modal-box max-w-2xl w-full max-h-[90vh] flex flex-col p-0 overflow-hidden" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="flex items-start gap-3 p-5 border-b border-base-200 flex-shrink-0">
+      <app-avatar [fotoUrl]="registro().autorFotoUrl" [nome]="registro().autorNome" size="md" />
+      <div class="flex-1 min-w-0">
+        <p class="font-semibold">{{ registro().autorNome }}</p>
+        <p class="text-xs text-base-content/50">{{ registro().criadoEm | relativeTime }}</p>
+        <div class="flex gap-1 mt-1 flex-wrap">
+          @if (registro().fixado) {
+            <span class="badge badge-accent badge-sm gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"/>
+              </svg>
+              Fixado
+            </span>
+          }
+          @if (registro().visibilidade === 'profissionais') {
+            <span class="badge badge-warning badge-sm gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+              </svg>
+              Só equipe
+            </span>
+          }
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm btn-square flex-shrink-0" (click)="close.emit()" aria-label="Fechar">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Post content -->
+    <div class="p-5 border-b border-base-200 flex-shrink-0">
+      <p class="text-base leading-relaxed whitespace-pre-wrap">{{ registro().conteudo }}</p>
+
+      <!-- Attachments placeholder — ready for media uploads -->
+      @if (registro().anexos && registro().anexos!.length > 0) {
+        <div class="grid grid-cols-2 gap-2 mt-4">
+          @for (a of registro().anexos!; track a.id) {
+            @if (a.tipo === 'imagem') {
+              <img [src]="a.url" [alt]="a.nomeArquivo ?? 'imagem'"
+                class="rounded-xl object-cover w-full h-40 bg-base-200" loading="lazy" />
+            } @else {
+              <a [href]="a.url" target="_blank" rel="noopener"
+                class="flex items-center gap-2 p-3 rounded-xl border border-base-300 hover:bg-base-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-sm truncate">{{ a.nomeArquivo ?? a.tipo }}</span>
+              </a>
+            }
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Comments list -->
+    <div class="flex-1 overflow-y-auto p-5 flex flex-col gap-3">
+      @if (loading()) {
+        <div class="flex justify-center py-4">
+          <span class="loading loading-spinner loading-sm text-primary"></span>
+        </div>
+      } @else if (comments().length === 0) {
+        <p class="text-sm text-center text-base-content/40 py-4">Nenhum comentário ainda.</p>
+      } @else {
+        @for (c of comments(); track c.id) {
+          <div class="flex items-start gap-3">
+            <app-avatar [fotoUrl]="c.autorFotoUrl" [nome]="c.autorNome" size="xs" />
+            <div class="flex-1 bg-base-200 rounded-2xl px-4 py-2.5">
+              <div class="flex items-baseline gap-2">
+                <span class="text-xs font-semibold">{{ c.autorNome }}</span>
+                <span class="text-xs text-base-content/40">{{ c.criadoEm | relativeTime }}</span>
+              </div>
+              <p class="text-sm mt-0.5 leading-relaxed">{{ c.conteudo }}</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Comment input -->
+    @if (crianca().podeComentar) {
+      <div class="flex items-center gap-3 p-4 border-t border-base-200 flex-shrink-0 bg-base-100">
+        <app-avatar [fotoUrl]="auth.currentUser()?.fotoUrl ?? null" [nome]="auth.currentUser()?.nome ?? 'U'" size="xs" />
+        <input
+          class="input input-bordered input-sm flex-1 rounded-full"
+          placeholder="Escrever um comentário..."
+          name="comment"
+          [ngModel]="newComment()"
+          (ngModelChange)="newComment.set($event)"
+          (keyup.enter)="submitComment()"
+        />
+        <button
+          class="btn btn-primary btn-sm btn-circle flex-shrink-0"
+          (click)="submitComment()"
+          [disabled]="sending() || !newComment().trim()"
+          aria-label="Enviar comentário">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+          </svg>
+        </button>
+      </div>
+    }
+  </div>
+</div>

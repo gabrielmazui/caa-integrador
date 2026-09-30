@@ -1,0 +1,62 @@
+<div>
+  <div class="flex flex-wrap items-center gap-3 mb-4">
+    <select class="select select-sm select-bordered"
+      [ngModel]="filterAno()" (ngModelChange)="filterAno.set(+$event); load()">
+      @for (a of anos; track a) {
+        <option [value]="a">{{ a }}</option>
+      }
+    </select>
+    <select class="select select-sm select-bordered"
+      [ngModel]="filterSemestre()" (ngModelChange)="setFilterSemestre($event)">
+      <option [value]="0">Todos os semestres</option>
+      <option [value]="1">1º semestre</option>
+      <option [value]="2">2º semestre</option>
+    </select>
+    <div class="flex-1"></div>
+    <button class="btn btn-primary btn-sm gap-2" (click)="showModal.set(true)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      </svg>
+      Nova anotação
+    </button>
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (anotacoes().length === 0) {
+    <app-empty-state
+      titulo="Nenhuma anotação PEI"
+      descricao="Registre objetivos, estratégias e observações pedagógicas."
+      ctaLabel="Nova anotação"
+      (cta)="showModal.set(true)"
+    />
+  } @else {
+    <div class="flex flex-col gap-3">
+      @for (cat of categorias(); track cat) {
+        <div class="collapse collapse-arrow bg-base-100 shadow-sm">
+          <input type="checkbox" checked />
+          <div class="collapse-title font-semibold flex items-center gap-2">
+            <span class="badge badge-sm" [class]="categoriaBadge[cat]">{{ categoriaLabels[cat] }}</span>
+            <span class="text-sm text-base-content/50">({{ byCategoria()[cat]?.length ?? 0 }})</span>
+          </div>
+          <div class="collapse-content flex flex-col gap-2">
+            @for (a of byCategoria()[cat]; track a.id) {
+              <div class="border-l-4 border-primary/40 pl-3 py-2 bg-base-200 rounded-r-lg">
+                <p class="text-sm leading-relaxed whitespace-pre-wrap">{{ a.conteudo }}</p>
+                <p class="text-xs text-base-content/40 mt-1">{{ a.autorNome }} · {{ a.criadoEm | relativeTime }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @if (showModal()) {
+    <app-new-anotacao
+      [criancaId]="criancaId()"
+      (created)="onCreated($event)"
+      (close)="showModal.set(false)"
+    />
+  }
+</div>

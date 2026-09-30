@@ -1,0 +1,111 @@
+<div class="flex h-screen overflow-hidden bg-base-200">
+
+  <!-- Sidebar -->
+  <aside
+    class="relative flex flex-col bg-base-300 border-r border-base-300 shadow-md flex-shrink-0 transition-all duration-200 ease-in-out"
+    [style.width]="sidebarOpen() ? '15rem' : '3.5rem'">
+
+    <!-- Toggle handle pinned to the right border -->
+    <button
+      class="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-base-300 border border-base-300 shadow flex items-center justify-center hover:bg-base-200 transition-colors"
+      (click)="sidebarOpen.update(v => !v)"
+      [attr.aria-label]="sidebarOpen() ? 'Recolher menu' : 'Expandir menu'">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transition-transform duration-200" [class.rotate-180]="!sidebarOpen()" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <!-- Logo -->
+    <div class="flex items-center h-14 border-b border-base-300 px-3 overflow-hidden">
+      @if (sidebarOpen()) {
+        <a routerLink="/home" class="text-base font-extrabold text-primary whitespace-nowrap">
+          🌸 CAA Integrador
+        </a>
+      } @else {
+        <a routerLink="/home" class="mx-auto" title="CAA Integrador">
+          <span class="text-xl">🌸</span>
+        </a>
+      }
+    </div>
+
+    <!-- User info -->
+    <div class="flex items-center gap-3 px-2 py-3 border-b border-base-300 overflow-hidden">
+      <div class="flex-shrink-0" [class.mx-auto]="!sidebarOpen()">
+        <app-avatar
+          [fotoUrl]="auth.currentUser()?.fotoUrl ?? null"
+          [nome]="auth.currentUser()?.nome ?? 'U'"
+          size="sm" />
+      </div>
+      @if (sidebarOpen()) {
+        <div class="min-w-0">
+          <p class="text-sm font-bold truncate">{{ auth.currentUser()?.nome }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Children nav — profissional only -->
+    @if (isProfissional()) {
+      <nav class="flex-1 overflow-y-auto py-2">
+        @if (sidebarOpen()) {
+          <p class="px-3 pt-1 pb-1 text-xs font-semibold uppercase tracking-wider text-base-content/40">Crianças</p>
+        }
+        @for (c of criancas(); track c.id) {
+          <a
+            [routerLink]="['/crianca', c.id, 'feed']"
+            routerLinkActive="bg-primary/10 text-primary font-semibold"
+            class="flex items-center gap-3 px-2 py-2 mx-1 rounded-lg hover:bg-primary/10 transition-colors overflow-hidden"
+            [class.justify-center]="!sidebarOpen()"
+            [title]="!sidebarOpen() ? c.nome : ''">
+            <span class="flex-shrink-0">
+              <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="xs" />
+            </span>
+            @if (sidebarOpen()) {
+              <span class="truncate text-sm">{{ c.nome }}</span>
+            }
+          </a>
+        }
+      </nav>
+
+      <!-- Nova criança -->
+      <div class="p-2 border-t border-base-300">
+        @if (sidebarOpen()) {
+          <a routerLink="/home/nova-crianca" class="btn btn-primary btn-sm w-full gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Nova criança
+          </a>
+        } @else {
+          <a routerLink="/home/nova-crianca" class="btn btn-primary btn-sm btn-square mx-auto flex" title="Nova criança">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        }
+      </div>
+    } @else {
+      <div class="flex-1"></div>
+    }
+
+    <!-- Logout -->
+    <div class="p-2 border-t border-base-300">
+      <button
+        class="btn btn-ghost btn-sm w-full"
+        [class.btn-square]="!sidebarOpen()"
+        (click)="logout()"
+        title="Sair">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+        @if (sidebarOpen()) {
+          <span>Sair</span>
+        }
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="flex-1 overflow-hidden min-w-0 flex flex-col">
+    <router-outlet />
+  </div>
+</div>

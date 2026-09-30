@@ -1,0 +1,42 @@
+<div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="invite-modal-title">
+  <div class="modal-box max-w-md">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close.emit()" aria-label="Fechar">✕</button>
+    <h2 id="invite-modal-title" class="font-bold text-lg mb-4">Convidar membro</h2>
+
+    @if (error()) {
+      <div class="alert alert-error text-sm mb-4" role="alert">{{ error() }}</div>
+    }
+
+    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">E-mail *</span></div>
+        <input type="email" class="input input-bordered" placeholder="email@exemplo.com"
+          [ngModel]="email()" (ngModelChange)="email.set($event)" required name="email" />
+      </label>
+
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">Papel</span></div>
+        <select class="select select-bordered" [ngModel]="papel()" (ngModelChange)="papel.set($event)" name="papel">
+          @for (p of papeis; track p[0]) {
+            <option [value]="p[0]">{{ p[1] }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="form-control">
+        <div class="label"><span class="label-text font-semibold">Descrição da função <span class="text-base-content/40 font-normal">(opcional)</span></span></div>
+        <input type="text" class="input input-bordered" placeholder="Ex: Terapeuta ABA às terças"
+          [ngModel]="descricaoFuncao()" (ngModelChange)="descricaoFuncao.set($event)" name="descricao" />
+      </label>
+
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="loading() || !email().trim()">
+          @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
+          Convidar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="modal-backdrop" (click)="close.emit()"></div>
+</div>

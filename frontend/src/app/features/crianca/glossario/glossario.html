@@ -1,0 +1,74 @@
+<div>
+  <div class="flex flex-wrap items-center gap-3 mb-6">
+    <div class="relative flex-1 max-w-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+      </svg>
+      <input class="input input-bordered input-sm w-full pl-9" placeholder="Pesquisar termo..."
+        [ngModel]="search()" (ngModelChange)="search.set($event)" />
+    </div>
+    @if (auth.isProfissional()) {
+      <button class="btn btn-primary btn-sm gap-2" (click)="showModal.set(true)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        Novo termo
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner />
+  } @else if (termos().length === 0) {
+    <app-empty-state
+      titulo="Glossário vazio"
+      descricao="Nenhum termo cadastrado ainda."
+      [ctaLabel]="auth.isProfissional() ? 'Adicionar termo' : ''"
+      (cta)="showModal.set(true)"
+    />
+  } @else {
+    @if (global().length > 0) {
+      <div class="mb-6">
+        <h3 class="font-bold text-sm uppercase tracking-wider text-base-content/50 mb-3 flex items-center gap-2">
+          Termos globais
+          <span class="badge badge-info badge-sm">{{ global().length }}</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          @for (t of global(); track t.id) {
+            <div class="card card-compact bg-base-100 shadow-sm">
+              <div class="card-body">
+                <div class="flex items-start justify-between gap-2">
+                  <h4 class="font-bold">{{ t.termo }}</h4>
+                  <span class="badge badge-ghost badge-xs shrink-0">global</span>
+                </div>
+                <p class="text-sm text-base-content/70 leading-relaxed">{{ t.definicao }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+    @if (especificos().length > 0) {
+      <div>
+        <h3 class="font-bold text-sm uppercase tracking-wider text-base-content/50 mb-3 flex items-center gap-2">
+          Termos de {{ criancaNome() }}
+          <span class="badge badge-primary badge-sm">{{ especificos().length }}</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          @for (t of especificos(); track t.id) {
+            <div class="card card-compact bg-base-100 shadow-sm">
+              <div class="card-body">
+                <h4 class="font-bold">{{ t.termo }}</h4>
+                <p class="text-sm text-base-content/70 leading-relaxed">{{ t.definicao }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+
+  @if (showModal()) {
+    <app-new-termo [criancaId]="criancaId()" (created)="onCreated($event)" (close)="showModal.set(false)" />
+  }
+</div>

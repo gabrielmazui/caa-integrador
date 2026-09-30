@@ -1,0 +1,100 @@
+<div class="min-h-screen bg-base-200 flex items-center justify-center p-4">
+  <div class="card bg-base-100 shadow-xl w-full max-w-lg">
+    <div class="card-body gap-5">
+      <div class="text-center">
+        <div class="text-5xl mb-2">🌸</div>
+        <h1 class="text-2xl font-extrabold text-primary">CAA Integrador</h1>
+        <p class="text-sm text-base-content/60 mt-1">Crie sua conta</p>
+      </div>
+
+      @if (error()) {
+        <div class="alert alert-error text-sm" role="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <!-- Tipo de usuário -->
+      <div>
+        <p class="label-text font-semibold mb-2">Quem é você?</p>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="cursor-pointer">
+            <input type="radio" name="tipo" class="sr-only" value="familiar"
+              [checked]="tipoUsuario() === 'familiar'"
+              (change)="tipoUsuario.set('familiar')" />
+            <div class="border-2 rounded-xl p-4 text-center transition"
+              [class.border-primary]="tipoUsuario() === 'familiar'"
+              [class.bg-primary]="tipoUsuario() === 'familiar'"
+              [class.text-primary-content]="tipoUsuario() === 'familiar'"
+              [class.border-base-300]="tipoUsuario() !== 'familiar'">
+              <div class="text-2xl mb-1">👨‍👩‍👧</div>
+              <p class="font-bold text-sm">Familiar</p>
+              <p class="text-xs opacity-70">Pai, mãe ou responsável</p>
+            </div>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="tipo" class="sr-only" value="profissional"
+              [checked]="tipoUsuario() === 'profissional'"
+              (change)="tipoUsuario.set('profissional')" />
+            <div class="border-2 rounded-xl p-4 text-center transition"
+              [class.border-primary]="tipoUsuario() === 'profissional'"
+              [class.bg-primary]="tipoUsuario() === 'profissional'"
+              [class.text-primary-content]="tipoUsuario() === 'profissional'"
+              [class.border-base-300]="tipoUsuario() !== 'profissional'">
+              <div class="text-2xl mb-1">🩺</div>
+              <p class="font-bold text-sm">Profissional</p>
+              <p class="text-xs opacity-70">Terapeuta, professor, etc.</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">Nome completo</span></div>
+          <input type="text" class="input input-bordered" placeholder="Seu nome"
+            [ngModel]="nome()" (ngModelChange)="nome.set($event)" required name="nome" />
+        </label>
+
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">E-mail</span></div>
+          <input type="email" class="input input-bordered" placeholder="seu@email.com"
+            [ngModel]="email()" (ngModelChange)="email.set($event)" required name="email" autocomplete="email" />
+        </label>
+
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">Senha</span></div>
+          <input type="password" class="input input-bordered" placeholder="Mínimo 8 caracteres"
+            [ngModel]="senha()" (ngModelChange)="senha.set($event)" required name="senha" autocomplete="new-password" />
+        </label>
+
+        @if (isProfissional()) {
+          <label class="form-control">
+            <div class="label"><span class="label-text font-semibold">Especialidade</span></div>
+            <input type="text" class="input input-bordered" placeholder="Ex: Fonoaudiologia"
+              [ngModel]="especialidade()" (ngModelChange)="especialidade.set($event)" name="especialidade" />
+          </label>
+          <label class="form-control">
+            <div class="label"><span class="label-text font-semibold">Registro profissional</span></div>
+            <input type="text" class="input input-bordered" placeholder="Ex: CRFa 12345"
+              [ngModel]="registroProfissional()" (ngModelChange)="registroProfissional.set($event)" name="registro" />
+          </label>
+        }
+
+        <button type="submit" class="btn btn-primary w-full mt-2" [disabled]="loading()">
+          @if (loading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+          }
+          Criar conta
+        </button>
+      </form>
+
+      <p class="text-center text-sm text-base-content/60">
+        Já tem conta?
+        <a routerLink="/login" class="link link-primary font-semibold">Entrar</a>
+      </p>
+    </div>
+  </div>
+</div>
