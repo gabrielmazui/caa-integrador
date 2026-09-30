@@ -24,6 +24,16 @@ export interface Registro {
 export interface RegistroRequest {
   conteudo: string;
   visibilidade: Visibilidade;
+  arquivoIds?: string[];
+}
+
+export interface Arquivo {
+  id: string;
+  url: string;
+  nomeArquivo: string;
+  tipo: 'imagem' | 'audio' | 'video' | 'documento' | 'outro';
+  mimeType: string;
+  tamanhoBytes: number;
 }
 
 export interface Comentario {

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jakarta.annotation.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -66,6 +68,7 @@ public class CriancaController {
     public List<CriancaResponse> list(Authentication auth) {
         return jdbc.sql("""
                 SELECT c.id, c.nome, c.data_nascimento, c.foto_url, c.observacoes,
+                       c.diagnostico, c.cid_10 AS cid10,
                        ec.papel, ec.pode_publicar, ec.pode_comentar, ec.pode_ver_chat,
                        ec.pode_convidar, ec.pode_editar_crianca, c.criado_em
                 FROM criancas c JOIN equipe_crianca ec ON ec.crianca_id = c.id
@@ -76,12 +79,44 @@ public class CriancaController {
             .param("userId", CurrentUser.id(auth)).query(CriancaResponse.class).list();
     }
 
+    @PutMapping("/{childId}")
+    @Transactional
+    public CriancaResponse update(@PathVariable UUID childId,
+                                  @Valid @RequestBody CriancaUpdateRequest request,
+                                  Authentication auth) {
+        UUID userId = CurrentUser.id(auth);
+        var member = acesso.requireMember(childId, userId);
+        if (!member.podeEditarCrianca()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Você não pode editar esta criança");
+        }
+        jdbc.sql("""
+                UPDATE criancas SET
+                    nome = :nome,
+                    data_nascimento = :nascimento,
+                    foto_url = :fotoUrl,
+                    observacoes = :observacoes,
+                    diagnostico = :diagnostico,
+                    cid_10 = :cid10
+                WHERE id = :id
+                """)
+            .param("id", childId)
+            .param("nome", request.nome() != null ? request.nome().trim() : null)
+            .param("nascimento", request.dataNascimento())
+            .param("fotoUrl", request.fotoUrl())
+            .param("observacoes", request.observacoes())
+            .param("diagnostico", request.diagnostico())
+            .param("cid10", request.cid10())
+            .update();
+        return get(childId, auth);
+    }
+
     @GetMapping("/{childId}")
     public CriancaResponse get(@PathVariable UUID childId, Authentication auth) {
         UUID userId = CurrentUser.id(auth);
         acesso.requireMember(childId, userId);
         return jdbc.sql("""
                 SELECT c.id, c.nome, c.data_nascimento, c.foto_url, c.observacoes,
+                       c.diagnostico, c.cid_10 AS cid10,
                        ec.papel, ec.pode_publicar, ec.pode_comentar, ec.pode_ver_chat,
                        ec.pode_convidar, ec.pode_editar_crianca, c.criado_em
                 FROM criancas c JOIN equipe_crianca ec ON ec.crianca_id = c.id
@@ -153,13 +188,20 @@ public class CriancaController {
     public record CriancaRequest(@NotBlank @Size(max = 255) String nome,
                                  @PastOrPresent LocalDate dataNascimento,
                                  @Size(max = 5000) String observacoes) {}
+    public record CriancaUpdateRequest(@Size(max = 255) String nome,
+                                       @PastOrPresent LocalDate dataNascimento,
+                                       @Size(max = 1000) String fotoUrl,
+                                       @Size(max = 5000) String observacoes,
+                                       @Size(max = 255) String diagnostico,
+                                       @Size(max = 20) String cid10) {}
     public record AddMemberRequest(
         @NotBlank String email,
         @NotBlank @Pattern(regexp = "mae|pai|responsavel|professor|terapeuta|coordenador|outro") String papel,
         @Size(max = 150) String descricaoFuncao) {}
     public record CriancaResponse(UUID id, String nome, LocalDate dataNascimento, String fotoUrl,
-                                  String observacoes, String papel, boolean podePublicar,
-                                  boolean podeComentar, boolean podeVerChat, boolean podeConvidar,
+                                  String observacoes, String diagnostico, String cid10,
+                                  String papel, boolean podePublicar, boolean podeComentar,
+                                  boolean podeVerChat, boolean podeConvidar,
                                   boolean podeEditarCrianca, OffsetDateTime criadoEm) {}
     public record MembroResponse(UUID id, String nome, String tipoUsuario, String especialidade,
                                  String fotoUrl, String papel, String descricaoFuncao, String status) {}

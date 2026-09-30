@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Registro, Visibilidade } from '../../../shared/models/feed.models';
+import { Arquivo, Registro, Visibilidade } from '../../../shared/models/feed.models';
 import { FeedService } from '../../../shared/services/feed.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { CriancaStateService } from '../crianca-state.service';
@@ -9,9 +9,10 @@ import { PostDetailComponent } from './post-detail/post-detail';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar';
+import { FileUploadComponent } from '../../../shared/components/file-upload/file-upload';
 
 @Component({
-  imports: [FormsModule, PostCardComponent, PostDetailComponent, EmptyStateComponent, LoadingSpinnerComponent, AvatarComponent],
+  imports: [FormsModule, PostCardComponent, PostDetailComponent, EmptyStateComponent, LoadingSpinnerComponent, AvatarComponent, FileUploadComponent],
   templateUrl: './feed.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
@@ -33,6 +34,7 @@ export class FeedComponent implements OnInit, AfterViewInit {
   newVisibilidade = signal<Visibilidade>('todos');
   posting = signal(false);
   selectedPost = signal<Registro | null>(null);
+  attachments = signal<Arquivo[]>([]);
 
   private observer?: IntersectionObserver;
 
@@ -81,6 +83,14 @@ export class FeedComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onAttachmentUploaded(arquivo: Arquivo) {
+    this.attachments.update(list => [...list, arquivo]);
+  }
+
+  removeAttachment(id: string) {
+    this.attachments.update(list => list.filter(a => a.id !== id));
+  }
+
   onCommented(registroId: string) {
     this.registros.update(list =>
       list.map(r => r.id === registroId ? { ...r, totalComentarios: r.totalComentarios + 1 } : r)
@@ -92,10 +102,15 @@ export class FeedComponent implements OnInit, AfterViewInit {
     const text = this.newContent().trim();
     if (!id || !text) return;
     this.posting.set(true);
-    this.feedService.create(id, { conteudo: text, visibilidade: this.newVisibilidade() }).subscribe({
+    this.feedService.create(id, {
+      conteudo: text,
+      visibilidade: this.newVisibilidade(),
+      arquivoIds: this.attachments().map(a => a.id),
+    }).subscribe({
       next: (r) => {
         this.registros.update(prev => [r, ...prev]);
         this.newContent.set('');
+        this.attachments.set([]);
         this.posting.set(false);
       },
       error: () => this.posting.set(false),

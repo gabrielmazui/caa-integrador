@@ -46,6 +46,14 @@ export class AuthService {
     this.currentUser.set(res.usuario);
   }
 
+  refreshUser(partial: Partial<Usuario>) {
+    const current = this.currentUser();
+    if (!current) return;
+    const updated = { ...current, ...partial };
+    localStorage.setItem(USER_KEY, JSON.stringify(updated));
+    this.currentUser.set(updated);
+  }
+
   private loadUser(): Usuario | null {
     try {
       const raw = localStorage.getItem(USER_KEY);

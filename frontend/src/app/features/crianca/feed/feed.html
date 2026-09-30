@@ -26,17 +26,45 @@
               (ngModelChange)="newContent.set($event)"
             ></textarea>
           </div>
+
+          <!-- Attachment previews -->
+          @if (attachments().length > 0) {
+            <div class="flex flex-wrap gap-2">
+              @for (a of attachments(); track a.id) {
+                <div class="relative group">
+                  @if (a.tipo === 'imagem') {
+                    <img [src]="a.url" [alt]="a.nomeArquivo" class="h-20 w-20 object-cover rounded-lg border border-base-200" />
+                  } @else {
+                    <div class="h-20 w-32 flex flex-col items-center justify-center gap-1 bg-base-200 rounded-lg border border-base-200 px-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-base-content/50" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                      </svg>
+                      <span class="text-xs text-base-content/60 truncate w-full text-center">{{ a.nomeArquivo }}</span>
+                    </div>
+                  }
+                  <button class="btn btn-xs btn-circle btn-error absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    (click)="removeAttachment(a.id)">✕</button>
+                </div>
+              }
+            </div>
+          }
+
           <div class="flex items-center justify-between flex-wrap gap-2">
-            @if (auth.isProfissional()) {
-              <select class="select select-bordered select-sm"
-                [ngModel]="newVisibilidade()"
-                (ngModelChange)="newVisibilidade.set($event)">
-                <option value="todos">Visível para todos</option>
-                <option value="profissionais">Apenas profissionais</option>
-              </select>
-            } @else {
-              <div></div>
-            }
+            <div class="flex items-center gap-2">
+              @if (auth.isProfissional()) {
+                <select class="select select-bordered select-sm"
+                  [ngModel]="newVisibilidade()"
+                  (ngModelChange)="newVisibilidade.set($event)">
+                  <option value="todos">Visível para todos</option>
+                  <option value="profissionais">Apenas profissionais</option>
+                </select>
+              }
+              <app-file-upload
+                label="Anexar"
+                accept="image/*,audio/*,video/*,application/pdf,.doc,.docx"
+                (uploaded)="onAttachmentUploaded($event)"
+              />
+            </div>
             <button class="btn btn-primary btn-sm" (click)="post()" [disabled]="posting() || !newContent().trim()">
               @if (posting()) { <span class="loading loading-spinner loading-xs"></span> }
               Publicar

@@ -29,8 +29,9 @@
     </div>
 
     <!-- User info -->
-    <div class="flex items-center gap-3 px-2 py-3 border-b border-base-300 overflow-hidden">
-      <div class="flex-shrink-0" [class.mx-auto]="!sidebarOpen()">
+    <a routerLink="/perfil" class="flex items-center gap-3 px-2 py-3 border-b border-base-300 overflow-hidden hover:bg-primary/10 transition-colors"
+      [class.justify-center]="!sidebarOpen()" title="Meu perfil">
+      <div class="flex-shrink-0">
         <app-avatar
           [fotoUrl]="auth.currentUser()?.fotoUrl ?? null"
           [nome]="auth.currentUser()?.nome ?? 'U'"
@@ -39,9 +40,10 @@
       @if (sidebarOpen()) {
         <div class="min-w-0">
           <p class="text-sm font-bold truncate">{{ auth.currentUser()?.nome }}</p>
+          <p class="text-xs text-base-content/50">Editar perfil</p>
         </div>
       }
-    </div>
+    </a>
 
     <!-- Children nav — profissional only -->
     @if (isProfissional()) {

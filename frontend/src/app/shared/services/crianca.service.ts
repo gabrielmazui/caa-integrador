@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
-import { AddMemberRequest, Crianca, CriancaRequest, Membro } from '../models/crianca.models';
+import { AddMemberRequest, Crianca, CriancaRequest, CriancaUpdateRequest, Membro } from '../models/crianca.models';
 
 @Injectable({ providedIn: 'root' })
 export class CriancaService {
@@ -26,5 +26,9 @@ export class CriancaService {
 
   addMember(criancaId: string, req: AddMemberRequest) {
     return this.http.post<Membro>(`${this.base}/${criancaId}/membros`, req);
+  }
+
+  update(id: string, req: CriancaUpdateRequest) {
+    return this.http.put<Crianca>(`${this.base}/${id}`, req);
   }
 }

@@ -22,7 +22,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/criancas/{childId}/registros")
@@ -43,7 +45,7 @@ public class FeedController {
         var member = acesso.requireMember(childId, CurrentUser.id(auth));
         int safeLimit = Math.clamp(limit, 1, 100);
         int safeOffset = Math.max(offset, 0);
-        return jdbc.sql("""
+        List<RegistroData> raw = jdbc.sql("""
                 SELECT r.id, r.conteudo, r.visibilidade, r.fixado, r.criado_em, r.atualizado_em,
                        u.id AS autor_id, COALESCE(u.nome, 'Usuário removido') AS autor_nome,
                        u.foto_url AS autor_foto_url,
@@ -59,7 +61,8 @@ public class FeedController {
                 """)
             .param("childId", childId).param("professional", member.profissional())
             .param("limit", safeLimit).param("offset", safeOffset)
-            .query(RegistroResponse.class).list();
+            .query(RegistroData.class).list();
+        return enrichWithAnexos(raw);
     }
 
     @PostMapping
@@ -85,7 +88,19 @@ public class FeedController {
             .param("id", id).param("childId", childId).param("userId", userId)
             .param("conteudo", request.conteudo().trim())
             .param("visibilidade", request.visibilidade()).update();
-        return findRegistro(id);
+
+        if (request.arquivoIds() != null) {
+            for (UUID arquivoId : request.arquivoIds()) {
+                jdbc.sql("""
+                        INSERT INTO anexos (id, url, tipo, nome_arquivo, mime_type, tamanho_bytes, registro_id, arquivo_id)
+                        SELECT gen_random_uuid(), url, tipo, nome_arquivo, mime_type, tamanho_bytes, :registroId, id
+                        FROM arquivos WHERE id = :arquivoId
+                        """)
+                    .param("registroId", id).param("arquivoId", arquivoId).update();
+            }
+        }
+
+        return enrichWithAnexos(List.of(findRegistroData(id))).getFirst();
     }
 
     @GetMapping("/{registroId}/comentarios")
@@ -131,6 +146,25 @@ public class FeedController {
             .param("id", id).query(ComentarioResponse.class).single();
     }
 
+    private List<RegistroResponse> enrichWithAnexos(List<RegistroData> data) {
+        if (data.isEmpty()) return List.of();
+        UUID[] ids = data.stream().map(RegistroData::id).toArray(UUID[]::new);
+        Map<UUID, List<AnexoResponse>> anexoMap = jdbc.sql("""
+                SELECT registro_id, id, url, tipo, nome_arquivo
+                FROM anexos WHERE registro_id = ANY(:ids) ORDER BY criado_em
+                """)
+            .param("ids", ids)
+            .query(AnexoData.class).list()
+            .stream()
+            .collect(Collectors.groupingBy(AnexoData::registroId,
+                Collectors.mapping(a -> new AnexoResponse(a.id(), a.url(), a.tipo(), a.nomeArquivo()),
+                    Collectors.toList())));
+        return data.stream().map(r -> new RegistroResponse(
+            r.id(), r.conteudo(), r.visibilidade(), r.fixado(), r.criadoEm(), r.atualizadoEm(),
+            r.autorId(), r.autorNome(), r.autorFotoUrl(), r.totalComentarios(),
+            anexoMap.getOrDefault(r.id(), List.of()))).toList();
+    }
+
     private void requireVisiblePost(UUID childId, UUID registroId, boolean professional) {
         boolean exists = jdbc.sql("""
                 SELECT EXISTS(SELECT 1 FROM registros
@@ -142,23 +176,36 @@ public class FeedController {
         if (!exists) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Registro não encontrado");
     }
 
-    private RegistroResponse findRegistro(UUID id) {
+    private RegistroData findRegistroData(UUID id) {
         return jdbc.sql("""
                 SELECT r.id, r.conteudo, r.visibilidade, r.fixado, r.criado_em, r.atualizado_em,
                        u.id AS autor_id, u.nome AS autor_nome, u.foto_url AS autor_foto_url,
                        0::bigint AS total_comentarios
                 FROM registros r JOIN usuarios u ON u.id = r.autor_id WHERE r.id = :id
                 """)
-            .param("id", id).query(RegistroResponse.class).single();
+            .param("id", id).query(RegistroData.class).single();
     }
 
-    public record RegistroRequest(@NotBlank @Size(max = 10000) String conteudo,
-                                  @NotBlank @Pattern(regexp = "todos|profissionais") String visibilidade) {}
+    public record RegistroRequest(
+        @NotBlank @Size(max = 10000) String conteudo,
+        @NotBlank @Pattern(regexp = "todos|profissionais") String visibilidade,
+        List<UUID> arquivoIds) {}
+
     public record ComentarioRequest(@NotBlank @Size(max = 5000) String conteudo) {}
+
+    private record RegistroData(UUID id, String conteudo, String visibilidade, boolean fixado,
+                                OffsetDateTime criadoEm, OffsetDateTime atualizadoEm,
+                                UUID autorId, String autorNome, String autorFotoUrl, long totalComentarios) {}
+
+    private record AnexoData(UUID registroId, UUID id, String url, String tipo, String nomeArquivo) {}
+
+    public record AnexoResponse(UUID id, String url, String tipo, String nomeArquivo) {}
+
     public record RegistroResponse(UUID id, String conteudo, String visibilidade, boolean fixado,
                                    OffsetDateTime criadoEm, OffsetDateTime atualizadoEm,
                                    UUID autorId, String autorNome, String autorFotoUrl,
-                                   long totalComentarios) {}
+                                   long totalComentarios, List<AnexoResponse> anexos) {}
+
     public record ComentarioResponse(UUID id, String conteudo, OffsetDateTime criadoEm,
                                      OffsetDateTime atualizadoEm, UUID autorId,
                                      String autorNome, String autorFotoUrl) {}

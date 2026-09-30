@@ -32,6 +32,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
+        path: 'perfil',
+        loadComponent: () => import('./features/perfil/perfil').then(m => m.PerfilComponent),
+      },
+      {
         path: 'home',
         children: [
           { path: '', loadComponent: () => import('./features/dashboard/home/home').then(m => m.HomeComponent) },
@@ -49,6 +53,7 @@ export const routes: Routes = [
           { path: 'pei', canActivate: [profissionalGuard], loadComponent: () => import('./features/crianca/pei/pei').then(m => m.PeiComponent) },
           { path: 'glossario', loadComponent: () => import('./features/crianca/glossario/glossario').then(m => m.GlossarioComponent) },
           { path: 'equipe', loadComponent: () => import('./features/crianca/equipe/equipe').then(m => m.EquipeComponent) },
+          { path: 'perfil', loadComponent: () => import('./features/crianca/perfil/crianca-perfil').then(m => m.CriancaPerfilComponent) },
         ],
       },
     ],

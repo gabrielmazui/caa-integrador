@@ -8,6 +8,8 @@ export interface Crianca {
   dataNascimento: string | null;
   fotoUrl: string | null;
   observacoes: string | null;
+  diagnostico: string | null;
+  cid10: string | null;
   papel: Papel;
   podePublicar: boolean;
   podeComentar: boolean;
@@ -21,6 +23,15 @@ export interface CriancaRequest {
   nome: string;
   dataNascimento?: string;
   observacoes?: string;
+}
+
+export interface CriancaUpdateRequest {
+  nome?: string;
+  dataNascimento?: string;
+  fotoUrl?: string;
+  observacoes?: string;
+  diagnostico?: string;
+  cid10?: string;
 }
 
 export interface Membro {

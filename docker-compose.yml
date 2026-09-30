@@ -22,6 +22,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
+      UPLOADS_DIR: /var/uploads
+    volumes:
+      - uploads:/var/uploads
     ports:
       - "8080:8080"
     depends_on:
@@ -37,3 +40,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads:
