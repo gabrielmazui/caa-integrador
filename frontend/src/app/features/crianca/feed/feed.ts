@@ -10,9 +10,10 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar';
 import { FileUploadComponent } from '../../../shared/components/file-upload/file-upload';
+import { MediaCaptureComponent } from '../../../shared/components/media-capture/media-capture';
 
 @Component({
-  imports: [FormsModule, PostCardComponent, PostDetailComponent, EmptyStateComponent, LoadingSpinnerComponent, AvatarComponent, FileUploadComponent],
+  imports: [FormsModule, PostCardComponent, PostDetailComponent, EmptyStateComponent, LoadingSpinnerComponent, AvatarComponent, FileUploadComponent, MediaCaptureComponent],
   templateUrl: './feed.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })

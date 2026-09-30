@@ -32,8 +32,67 @@
       </div>
     </div>
 
-    <!-- Content preview (3 lines max) -->
+    <!-- Content -->
     <p class="text-sm leading-relaxed line-clamp-3">{{ registro().conteudo }}</p>
+
+    <!-- Inline attachments -->
+    @if (hasAttachments()) {
+      <div class="flex flex-col gap-2" (click)="$event.stopPropagation()">
+
+        <!-- Image grid -->
+        @if (images().length === 1) {
+          <img [src]="images()[0].url" [alt]="images()[0].nomeArquivo ?? 'imagem'"
+            class="w-full max-h-72 object-cover rounded-xl" loading="lazy" />
+        } @else if (images().length === 2) {
+          <div class="grid grid-cols-2 gap-0.5 rounded-xl overflow-hidden">
+            @for (img of images(); track img.id) {
+              <img [src]="img.url" [alt]="img.nomeArquivo ?? 'imagem'"
+                class="w-full h-48 object-cover" loading="lazy" />
+            }
+          </div>
+        } @else if (images().length >= 3) {
+          <div class="grid grid-cols-2 gap-0.5 rounded-xl overflow-hidden" style="grid-template-rows: 9rem 9rem">
+            <img [src]="images()[0].url" [alt]="images()[0].nomeArquivo ?? 'imagem'"
+              class="w-full h-full object-cover row-span-2" loading="lazy" />
+            <img [src]="images()[1].url" [alt]="images()[1].nomeArquivo ?? 'imagem'"
+              class="w-full h-full object-cover" loading="lazy" />
+            <div class="relative">
+              <img [src]="images()[2].url" [alt]="images()[2].nomeArquivo ?? 'imagem'"
+                class="w-full h-full object-cover" loading="lazy" />
+              @if (images().length > 3) {
+                <div class="absolute inset-0 bg-black/55 flex items-center justify-center">
+                  <span class="text-white font-bold text-xl">+{{ images().length - 3 }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Audio players -->
+        @for (a of audios(); track a.id) {
+          <audio controls [src]="a.url" class="w-full h-10 rounded-lg" preload="none"></audio>
+        }
+
+        <!-- Video players -->
+        @for (a of videos(); track a.id) {
+          <video controls [src]="a.url" class="w-full rounded-xl max-h-64 bg-black" preload="none"></video>
+        }
+
+        <!-- Document links -->
+        @for (a of docs(); track a.id) {
+          <a [href]="a.url" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-2 px-3 py-2 bg-base-200 hover:bg-base-300 rounded-lg transition-colors no-underline">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content/50 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm truncate">{{ a.nomeArquivo ?? 'Documento' }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-base-content/40 shrink-0 ml-auto" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        }
+      </div>
+    }
 
     <!-- Footer -->
     <div class="flex items-center gap-2 border-t border-base-200 pt-2 -mx-4 px-4">

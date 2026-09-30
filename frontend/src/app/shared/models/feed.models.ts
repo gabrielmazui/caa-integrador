@@ -2,7 +2,7 @@ export type Visibilidade = 'todos' | 'profissionais';
 
 export interface Anexo {
   id: string;
-  tipo: 'imagem' | 'audio' | 'documento' | 'outro';
+  tipo: 'imagem' | 'audio' | 'video' | 'documento' | 'outro';
   url: string;
   nomeArquivo: string | null;
 }

@@ -64,6 +64,7 @@
                 accept="image/*,audio/*,video/*,application/pdf,.doc,.docx"
                 (uploaded)="onAttachmentUploaded($event)"
               />
+              <app-media-capture (uploaded)="onAttachmentUploaded($event)" />
             </div>
             <button class="btn btn-primary btn-sm" (click)="post()" [disabled]="posting() || !newContent().trim()">
               @if (posting()) { <span class="loading loading-spinner loading-xs"></span> }
