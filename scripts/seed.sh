@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE="http://localhost:8080/api"
+BASE="${BASE_URL:-http://localhost:8080/api}"
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -16,6 +16,20 @@ require_node() {
   fi
 }
 require_node
+
+log "Aguardando a API em $BASE..."
+until curl -sS -o /dev/null "$BASE/auth/login"; do
+  sleep 2
+done
+
+# O Compose executa este script a cada nova subida. Se o usuário principal já
+# autentica, os dados iniciais já foram carregados e não devem ser duplicados.
+if curl -fsS -o /dev/null -X POST "$BASE/auth/login" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  --data-binary '{"email":"ana@caa.dev","senha":"senha123"}' 2>/dev/null; then
+  log "Seed já aplicado; nada a fazer."
+  exit 0
+fi
 
 json_field() {
   node -e 'let input=""; process.stdin.setEncoding("utf8"); process.stdin.on("data", chunk => input += chunk); process.stdin.on("end", () => { const value = JSON.parse(input)[process.argv[1]]; process.stdout.write(value == null ? "" : String(value)); });' "$1"

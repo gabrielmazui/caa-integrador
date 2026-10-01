@@ -30,6 +30,23 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sS", "-o", "/dev/null", "http://localhost:8080/api/auth/login"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  seed:
+    image: node:24
+    environment:
+      BASE_URL: http://backend:8080/api
+    volumes:
+      - ./scripts/seed.sh:/seed.sh:ro
+    entrypoint: ["bash", "-c", "sed 's/\\r$//' /seed.sh | bash"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: "no"
 
   frontend:
     build: ./frontend
