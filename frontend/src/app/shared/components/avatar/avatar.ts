@@ -7,7 +7,7 @@ import { Component, input, computed } from '@angular/core';
 export class AvatarComponent {
   fotoUrl = input<string | null>(null);
   nome = input.required<string>();
-  size = input<'xs' | 'sm' | 'md' | 'lg'>('md');
+  size = input<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
 
   initials = computed(() => {
     return this.nome()
@@ -23,5 +23,6 @@ export class AvatarComponent {
     sm: 'w-8',
     md: 'w-10',
     lg: 'w-14',
+    xl: 'w-24',
   })[this.size()]);
 }

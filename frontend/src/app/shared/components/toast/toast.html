@@ -1,0 +1,12 @@
+<div class="toast toast-end toast-bottom z-50">
+  @for (t of toastService.toasts(); track t.id) {
+    <div
+      class="alert shadow-lg max-w-sm"
+      [class.alert-error]="t.type === 'error'"
+      [class.alert-success]="t.type === 'success'"
+      [class.alert-info]="t.type === 'info'">
+      <span>{{ t.message }}</span>
+      <button class="btn btn-ghost btn-xs" (click)="toastService.dismiss(t.id)" aria-label="Fechar">✕</button>
+    </div>
+  }
+</div>

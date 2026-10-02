@@ -54,20 +54,35 @@
       <form (ngSubmit)="submit()" class="flex flex-col gap-4">
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">Nome completo</span></div>
-          <input type="text" class="input input-bordered" placeholder="Seu nome"
+          <input type="text" class="input input-bordered"
+            [class.input-error]="submitted() && !nome().trim()"
+            placeholder="Seu nome"
             [ngModel]="nome()" (ngModelChange)="nome.set($event)" required name="nome" />
+          @if (submitted() && !nome().trim()) {
+            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          }
         </label>
 
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">E-mail</span></div>
-          <input type="email" class="input input-bordered" placeholder="seu@email.com"
+          <input type="email" class="input input-bordered"
+            [class.input-error]="submitted() && !email().trim()"
+            placeholder="seu@email.com"
             [ngModel]="email()" (ngModelChange)="email.set($event)" required name="email" autocomplete="email" />
+          @if (submitted() && !email().trim()) {
+            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          }
         </label>
 
         <label class="form-control">
           <div class="label"><span class="label-text font-semibold">Senha</span></div>
-          <input type="password" class="input input-bordered" placeholder="Mínimo 8 caracteres"
+          <input type="password" class="input input-bordered"
+            [class.input-error]="submitted() && senha().length < 8"
+            placeholder="Mínimo 8 caracteres"
             [ngModel]="senha()" (ngModelChange)="senha.set($event)" required name="senha" autocomplete="new-password" />
+          @if (submitted() && senha().length < 8) {
+            <p class="text-error text-xs mt-1">Mínimo 8 caracteres</p>
+          }
         </label>
 
         @if (isProfissional()) {
@@ -98,3 +113,4 @@
     </div>
   </div>
 </div>
+<app-toast />

@@ -1,4 +1,6 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { Membro, PAPEL_LABELS } from '../../../shared/models/crianca.models';
 import { CriancaService } from '../../../shared/services/crianca.service';
 import { CriancaStateService } from '../crianca-state.service';
@@ -12,22 +14,29 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
   templateUrl: './equipe.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
-export class EquipeComponent implements OnInit {
+export class EquipeComponent {
   private criancaService = inject(CriancaService);
   private state = inject(CriancaStateService);
 
   crianca = this.state.current;
+  criancaId = computed(() => this.crianca()?.id ?? '');
   membros = signal<Membro[]>([]);
   loading = signal(true);
   showModal = signal(false);
   papelLabels = PAPEL_LABELS;
 
-  ngOnInit() {
-    const id = this.crianca()?.id;
-    if (!id) return;
-    this.criancaService.getMembers(id).subscribe({
-      next: list => { this.membros.set(list); this.loading.set(false); },
-      error: () => this.loading.set(false),
+  constructor() {
+    toObservable(this.criancaId).pipe(
+      distinctUntilChanged(),
+      filter(id => !!id),
+      takeUntilDestroyed(),
+    ).subscribe(id => {
+      this.membros.set([]);
+      this.loading.set(true);
+      this.criancaService.getMembers(id).subscribe({
+        next: list => { this.membros.set(list); this.loading.set(false); },
+        error: () => this.loading.set(false),
+      });
     });
   }
 

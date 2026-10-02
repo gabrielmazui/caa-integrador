@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   imports: [RouterLink, AvatarComponent, EmptyStateComponent, LoadingSpinnerComponent],
   templateUrl: './home.html',
-  host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
+  host: { class: 'flex flex-1 min-h-0 overflow-y-auto' },
 })
 export class HomeComponent implements OnInit {
   private criancaService = inject(CriancaService);

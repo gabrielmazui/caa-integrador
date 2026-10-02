@@ -1,5 +1,7 @@
-import { Component, inject, signal, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, inject, signal, computed, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { Mensagem } from '../../../shared/models/chat.models';
 import { ChatService } from '../../../shared/services/chat.service';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -12,14 +14,15 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
   templateUrl: './chat.html',
   host: { class: 'flex flex-col flex-1 min-h-0' },
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements AfterViewChecked {
   @ViewChild('messageList') messageList?: ElementRef<HTMLDivElement>;
 
   private chatService = inject(ChatService);
   auth = inject(AuthService);
   private state = inject(CriancaStateService);
 
-  criancaId = () => this.state.current()?.id ?? '';
+  crianca = this.state.current;
+  criancaId = computed(() => this.crianca()?.id ?? '');
 
   mensagens = signal<Mensagem[]>([]);
   loading = signal(true);
@@ -27,16 +30,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   sending = signal(false);
   private shouldScroll = false;
 
-  ngOnInit() {
-    const id = this.criancaId();
-    if (!id) return;
-    this.chatService.list(id, 50).subscribe({
-      next: items => {
-        this.mensagens.set([...items].reverse());
-        this.loading.set(false);
-        this.shouldScroll = true;
-      },
-      error: () => this.loading.set(false),
+  constructor() {
+    toObservable(this.criancaId).pipe(
+      distinctUntilChanged(),
+      filter(id => !!id),
+      takeUntilDestroyed(),
+    ).subscribe(id => {
+      this.mensagens.set([]);
+      this.loading.set(true);
+      this.chatService.list(id, 50).subscribe({
+        next: items => {
+          this.mensagens.set([...items].reverse());
+          this.loading.set(false);
+          this.shouldScroll = true;
+        },
+        error: () => this.loading.set(false),
+      });
     });
   }
 

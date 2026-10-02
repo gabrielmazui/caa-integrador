@@ -1,5 +1,7 @@
-import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { Termo } from '../../../shared/models/glossario.models';
 import { GlossarioService } from '../../../shared/services/glossario.service';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -13,13 +15,14 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
   templateUrl: './glossario.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
-export class GlossarioComponent implements OnInit {
+export class GlossarioComponent {
   private glossarioService = inject(GlossarioService);
   auth = inject(AuthService);
   private state = inject(CriancaStateService);
 
-  criancaId = () => this.state.current()?.id ?? '';
-  criancaNome = () => this.state.current()?.nome ?? '';
+  crianca = this.state.current;
+  criancaId = computed(() => this.crianca()?.id ?? '');
+  criancaNome = computed(() => this.crianca()?.nome ?? '');
 
   termos = signal<Termo[]>([]);
   loading = signal(true);
@@ -33,12 +36,18 @@ export class GlossarioComponent implements OnInit {
     this.termos().filter(t => !t.global && t.termo.toLowerCase().includes(this.search().toLowerCase()))
   );
 
-  ngOnInit() {
-    const id = this.criancaId();
-    if (!id) return;
-    this.glossarioService.list(id).subscribe({
-      next: list => { this.termos.set(list); this.loading.set(false); },
-      error: () => this.loading.set(false),
+  constructor() {
+    toObservable(this.criancaId).pipe(
+      distinctUntilChanged(),
+      filter(id => !!id),
+      takeUntilDestroyed(),
+    ).subscribe(id => {
+      this.termos.set([]);
+      this.loading.set(true);
+      this.glossarioService.list(id).subscribe({
+        next: list => { this.termos.set(list); this.loading.set(false); },
+        error: () => this.loading.set(false),
+      });
     });
   }
 

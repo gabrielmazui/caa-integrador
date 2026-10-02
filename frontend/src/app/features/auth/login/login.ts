@@ -2,9 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ToastComponent } from '../../../shared/components/toast/toast';
 
 @Component({
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ToastComponent],
   templateUrl: './login.html',
 })
 export class LoginComponent {
@@ -15,8 +16,11 @@ export class LoginComponent {
   senha = signal('');
   error = signal('');
   loading = signal(false);
+  submitted = signal(false);
 
   submit() {
+    this.submitted.set(true);
+    if (!this.email().trim() || !this.senha().trim()) return;
     this.error.set('');
     this.loading.set(true);
     this.auth.login({ email: this.email(), senha: this.senha() }).subscribe({

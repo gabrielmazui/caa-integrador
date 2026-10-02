@@ -1,5 +1,7 @@
-import { Component, inject, signal, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, inject, signal, computed, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter, switchMap } from 'rxjs';
 import { Arquivo, Registro, Visibilidade } from '../../../shared/models/feed.models';
 import { FeedService } from '../../../shared/services/feed.service';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -11,17 +13,19 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
 import { AvatarComponent } from '../../../shared/components/avatar/avatar';
 import { FileUploadComponent } from '../../../shared/components/file-upload/file-upload';
 import { MediaCaptureComponent } from '../../../shared/components/media-capture/media-capture';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   imports: [FormsModule, PostCardComponent, PostDetailComponent, EmptyStateComponent, LoadingSpinnerComponent, AvatarComponent, FileUploadComponent, MediaCaptureComponent],
   templateUrl: './feed.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
-export class FeedComponent implements OnInit, AfterViewInit {
+export class FeedComponent implements AfterViewInit {
   private feedService = inject(FeedService);
   auth = inject(AuthService);
   private state = inject(CriancaStateService);
   private el = inject(ElementRef);
+  private toast = inject(ToastService);
 
   crianca = this.state.current;
   registros = signal<Registro[]>([]);
@@ -39,8 +43,12 @@ export class FeedComponent implements OnInit, AfterViewInit {
 
   private observer?: IntersectionObserver;
 
-  ngOnInit() {
-    this.loadFeed();
+  constructor() {
+    toObservable(computed(() => this.crianca()?.id)).pipe(
+      distinctUntilChanged(),
+      filter((id): id is string => !!id),
+      takeUntilDestroyed(),
+    ).subscribe(() => this.loadFeed());
   }
 
   ngAfterViewInit() {
@@ -57,7 +65,11 @@ export class FeedComponent implements OnInit, AfterViewInit {
   loadFeed() {
     const id = this.crianca()?.id;
     if (!id) return;
+    this.registros.set([]);
+    this.offset.set(0);
+    this.hasMore.set(true);
     this.loading.set(true);
+    this.selectedPost.set(null);
     this.feedService.list(id, this.limit, 0).subscribe({
       next: items => {
         this.registros.set(items);
@@ -114,7 +126,10 @@ export class FeedComponent implements OnInit, AfterViewInit {
         this.attachments.set([]);
         this.posting.set(false);
       },
-      error: () => this.posting.set(false),
+      error: (err) => {
+        this.toast.error(err.error?.message ?? 'Erro ao publicar. Tente novamente.');
+        this.posting.set(false);
+      },
     });
   }
 }

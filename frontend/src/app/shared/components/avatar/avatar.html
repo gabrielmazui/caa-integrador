@@ -8,7 +8,7 @@
     @if (fotoUrl()) {
       <img [src]="fotoUrl()" [alt]="nome()" class="rounded-full object-cover" />
     } @else {
-      <span [class]="size() === 'xs' ? 'text-xs' : size() === 'sm' ? 'text-sm' : 'text-base'">
+      <span [class]="size() === 'xs' ? 'text-xs' : size() === 'sm' ? 'text-sm' : size() === 'xl' ? 'text-2xl' : 'text-base'">
         {{ initials() }}
       </span>
     }

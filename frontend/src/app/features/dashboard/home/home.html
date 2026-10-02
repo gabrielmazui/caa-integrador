@@ -1,46 +1,48 @@
-<div class="max-w-5xl mx-auto px-6 py-4">
-  <div class="flex items-center justify-between mb-6">
-    <div>
-      <h1 class="text-2xl font-extrabold">
-        Olá, {{ auth.currentUser()?.nome?.split(' ')[0] }}! 👋
-      </h1>
-      <p class="text-base-content/60 text-sm mt-1">Suas crianças vinculadas</p>
-    </div>
-    <a routerLink="/home/nova-crianca" class="btn btn-primary btn-sm gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-      </svg>
-      Nova criança
-    </a>
-  </div>
+<div class="flex flex-col flex-1 items-center justify-center gap-10 px-4 py-12">
 
   @if (loading()) {
-    <app-loading-spinner />
-  } @else if (criancas().length === 0) {
-    <app-empty-state
-      titulo="Nenhuma criança ainda"
-      descricao="Comece criando o perfil de uma criança ou aguarde ser adicionado à equipe de uma."
-      ctaLabel="Criar criança"
-      (cta)="goToNovaCrianca()"
-    />
+    <div class="flex flex-1 items-center justify-center">
+      <app-loading-spinner />
+    </div>
   } @else {
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      @for (c of criancas(); track c.id) {
-        <a [routerLink]="['/crianca', c.id, 'feed']"
-          class="card card-compact bg-base-100 shadow hover:shadow-md transition-shadow cursor-pointer">
-          <span class="sr-only">Acessar perfil de {{ c.nome }}</span>
-          <div class="card-body items-center text-center gap-3">
-            <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="lg" />
-            <div>
-              <h2 class="font-bold text-lg">{{ c.nome }}</h2>
+
+    @if (criancas().length === 0 && !auth.isProfissional()) {
+      <div class="text-center text-base-content/50 max-w-xs">
+        <p class="text-base">Nenhuma criança vinculada ainda.</p>
+        <p class="text-sm mt-1">Aguarde ser adicionado à equipe de uma criança por um profissional.</p>
+      </div>
+    } @else {
+      <div class="flex flex-wrap justify-center gap-8">
+
+        @for (c of criancas(); track c.id) {
+          <a [routerLink]="['/crianca', c.id, 'feed']"
+             class="group flex flex-col items-center gap-3 cursor-pointer">
+            <div class="rounded-2xl overflow-hidden ring-4 ring-transparent group-hover:ring-primary transition-all duration-200 group-hover:scale-105">
+              <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="xl" />
+            </div>
+            <div class="text-center">
+              <p class="font-semibold group-hover:text-primary transition-colors">{{ c.nome }}</p>
               @if (c.dataNascimento) {
-                <p class="text-sm text-base-content/60">{{ calcAge(c.dataNascimento) }}</p>
+                <p class="text-xs text-base-content/50">{{ calcAge(c.dataNascimento) }}</p>
               }
             </div>
-            <span class="badge badge-outline badge-sm">{{ papelLabels[c.papel] }}</span>
-          </div>
-        </a>
-      }
-    </div>
+          </a>
+        }
+
+        @if (auth.isProfissional()) {
+          <button (click)="goToNovaCrianca()"
+            class="group flex flex-col items-center gap-3 cursor-pointer">
+            <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-base-300 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/5 transition-all duration-200 group-hover:scale-105">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/30 group-hover:text-primary transition-colors" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <p class="text-sm text-base-content/50 group-hover:text-primary transition-colors">Nova criança</p>
+          </button>
+        }
+
+      </div>
+    }
   }
+
 </div>

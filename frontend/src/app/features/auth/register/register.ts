@@ -2,9 +2,10 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ToastComponent } from '../../../shared/components/toast/toast';
 
 @Component({
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ToastComponent],
   templateUrl: './register.html',
 })
 export class RegisterComponent {
@@ -19,10 +20,13 @@ export class RegisterComponent {
   registroProfissional = signal('');
   error = signal('');
   loading = signal(false);
+  submitted = signal(false);
 
   isProfissional = computed(() => this.tipoUsuario() === 'profissional');
 
   submit() {
+    this.submitted.set(true);
+    if (!this.nome().trim() || !this.email().trim() || this.senha().length < 8) return;
     this.error.set('');
     this.loading.set(true);
     const req = {

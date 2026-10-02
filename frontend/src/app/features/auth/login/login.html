@@ -22,6 +22,7 @@
           <input
             type="email"
             class="input input-bordered w-full"
+            [class.input-error]="submitted() && !email().trim()"
             placeholder="seu@email.com"
             name="email"
             [ngModel]="email()"
@@ -29,6 +30,9 @@
             required
             autocomplete="email"
           />
+          @if (submitted() && !email().trim()) {
+            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          }
         </label>
 
         <label class="form-control">
@@ -36,6 +40,7 @@
           <input
             type="password"
             class="input input-bordered w-full"
+            [class.input-error]="submitted() && !senha().trim()"
             placeholder="••••••••"
             name="senha"
             [ngModel]="senha()"
@@ -43,6 +48,9 @@
             required
             autocomplete="current-password"
           />
+          @if (submitted() && !senha().trim()) {
+            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          }
         </label>
 
         <button
@@ -64,3 +72,4 @@
     </div>
   </div>
 </div>
+<app-toast />

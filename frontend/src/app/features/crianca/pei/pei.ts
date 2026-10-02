@@ -1,5 +1,7 @@
-import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { AnotacaoPei, CATEGORIA_BADGE, CATEGORIA_LABELS, CategoriaPei } from '../../../shared/models/pei.models';
 import { PeiService } from '../../../shared/services/pei.service';
 import { CriancaStateService } from '../crianca-state.service';
@@ -13,12 +15,12 @@ import { RelativeTimePipe } from '../../../shared/components/relative-time.pipe'
   templateUrl: './pei.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
-export class PeiComponent implements OnInit {
+export class PeiComponent {
   private peiService = inject(PeiService);
   private state = inject(CriancaStateService);
 
-  criancaId = () => this.state.current()?.id ?? '';
-  criancaNome = () => this.state.current()?.nome ?? '';
+  criancaId = computed(() => this.state.current()?.id ?? '');
+  criancaNome = computed(() => this.state.current()?.nome ?? '');
 
   anotacoes = signal<AnotacaoPei[]>([]);
   loading = signal(true);
@@ -43,12 +45,16 @@ export class PeiComponent implements OnInit {
     return map;
   });
 
-  setFilterSemestre(v: string) {
-    this.filterSemestre.set(+v as 0 | 1 | 2);
-    this.load();
+  constructor() {
+    toObservable(this.criancaId).pipe(
+      distinctUntilChanged(),
+      filter(id => !!id),
+      takeUntilDestroyed(),
+    ).subscribe(() => this.load());
   }
 
-  ngOnInit() {
+  setFilterSemestre(v: string) {
+    this.filterSemestre.set(+v as 0 | 1 | 2);
     this.load();
   }
 
