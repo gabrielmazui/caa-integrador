@@ -55,6 +55,7 @@
 html, body {
   min-height: 100%;
   background: var(--color-base-100);
+  font-size: 17px;
 }
 
 body {

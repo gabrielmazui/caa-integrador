@@ -4,7 +4,6 @@
       <div class="flex-1">
         <p class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Palavras que ajudam</p>
         <h2 class="text-2xl font-extrabold mt-1">Glossário</h2>
-        <p class="text-sm text-base-content/60 mt-1">Selecione um termo para ler a explicação completa.</p>
       </div>
       @if (auth.isProfissional()) {
         <button class="btn btn-primary btn-sm rounded-xl" (click)="showModal.set(true)">+ Novo termo</button>

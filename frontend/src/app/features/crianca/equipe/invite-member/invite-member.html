@@ -1,66 +1,67 @@
 <div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="invite-modal-title">
   <div class="modal-box max-w-md">
     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close.emit()" aria-label="Fechar">✕</button>
-    <h2 id="invite-modal-title" class="font-bold text-lg mb-4">Convidar membro</h2>
+    <h2 id="invite-modal-title" class="font-bold text-lg mb-5">Convidar membro</h2>
 
-    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
-      <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">E-mail *</span></div>
-        <input type="email" class="input input-bordered"
+    <div class="flex flex-col gap-4">
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-semibold">E-mail *</label>
+        <input type="email" class="input input-bordered w-full focus:outline-none"
           [class.input-error]="submitted() && !email().trim()"
           placeholder="email@exemplo.com"
-          [ngModel]="email()" (ngModelChange)="email.set($event)" required name="email" />
+          [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" />
         @if (submitted() && !email().trim()) {
-          <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          <p class="text-error text-xs">Campo obrigatório</p>
         }
-      </label>
+      </div>
 
-      <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Tipo de vínculo</span></div>
-        <select class="select select-bordered" [ngModel]="papel()" (ngModelChange)="papel.set($event)" name="papel">
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-semibold">Tipo de conta do convidado</label>
+        <select class="select select-bordered w-full focus:outline-none"
+          [ngModel]="papel()" (ngModelChange)="papel.set($event)" name="papel">
           @for (p of papeis; track p[0]) {
             <option [value]="p[0]">{{ p[1] }}</option>
           }
         </select>
-      </label>
+        <p class="text-xs text-base-content/50">Deve corresponder ao tipo de conta cadastrado pelo convidado.</p>
+      </div>
 
       @if (papel() === 'responsavel') {
-        <label class="form-control">
-          <div class="label"><span class="label-text font-semibold">Parentesco <span class="text-base-content/40 font-normal">(opcional)</span></span></div>
-          <select class="select select-bordered" [ngModel]="relacaoResponsavel()" (ngModelChange)="relacaoResponsavel.set($event)" name="relacao">
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-semibold">Parentesco <span class="font-normal text-base-content/40">(opcional)</span></label>
+          <select class="select select-bordered w-full focus:outline-none"
+            [ngModel]="relacaoResponsavel()" (ngModelChange)="relacaoResponsavel.set($event)" name="relacao">
             <option value="">Não informar</option>
             @for (r of relacoes; track r[0]) {
               <option [value]="r[0]">{{ r[1] }}</option>
             }
           </select>
-        </label>
+        </div>
 
         @if (relacaoResponsavel() === 'outro') {
-          <label class="form-control">
-            <div class="label"><span class="label-text font-semibold">Qual é o parentesco? *</span></div>
-            <input type="text" class="input input-bordered"
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-semibold">Qual é o parentesco? *</label>
+            <input type="text" class="input input-bordered w-full focus:outline-none"
               [class.input-error]="submitted() && !descricaoRelacao().trim()"
               placeholder="Ex: Avó, tio, irmão"
               [ngModel]="descricaoRelacao()" (ngModelChange)="descricaoRelacao.set($event)" name="descricaoRelacao" />
             @if (submitted() && !descricaoRelacao().trim()) {
-              <p class="text-error text-xs mt-1">Informe o parentesco</p>
+              <p class="text-error text-xs">Informe o parentesco</p>
             }
-          </label>
+          </div>
         }
-      } @else {
-        <p class="text-xs text-base-content/60 rounded-lg border border-base-300 p-3">
-          A especialidade será obtida automaticamente do perfil profissional.
-        </p>
       }
 
-      <div class="modal-action">
-        <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" [disabled]="loading()">
-          @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
+      <div class="flex justify-end gap-2 pt-2 border-t border-base-200">
+        <button type="button" class="btn btn-ghost btn-sm" (click)="close.emit()">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-sm" [disabled]="loading()" (click)="submit()">
+          @if (loading()) { <span class="loading loading-spinner loading-xs"></span> }
           Convidar
         </button>
       </div>
-    </form>
+
+    </div>
   </div>
   <div class="modal-backdrop" (click)="close.emit()"></div>
 </div>
