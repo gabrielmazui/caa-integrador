@@ -3,6 +3,9 @@ export interface Termo {
   termo: string;
   definicao: string;
   global: boolean;
+  criadoPorNome: string;
+  editadoPorNome: string | null;
+  criadoEm: string;
   atualizadoEm: string;
 }
 

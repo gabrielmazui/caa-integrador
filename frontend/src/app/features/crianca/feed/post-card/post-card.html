@@ -1,5 +1,5 @@
 <article
-  class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+  class="card calm-surface rounded-3xl overflow-hidden hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer"
   (click)="openDetail.emit(registro())">
   <div class="card-body p-4 gap-3">
 
@@ -70,12 +70,21 @@
 
         <!-- Audio players -->
         @for (a of audios(); track a.id) {
-          <audio controls [src]="a.url" class="w-full h-10 rounded-lg" preload="none"></audio>
+          <div class="rounded-2xl bg-primary/6 border border-primary/10 p-3 flex items-center gap-3">
+            <span class="h-10 w-10 rounded-full bg-primary/12 grid place-items-center shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 00-1 1v8.268A2 2 0 1011 14V7h3a1 1 0 100-2h-3V4a1 1 0 00-1-1z" /></svg>
+            </span>
+            <div class="min-w-0 flex-1">
+              <audio controls [src]="a.url" class="w-full h-9" preload="metadata"></audio>
+            </div>
+          </div>
         }
 
         <!-- Video players -->
         @for (a of videos(); track a.id) {
-          <video controls [src]="a.url" class="w-full rounded-xl max-h-64 bg-black" preload="none"></video>
+          <div class="rounded-2xl overflow-hidden bg-neutral shadow-inner">
+            <video controls [src]="a.url" class="w-full max-h-96 bg-neutral" preload="metadata"></video>
+          </div>
         }
 
         <!-- Document links -->
@@ -85,7 +94,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content/50 shrink-0" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
             </svg>
-            <span class="text-sm truncate">{{ a.nomeArquivo ?? 'Documento' }}</span>
+            <span class="text-sm truncate">Documento anexado</span>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-base-content/40 shrink-0 ml-auto" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
             </svg>

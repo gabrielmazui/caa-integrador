@@ -2,14 +2,21 @@
   <div class="w-full max-w-4xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between mb-6">
       <h3 class="font-bold text-lg">Equipe de {{ c.nome }}</h3>
-      @if (c.podeConvidar) {
-        <button class="btn btn-primary btn-sm gap-2" (click)="showModal.set(true)">
+      <div class="flex items-center gap-2">
+        @if (currentMember()) {
+          <button class="btn btn-ghost btn-sm text-error" (click)="startLeave()">
+            Sair desta criança
+          </button>
+        }
+        @if (c.podeGerenciarMembros) {
+          <button class="btn btn-primary btn-sm gap-2" (click)="showModal.set(true)">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
           </svg>
           Convidar
-        </button>
-      }
+          </button>
+        }
+      </div>
     </div>
 
     @if (loading()) {
@@ -31,19 +38,30 @@
                 </div>
                 <div class="flex items-center gap-2 mt-1 flex-wrap">
                   <span class="badge badge-outline badge-xs">{{ papelLabels[m.papel] }}</span>
-                  @if (m.tipoUsuario === 'profissional') {
-                    <span class="badge badge-secondary badge-xs">Profissional</span>
-                  } @else {
-                    <span class="badge badge-accent badge-xs">Familiar</span>
+                  @if (m.especialidade) {
+                    <span class="badge badge-secondary badge-xs">{{ m.especialidade }}</span>
+                  }
+                  @if (m.coordenador) {
+                    <span class="badge badge-neutral badge-xs">Coordenador</span>
+                  }
+                  @if (m.relacaoResponsavel) {
+                    <span class="badge badge-accent badge-xs">
+                      {{ m.relacaoResponsavel === 'outro' && m.descricaoRelacao
+                        ? m.descricaoRelacao
+                        : relacaoLabels[m.relacaoResponsavel] }}
+                    </span>
                   }
                 </div>
-                @if (m.especialidade) {
-                  <p class="text-xs text-base-content/50 mt-0.5">{{ m.especialidade }}</p>
-                }
                 @if (m.descricaoFuncao) {
                   <p class="text-xs text-base-content/50">{{ m.descricaoFuncao }}</p>
                 }
               </div>
+              @if (c.podeGerenciarMembros && m.id !== currentUserId()) {
+                <button class="btn btn-ghost btn-sm text-error" type="button"
+                  (click)="removeMember(m)" [attr.aria-label]="'Remover ' + m.nome">
+                  Remover
+                </button>
+              }
             </div>
           </li>
         }
@@ -56,6 +74,50 @@
         (created)="onMemberAdded($event)"
         (close)="showModal.set(false)"
       />
+    }
+
+    @if (showLeaveModal()) {
+      <div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="leave-modal-title">
+        <div class="modal-box max-w-md">
+          <h2 id="leave-modal-title" class="font-bold text-lg">Sair de {{ c.nome }}</h2>
+
+          @if (otherMembers().length === 0) {
+            <div class="alert alert-error mt-4">
+              <span>Você é o último membro. Ao continuar, {{ c.nome }} será excluída do sistema.</span>
+            </div>
+          } @else if (currentIsCoordinator()) {
+            <p class="text-sm text-base-content/70 mt-3">
+              Antes de sair, escolha outro membro para assumir a coordenação.
+            </p>
+            <label class="form-control mt-4">
+              <div class="label"><span class="label-text font-semibold">Novo coordenador *</span></div>
+              <select class="select select-bordered" [ngModel]="novoCoordenadorId()"
+                (ngModelChange)="novoCoordenadorId.set($event)">
+                <option value="">Selecione</option>
+                @for (m of coordinatorCandidates(); track m.id) {
+                  <option [value]="m.id">{{ m.nome }}{{ m.especialidade ? ' — ' + m.especialidade : '' }}</option>
+                }
+              </select>
+            </label>
+          } @else {
+            <p class="text-sm text-base-content/70 mt-3">
+              Você perderá o acesso às informações desta criança.
+            </p>
+          }
+
+          <div class="modal-action">
+            <button type="button" class="btn btn-ghost" (click)="showLeaveModal.set(false)" [disabled]="leaving()">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-error" (click)="leaveChild()"
+              [disabled]="leaving() || (currentIsCoordinator() && otherMembers().length > 0 && !novoCoordenadorId())">
+              @if (leaving()) { <span class="loading loading-spinner loading-sm"></span> }
+              {{ otherMembers().length === 0 ? 'Excluir e sair' : 'Confirmar saída' }}
+            </button>
+          </div>
+        </div>
+        <div class="modal-backdrop" (click)="showLeaveModal.set(false)"></div>
+      </div>
     }
   </div>
 }

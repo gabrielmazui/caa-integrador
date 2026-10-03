@@ -1,6 +1,6 @@
-export type Papel =
-  | 'mae' | 'pai' | 'responsavel'
-  | 'professor' | 'terapeuta' | 'coordenador' | 'outro';
+export type Papel = 'profissional' | 'responsavel';
+export type FuncaoProfissional = 'professor' | 'terapeuta' | 'outro';
+export type RelacaoResponsavel = 'mae' | 'pai' | 'outro';
 
 export interface Crianca {
   id: string;
@@ -14,8 +14,11 @@ export interface Crianca {
   podePublicar: boolean;
   podeComentar: boolean;
   podeVerChat: boolean;
-  podeConvidar: boolean;
+  podeGerenciarMembros: boolean;
   podeEditarCrianca: boolean;
+  coordenador: boolean;
+  relacaoResponsavel: RelacaoResponsavel | null;
+  descricaoRelacao: string | null;
   criadoEm: string;
 }
 
@@ -23,6 +26,8 @@ export interface CriancaRequest {
   nome: string;
   dataNascimento?: string;
   observacoes?: string;
+  relacaoResponsavel?: RelacaoResponsavel;
+  descricaoRelacao?: string;
 }
 
 export interface CriancaUpdateRequest {
@@ -37,26 +42,51 @@ export interface CriancaUpdateRequest {
 export interface Membro {
   id: string;
   nome: string;
-  tipoUsuario: 'profissional' | 'familiar';
+  tipoUsuario: 'profissional' | 'responsavel';
   especialidade: string | null;
   fotoUrl: string | null;
   papel: Papel;
+  funcaoProfissional: FuncaoProfissional | null;
+  relacaoResponsavel: RelacaoResponsavel | null;
   descricaoFuncao: string | null;
+  descricaoRelacao: string | null;
+  podeGerenciarMembros: boolean;
+  coordenador: boolean;
   status: 'convidado' | 'ativo' | 'inativo';
 }
 
 export interface AddMemberRequest {
   email: string;
   papel: Papel;
+  funcaoProfissional?: FuncaoProfissional;
+  relacaoResponsavel?: RelacaoResponsavel;
   descricaoFuncao?: string;
+  descricaoRelacao?: string;
+}
+
+export interface LeaveChildRequest {
+  novoCoordenadorId?: string;
+  confirmarExclusao: boolean;
+}
+
+export interface MeuVinculoRequest {
+  relacaoResponsavel?: RelacaoResponsavel;
+  descricaoRelacao?: string;
 }
 
 export const PAPEL_LABELS: Record<Papel, string> = {
-  mae: 'Mãe',
-  pai: 'Pai',
+  profissional: 'Profissional',
   responsavel: 'Responsável',
+};
+
+export const FUNCAO_PROFISSIONAL_LABELS: Record<FuncaoProfissional, string> = {
   professor: 'Professor',
   terapeuta: 'Terapeuta',
-  coordenador: 'Coordenador',
+  outro: 'Outro',
+};
+
+export const RELACAO_RESPONSAVEL_LABELS: Record<RelacaoResponsavel, string> = {
+  mae: 'Mãe',
+  pai: 'Pai',
   outro: 'Outro',
 };

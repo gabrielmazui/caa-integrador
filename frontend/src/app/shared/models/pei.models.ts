@@ -12,6 +12,7 @@ export interface AnotacaoPei {
   atualizadoEm: string;
   autorId: string;
   autorNome: string;
+  editadoPorNome: string | null;
 }
 
 export interface AnotacaoPeiRequest {
@@ -43,4 +44,16 @@ export const CATEGORIA_BADGE: Record<CategoriaPei, string> = {
   objetivo: 'badge-error',
   estrategia: 'badge-neutral',
   outro: 'badge-ghost',
+};
+
+export const CATEGORIA_BORDER: Record<CategoriaPei, string> = {
+  comunicacao: 'border-l-primary',
+  socializacao: 'border-l-secondary',
+  aprendizagem: 'border-l-accent',
+  autonomia: 'border-l-info',
+  comportamento: 'border-l-warning',
+  sensorial: 'border-l-success',
+  objetivo: 'border-l-error',
+  estrategia: 'border-l-neutral',
+  outro: 'border-l-base-300',
 };

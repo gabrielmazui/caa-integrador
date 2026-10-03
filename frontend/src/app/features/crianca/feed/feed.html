@@ -11,14 +11,21 @@
 
 @if (crianca(); as c) {
   <div class="w-full max-w-4xl mx-auto px-4 py-6 flex flex-col gap-4">
+    <div class="flex items-end justify-between gap-4 mb-1">
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Acompanhamento</p>
+        <h2 class="text-2xl font-extrabold mt-1">Momentos de {{ c.nome }}</h2>
+        <p class="text-sm text-base-content/55 mt-1">Registros, conquistas e informações importantes.</p>
+      </div>
+    </div>
     <!-- Post composer -->
     @if (c.podePublicar) {
-      <div class="card bg-base-100 shadow-sm">
+      <div class="card calm-surface rounded-3xl">
         <div class="card-body p-4 gap-3">
           <div class="flex items-start gap-3">
             <app-avatar [fotoUrl]="auth.currentUser()?.fotoUrl ?? null" [nome]="auth.currentUser()?.nome ?? 'U'" size="sm" />
             <textarea
-              class="textarea textarea-bordered flex-1 resize-none text-sm"
+              class="textarea textarea-bordered flex-1 resize-none text-sm rounded-2xl bg-base-100"
               rows="3"
               placeholder="O que você observou hoje?"
               name="newContent"
@@ -39,7 +46,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-base-content/50" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
                       </svg>
-                      <span class="text-xs text-base-content/60 truncate w-full text-center">{{ a.nomeArquivo }}</span>
+                      <span class="text-xs text-base-content/60 text-center">{{ a.tipo === 'audio' ? 'Áudio' : a.tipo === 'video' ? 'Vídeo' : 'Documento' }}</span>
                     </div>
                   }
                   <button class="btn btn-xs btn-circle btn-error absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -49,7 +56,7 @@
             </div>
           }
 
-          <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center justify-between flex-wrap gap-2 pt-1">
             <div class="flex items-center gap-2">
               @if (auth.isProfissional()) {
                 <select class="select select-bordered select-sm"

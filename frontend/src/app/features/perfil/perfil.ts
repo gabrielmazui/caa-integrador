@@ -6,6 +6,7 @@ import { UploadService } from '../../shared/services/upload.service';
 import { AvatarComponent } from '../../shared/components/avatar/avatar';
 import { LoadingSpinnerComponent } from '../../shared/components/loading-spinner/loading-spinner';
 import { ToastService } from '../../shared/services/toast.service';
+import { ESPECIALIDADES_PROFISSIONAIS } from '../../shared/models/auth.models';
 
 @Component({
   imports: [FormsModule, AvatarComponent, LoadingSpinnerComponent],
@@ -28,7 +29,9 @@ export class PerfilComponent implements OnInit {
   nome = signal('');
   bio = signal('');
   telefone = signal('');
-  especialidade = signal('');
+  especialidadeSelecionada = signal('');
+  outraEspecialidade = signal('');
+  especialidades = ESPECIALIDADES_PROFISSIONAIS;
   fotoUrl = signal<string | null>(null);
 
   ngOnInit() {
@@ -38,7 +41,12 @@ export class PerfilComponent implements OnInit {
         this.nome.set(p.nome);
         this.bio.set(p.bio ?? '');
         this.telefone.set(p.telefone ?? '');
-        this.especialidade.set(p.especialidade ?? '');
+        if (p.especialidade && this.especialidades.some(item => item === p.especialidade)) {
+          this.especialidadeSelecionada.set(p.especialidade);
+        } else if (p.especialidade) {
+          this.especialidadeSelecionada.set('outro');
+          this.outraEspecialidade.set(p.especialidade);
+        }
         this.fotoUrl.set(p.fotoUrl);
         this.loading.set(false);
       },
@@ -58,13 +66,16 @@ export class PerfilComponent implements OnInit {
 
   save() {
     this.submitted.set(true);
-    if (!this.nome().trim()) return;
+    const especialidade = this.especialidadeSelecionada() === 'outro'
+      ? this.outraEspecialidade().trim()
+      : this.especialidadeSelecionada();
+    if (!this.nome().trim() || (this.perfil()?.tipoUsuario === 'profissional' && !especialidade)) return;
     this.saving.set(true);
     this.perfilService.update({
       nome: this.nome(),
       bio: this.bio(),
       telefone: this.telefone(),
-      especialidade: this.especialidade(),
+      especialidade,
       fotoUrl: this.fotoUrl() ?? undefined,
     }).subscribe({
       next: p => {

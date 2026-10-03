@@ -86,8 +86,8 @@ post() {
 log "=== Criando usuários ==="
 TOKEN_ANA=$(auth "Ana Souza"   "ana@caa.dev"   "senha123" "profissional" "Fonoaudiologia")
 TOKEN_BRUNO=$(auth "Bruno Lima"  "bruno@caa.dev" "senha123" "profissional" "Psicopedagogia")
-TOKEN_CARLA=$(auth "Carla Matos" "carla@caa.dev" "senha123" "familiar")
-TOKEN_DIEGO=$(auth "Diego Ramos" "diego@caa.dev" "senha123" "familiar")
+TOKEN_CARLA=$(auth "Carla Matos" "carla@caa.dev" "senha123" "responsavel")
+TOKEN_DIEGO=$(auth "Diego Ramos" "diego@caa.dev" "senha123" "responsavel")
 
 USER_ANA_ID=$(curl -s -H "Authorization: Bearer $TOKEN_ANA" "$BASE/auth/me" | json_field id)
 USER_BRUNO_ID=$(curl -s -H "Authorization: Bearer $TOKEN_BRUNO" "$BASE/auth/me" | json_field id)
@@ -107,11 +107,11 @@ log "Sofia ID: $SOFIA_ID"
 
 # Membros de Sofia
 post "$TOKEN_ANA" POST "/criancas/$SOFIA_ID/membros" \
-  "{\"email\":\"bruno@caa.dev\",\"papel\":\"terapeuta\",\"descricaoFuncao\":\"Atendimento psicopedagógico às terças e quintas\"}" > /dev/null
+  "{\"email\":\"bruno@caa.dev\",\"papel\":\"profissional\",\"funcaoProfissional\":\"terapeuta\",\"descricaoFuncao\":\"Atendimento psicopedagógico às terças e quintas\"}" > /dev/null
 post "$TOKEN_ANA" POST "/criancas/$SOFIA_ID/membros" \
-  "{\"email\":\"carla@caa.dev\",\"papel\":\"mae\"}" > /dev/null
+  "{\"email\":\"carla@caa.dev\",\"papel\":\"responsavel\",\"relacaoResponsavel\":\"mae\"}" > /dev/null
 post "$TOKEN_ANA" POST "/criancas/$SOFIA_ID/membros" \
-  "{\"email\":\"diego@caa.dev\",\"papel\":\"pai\"}" > /dev/null
+  "{\"email\":\"diego@caa.dev\",\"papel\":\"responsavel\",\"relacaoResponsavel\":\"pai\"}" > /dev/null
 log "Membros de Sofia adicionados"
 
 # ─────────────────────────────────────────────
@@ -127,7 +127,7 @@ fi
 log "Miguel ID: $MIGUEL_ID"
 
 post "$TOKEN_ANA" POST "/criancas/$MIGUEL_ID/membros" \
-  "{\"email\":\"bruno@caa.dev\",\"papel\":\"professor\",\"descricaoFuncao\":\"Professor de apoio na escola\"}" > /dev/null
+  "{\"email\":\"bruno@caa.dev\",\"papel\":\"profissional\",\"funcaoProfissional\":\"professor\",\"descricaoFuncao\":\"Professor de apoio na escola\"}" > /dev/null
 post "$TOKEN_ANA" POST "/criancas/$MIGUEL_ID/membros" \
   "{\"email\":\"carla@caa.dev\",\"papel\":\"responsavel\"}" > /dev/null
 log "Membros de Miguel adicionados"
@@ -148,7 +148,7 @@ post "$TOKEN_CARLA" POST "/criancas/$SOFIA_ID/registros/$RID/comentarios" \
 post "$TOKEN_DIEGO" POST "/criancas/$SOFIA_ID/registros/$RID/comentarios" \
   '{"conteudo":"Que orgulho! Fui eu que estava com ela quando pediu o suco, foi emocionante demais ver isso acontecer."}' > /dev/null
 
-# Post 2 — familiar, todos
+# Post 2 — responsável, todos
 R=$(post "$TOKEN_CARLA" POST "/criancas/$SOFIA_ID/registros" \
   '{"conteudo":"Fim de semana diferente! Fomos ao parque e Sofia brincou no escorregador pela primeira vez sem medo. Ela ficou pedindo para ir mais vezes usando os gestos que a Ana ensinou.\n\nAinda estou sorrindo de felicidade 😊","visibilidade":"todos"}')
 RID=$(echo "$R" | json_field id)
@@ -168,7 +168,7 @@ post "$TOKEN_BRUNO" POST "/criancas/$SOFIA_ID/registros/$RID/comentarios" \
 R=$(post "$TOKEN_ANA" POST "/criancas/$SOFIA_ID/registros" \
   '{"conteudo":"📌 INFORMAÇÃO IMPORTANTE PARA A EQUIPE\n\nSofia tem hipersensibilidade auditiva. Por favor:\n- Avise antes de mudanças de ambiente\n- Evite sons altos e inesperados\n- Tenha um headphone de cancelamento de ruído disponível\n\nEm situações de sobrecarga sensorial, a estratégia mais eficaz é oferecer um \"cantinho calmo\" com brinquedo sensorial favorito (o cubo fidget ou a almofada de pesos).","visibilidade":"todos"}')
 
-# Post 5 — familiar
+# Post 5 — responsável
 R=$(post "$TOKEN_DIEGO" POST "/criancas/$SOFIA_ID/registros" \
   '{"conteudo":"Hoje foi dia de consulta com a neuropediatra. Tudo bem nos exames! A médica ficou muito satisfeita com o progresso que a Sofia fez nos últimos 6 meses.\n\nAgradecemos muito ao trabalho de toda a equipe, vocês fazem parte da nossa família 💙","visibilidade":"todos"}')
 RID=$(echo "$R" | json_field id)
@@ -343,4 +343,4 @@ log ""
 log "✅ Seed concluído!"
 log "   Acesse o frontend em http://localhost:4200"
 log "   Login: ana@caa.dev / senha123 (profissional)"
-log "   Login: carla@caa.dev / senha123 (familiar)"
+log "   Login: carla@caa.dev / senha123 (responsável)"

@@ -74,5 +74,49 @@
     </div>
   </div>
 
+  @if (c.papel === 'responsavel') {
+    <div class="card bg-base-100 shadow-sm">
+      <div class="card-body gap-4">
+        <div>
+          <h3 class="font-bold">Meu vínculo com {{ c.nome }}</h3>
+          <p class="text-xs text-base-content/60 mt-1">
+            Esta informação pertence somente ao seu vínculo com a criança.
+          </p>
+        </div>
+
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">Parentesco <span class="font-normal text-base-content/40">(opcional)</span></span></div>
+          <select class="select select-bordered" [ngModel]="relacaoResponsavel()"
+            (ngModelChange)="relacaoResponsavel.set($event)">
+            <option value="">Não informar</option>
+            @for (relacao of relacoes; track relacao[0]) {
+              <option [value]="relacao[0]">{{ relacao[1] }}</option>
+            }
+          </select>
+        </label>
+
+        @if (relacaoResponsavel() === 'outro') {
+          <label class="form-control">
+            <div class="label"><span class="label-text font-semibold">Qual é o parentesco? *</span></div>
+            <input class="input input-bordered" type="text"
+              [class.input-error]="relationshipSubmitted() && !descricaoRelacao().trim()"
+              placeholder="Ex: Avó, tio, irmão"
+              [ngModel]="descricaoRelacao()" (ngModelChange)="descricaoRelacao.set($event)" />
+          </label>
+        }
+
+        <div class="flex items-center justify-end gap-3 pt-1 border-t border-base-200">
+          @if (relationshipSaved()) {
+            <span class="text-success text-sm font-medium">Salvo!</span>
+          }
+          <button class="btn btn-primary btn-sm" (click)="saveMyRelationship()" [disabled]="savingRelationship()">
+            @if (savingRelationship()) { <span class="loading loading-spinner loading-xs"></span> }
+            Salvar meu vínculo
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>
 }

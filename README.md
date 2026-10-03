@@ -49,6 +49,10 @@ Na raiz do projeto:
 docker compose up --build
 ```
 
+Esse comando cria as imagens, instala as dependências do frontend e do backend
+dentro dos containers e inicia todos os serviços. As dependências instaladas no
+Docker não são instaladas no ambiente local.
+
 Para subir em segundo plano:
 
 ```bash

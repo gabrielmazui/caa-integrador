@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Size;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -34,6 +36,14 @@ public class PerfilController {
     @Transactional
     public PerfilResponse update(@Valid @RequestBody PerfilRequest request, Authentication auth) {
         UUID id = CurrentUser.id(auth);
+        String userType = jdbc.sql("SELECT tipo_usuario FROM usuarios WHERE id = :id")
+            .param("id", id).query(String.class).single();
+        String specialty = request.especialidade() == null || request.especialidade().isBlank()
+            ? null : request.especialidade().trim();
+        if ("profissional".equals(userType) && specialty == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "Informe a especialidade profissional");
+        }
         jdbc.sql("""
                 UPDATE usuarios SET
                     nome = :nome,
@@ -47,7 +57,7 @@ public class PerfilController {
             .param("nome", request.nome() != null ? request.nome().trim() : null)
             .param("bio", request.bio())
             .param("telefone", request.telefone())
-            .param("especialidade", request.especialidade())
+            .param("especialidade", "profissional".equals(userType) ? specialty : null)
             .param("fotoUrl", request.fotoUrl())
             .update();
         return fetch(id);

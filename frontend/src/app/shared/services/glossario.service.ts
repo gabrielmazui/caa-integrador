@@ -17,4 +17,12 @@ export class GlossarioService {
   create(criancaId: string, req: TermoRequest) {
     return this.http.post<Termo>(this.base(criancaId), req);
   }
+
+  update(criancaId: string, termId: string, req: TermoRequest) {
+    return this.http.put<Termo>(`${this.base(criancaId)}/${termId}`, req);
+  }
+
+  delete(criancaId: string, termId: string) {
+    return this.http.delete<void>(`${this.base(criancaId)}/${termId}`);
+  }
 }

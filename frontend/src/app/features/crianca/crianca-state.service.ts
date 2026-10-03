@@ -8,4 +8,8 @@ export class CriancaStateService {
   set(c: Crianca) {
     this.current.set(c);
   }
+
+  clear() {
+    this.current.set(null);
+  }
 }

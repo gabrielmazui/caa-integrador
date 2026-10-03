@@ -17,8 +17,9 @@ public class AcessoCriancaService {
 
     public Vinculo requireMember(UUID childId, UUID userId) {
         return jdbc.sql("""
-                SELECT ec.papel, u.tipo_usuario, ec.pode_publicar, ec.pode_comentar,
-                       ec.pode_ver_chat, ec.pode_convidar, ec.pode_editar_crianca
+                SELECT ec.papel, ec.funcao_profissional, ec.coordenador, u.tipo_usuario,
+                       ec.pode_publicar, ec.pode_comentar,
+                       ec.pode_ver_chat, ec.pode_gerenciar_membros, ec.pode_editar_crianca
                 FROM equipe_crianca ec
                 JOIN usuarios u ON u.id = ec.usuario_id
                 JOIN criancas c ON c.id = ec.crianca_id
@@ -41,9 +42,10 @@ public class AcessoCriancaService {
         return vinculo;
     }
 
-    public record Vinculo(String papel, String tipoUsuario, boolean podePublicar,
+    public record Vinculo(String papel, String funcaoProfissional, boolean coordenador,
+                          String tipoUsuario, boolean podePublicar,
                           boolean podeComentar, boolean podeVerChat,
-                          boolean podeConvidar, boolean podeEditarCrianca) {
+                          boolean podeGerenciarMembros, boolean podeEditarCrianca) {
         public boolean profissional() {
             return "profissional".equals(tipoUsuario);
         }
