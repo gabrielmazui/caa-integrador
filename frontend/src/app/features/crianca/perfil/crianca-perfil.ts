@@ -27,8 +27,6 @@ export class CriancaPerfilComponent implements OnInit {
   nome = signal('');
   dataNascimento = signal('');
   fotoUrl = signal<string | null>(null);
-  diagnostico = signal('');
-  cid10 = signal('');
   observacoes = signal('');
   relacaoResponsavel = signal<RelacaoResponsavel | ''>('');
   descricaoRelacao = signal('');
@@ -43,8 +41,6 @@ export class CriancaPerfilComponent implements OnInit {
     this.nome.set(c.nome);
     this.dataNascimento.set(c.dataNascimento ?? '');
     this.fotoUrl.set(c.fotoUrl);
-    this.diagnostico.set(c.diagnostico ?? '');
-    this.cid10.set(c.cid10 ?? '');
     this.observacoes.set(c.observacoes ?? '');
     this.relacaoResponsavel.set(c.relacaoResponsavel ?? '');
     this.descricaoRelacao.set(c.descricaoRelacao ?? '');
@@ -69,8 +65,6 @@ export class CriancaPerfilComponent implements OnInit {
       nome: this.nome(),
       dataNascimento: this.dataNascimento() || undefined,
       fotoUrl: this.fotoUrl() ?? undefined,
-      diagnostico: this.diagnostico() || undefined,
-      cid10: this.cid10() || undefined,
       observacoes: this.observacoes() || undefined,
     }).subscribe({
       next: updated => {

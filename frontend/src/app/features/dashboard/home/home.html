@@ -8,9 +8,7 @@
 
     <header class="relative overflow-hidden rounded-3xl calm-surface p-6 sm:p-9 soft-grid">
       <div class="relative z-10 max-w-2xl">
-        <span class="badge badge-primary badge-outline mb-3">Seu espaço de acompanhamento</span>
         <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Quem vamos acompanhar hoje?</h1>
-        <p class="text-sm sm:text-base text-base-content/60 mt-2">Encontre uma criança e acesse registros, equipe e evolução em um só lugar.</p>
         <label class="input input-bordered bg-base-100 shadow-sm flex items-center gap-3 mt-6 max-w-xl rounded-2xl">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary/60" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
@@ -26,12 +24,6 @@
       <div class="absolute right-24 -top-14 h-36 w-36 rounded-full bg-accent/15"></div>
     </header>
 
-    @if (criancas().length === 0) {
-      <div class="text-center text-base-content/50 max-w-xs">
-        <p class="text-base">Nenhuma criança vinculada ainda.</p>
-        <p class="text-sm mt-1">Você pode criar uma criança ou aguardar um convite para uma equipe.</p>
-      </div>
-    }
     @if (search() && filteredCriancas().length === 0) {
       <div class="calm-surface rounded-3xl px-6 py-12 text-center">
         <p class="text-3xl mb-3">🔎</p>

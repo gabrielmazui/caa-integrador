@@ -39,22 +39,7 @@
           [ngModel]="dataNascimento()" (ngModelChange)="dataNascimento.set($event)" />
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex flex-col gap-1">
-          <label class="text-sm font-semibold">Diagnóstico</label>
-          <input class="input input-bordered w-full focus:outline-none" type="text"
-            placeholder="Ex: TEA nível 2"
-            [ngModel]="diagnostico()" (ngModelChange)="diagnostico.set($event)" />
-        </div>
-        <div class="flex flex-col gap-1">
-          <label class="text-sm font-semibold">CID-10</label>
-          <input class="input input-bordered w-full focus:outline-none" type="text"
-            placeholder="Ex: F84.0"
-            [ngModel]="cid10()" (ngModelChange)="cid10.set($event)" />
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-1">
+<div class="flex flex-col gap-1">
         <label class="text-sm font-semibold">Observações gerais</label>
         <textarea class="textarea textarea-bordered w-full resize-none focus:outline-none" rows="4"
           placeholder="Rotinas, preferências, necessidades especiais..."
@@ -84,25 +69,25 @@
           </p>
         </div>
 
-        <label class="form-control">
-          <div class="label"><span class="label-text font-semibold">Parentesco <span class="font-normal text-base-content/40">(opcional)</span></span></div>
-          <select class="select select-bordered" [ngModel]="relacaoResponsavel()"
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-semibold">Parentesco <span class="font-normal text-base-content/40">(opcional)</span></label>
+          <select class="select select-bordered w-full focus:outline-none" [ngModel]="relacaoResponsavel()"
             (ngModelChange)="relacaoResponsavel.set($event)">
             <option value="">Não informar</option>
             @for (relacao of relacoes; track relacao[0]) {
               <option [value]="relacao[0]">{{ relacao[1] }}</option>
             }
           </select>
-        </label>
+        </div>
 
         @if (relacaoResponsavel() === 'outro') {
-          <label class="form-control">
-            <div class="label"><span class="label-text font-semibold">Qual é o parentesco? *</span></div>
-            <input class="input input-bordered" type="text"
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-semibold">Qual é o parentesco? *</label>
+            <input class="input input-bordered w-full focus:outline-none" type="text"
               [class.input-error]="relationshipSubmitted() && !descricaoRelacao().trim()"
               placeholder="Ex: Avó, tio, irmão"
               [ngModel]="descricaoRelacao()" (ngModelChange)="descricaoRelacao.set($event)" />
-          </label>
+          </div>
         }
 
         <div class="flex items-center justify-end gap-3 pt-1 border-t border-base-200">
