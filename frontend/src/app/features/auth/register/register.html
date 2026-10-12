@@ -1,8 +1,9 @@
-<div class="min-h-screen bg-base-200 flex items-center justify-center p-4">
+<div class="min-h-screen flex items-center justify-center p-4">
   <div class="card bg-base-100 shadow-xl w-full max-w-lg">
     <div class="card-body gap-5">
+
       <div class="text-center">
-        <div class="text-5xl mb-2">🌸</div>
+        <div class="text-4xl mb-2">🌸</div>
         <h1 class="text-2xl font-extrabold text-primary">CAA Integrador</h1>
         <p class="text-sm text-base-content/60 mt-1">Crie sua conta</p>
       </div>
@@ -17,78 +18,73 @@
       }
 
       <!-- Tipo de usuário -->
-      <div>
-        <p class="label-text font-semibold mb-2">Quem é você?</p>
+      <div class="flex flex-col gap-2">
+        <p class="text-sm font-semibold">Quem é você?</p>
         <div class="grid grid-cols-2 gap-3">
-          <label class="cursor-pointer">
-            <input type="radio" name="tipo" class="sr-only" value="responsavel"
-              [checked]="tipoUsuario() === 'responsavel'"
-              (change)="tipoUsuario.set('responsavel')" />
-            <div class="border-2 rounded-xl p-4 text-center transition"
-              [class.border-primary]="tipoUsuario() === 'responsavel'"
-              [class.bg-primary]="tipoUsuario() === 'responsavel'"
-              [class.text-primary-content]="tipoUsuario() === 'responsavel'"
-              [class.border-base-300]="tipoUsuario() !== 'responsavel'">
-              <div class="text-2xl mb-1">👨‍👩‍👧</div>
-              <p class="font-bold text-sm">Responsável</p>
-              <p class="text-xs opacity-70">Pai, mãe ou responsável</p>
-            </div>
-          </label>
-          <label class="cursor-pointer">
-            <input type="radio" name="tipo" class="sr-only" value="profissional"
-              [checked]="tipoUsuario() === 'profissional'"
-              (change)="tipoUsuario.set('profissional')" />
-            <div class="border-2 rounded-xl p-4 text-center transition"
-              [class.border-primary]="tipoUsuario() === 'profissional'"
-              [class.bg-primary]="tipoUsuario() === 'profissional'"
-              [class.text-primary-content]="tipoUsuario() === 'profissional'"
-              [class.border-base-300]="tipoUsuario() !== 'profissional'">
-              <div class="text-2xl mb-1">🩺</div>
-              <p class="font-bold text-sm">Profissional</p>
-              <p class="text-xs opacity-70">Terapeuta, professor, etc.</p>
-            </div>
-          </label>
+          <button type="button"
+            class="border-2 rounded-xl p-4 text-center transition cursor-pointer"
+            [class.border-primary]="tipoUsuario() === 'responsavel'"
+            [class.bg-primary]="tipoUsuario() === 'responsavel'"
+            [class.text-primary-content]="tipoUsuario() === 'responsavel'"
+            [class.border-base-300]="tipoUsuario() !== 'responsavel'"
+            (click)="tipoUsuario.set('responsavel')">
+            <div class="text-2xl mb-1">👨‍👩‍👧</div>
+            <p class="font-bold text-sm">Responsável</p>
+            <p class="text-xs opacity-70">Pai, mãe ou responsável</p>
+          </button>
+          <button type="button"
+            class="border-2 rounded-xl p-4 text-center transition cursor-pointer"
+            [class.border-primary]="tipoUsuario() === 'profissional'"
+            [class.bg-primary]="tipoUsuario() === 'profissional'"
+            [class.text-primary-content]="tipoUsuario() === 'profissional'"
+            [class.border-base-300]="tipoUsuario() !== 'profissional'"
+            (click)="tipoUsuario.set('profissional')">
+            <div class="text-2xl mb-1">🩺</div>
+            <p class="font-bold text-sm">Profissional</p>
+            <p class="text-xs opacity-70">Terapeuta, professor, etc.</p>
+          </button>
         </div>
       </div>
 
-      <form (ngSubmit)="submit()" class="flex flex-col gap-4">
-        <label class="form-control">
-          <div class="label"><span class="label-text font-semibold">Nome completo</span></div>
-          <input type="text" class="input input-bordered"
+      <div class="flex flex-col gap-4">
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-semibold">Nome completo</label>
+          <input type="text" class="input input-bordered w-full focus:outline-none"
             [class.input-error]="submitted() && !nome().trim()"
             placeholder="Seu nome"
-            [ngModel]="nome()" (ngModelChange)="nome.set($event)" required name="nome" />
+            [ngModel]="nome()" (ngModelChange)="nome.set($event)" name="nome" />
           @if (submitted() && !nome().trim()) {
-            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+            <p class="text-error text-xs">Campo obrigatório</p>
           }
-        </label>
+        </div>
 
-        <label class="form-control">
-          <div class="label"><span class="label-text font-semibold">E-mail</span></div>
-          <input type="email" class="input input-bordered"
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-semibold">E-mail</label>
+          <input type="email" class="input input-bordered w-full focus:outline-none"
             [class.input-error]="submitted() && !email().trim()"
             placeholder="seu@email.com"
-            [ngModel]="email()" (ngModelChange)="email.set($event)" required name="email" autocomplete="email" />
+            [ngModel]="email()" (ngModelChange)="email.set($event)" name="email" autocomplete="email" />
           @if (submitted() && !email().trim()) {
-            <p class="text-error text-xs mt-1">Campo obrigatório</p>
+            <p class="text-error text-xs">Campo obrigatório</p>
           }
-        </label>
+        </div>
 
-        <label class="form-control">
-          <div class="label"><span class="label-text font-semibold">Senha</span></div>
-          <input type="password" class="input input-bordered"
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-semibold">Senha</label>
+          <input type="password" class="input input-bordered w-full focus:outline-none"
             [class.input-error]="submitted() && senha().length < 8"
             placeholder="Mínimo 8 caracteres"
-            [ngModel]="senha()" (ngModelChange)="senha.set($event)" required name="senha" autocomplete="new-password" />
+            [ngModel]="senha()" (ngModelChange)="senha.set($event)" name="senha" autocomplete="new-password" />
           @if (submitted() && senha().length < 8) {
-            <p class="text-error text-xs mt-1">Mínimo 8 caracteres</p>
+            <p class="text-error text-xs">Mínimo 8 caracteres</p>
           }
-        </label>
+        </div>
 
         @if (isProfissional()) {
-          <label class="form-control">
-            <div class="label"><span class="label-text font-semibold">Especialidade *</span></div>
-            <select class="select select-bordered"
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-semibold">Especialidade *</label>
+            <select class="select select-bordered w-full focus:outline-none"
               [class.select-error]="submitted() && !especialidade()"
               [ngModel]="especialidadeSelecionada()"
               (ngModelChange)="especialidadeSelecionada.set($event)" name="especialidade">
@@ -98,36 +94,42 @@
               }
               <option value="outro">Outro</option>
             </select>
-          </label>
+            @if (submitted() && !especialidade()) {
+              <p class="text-error text-xs">Campo obrigatório</p>
+            }
+          </div>
           @if (especialidadeSelecionada() === 'outro') {
-            <label class="form-control">
-              <div class="label"><span class="label-text font-semibold">Qual é a especialidade? *</span></div>
-              <input type="text" class="input input-bordered"
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-semibold">Qual é a especialidade? *</label>
+              <input type="text" class="input input-bordered w-full focus:outline-none"
                 [class.input-error]="submitted() && !outraEspecialidade().trim()"
                 placeholder="Digite sua especialidade"
                 [ngModel]="outraEspecialidade()"
                 (ngModelChange)="outraEspecialidade.set($event)" name="outraEspecialidade" />
-            </label>
+            </div>
           }
-          <label class="form-control">
-            <div class="label"><span class="label-text font-semibold">Registro profissional</span></div>
-            <input type="text" class="input input-bordered" placeholder="Ex: CRFa 12345"
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-semibold">Registro profissional <span class="font-normal text-base-content/40">(opcional)</span></label>
+            <input type="text" class="input input-bordered w-full focus:outline-none"
+              placeholder="Ex: CRFa 12345"
               [ngModel]="registroProfissional()" (ngModelChange)="registroProfissional.set($event)" name="registro" />
-          </label>
+          </div>
         }
 
-        <button type="submit" class="btn btn-primary w-full mt-2" [disabled]="loading()">
+        <button type="button" class="btn btn-primary w-full mt-1" [disabled]="loading()" (click)="submit()">
           @if (loading()) {
             <span class="loading loading-spinner loading-sm"></span>
           }
           Criar conta
         </button>
-      </form>
+
+      </div>
 
       <p class="text-center text-sm text-base-content/60">
         Já tem conta?
         <a routerLink="/login" class="link link-primary font-semibold">Entrar</a>
       </p>
+
     </div>
   </div>
 </div>

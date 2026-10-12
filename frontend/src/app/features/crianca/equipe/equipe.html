@@ -37,19 +37,18 @@
                   }
                 </div>
                 <div class="flex items-center gap-2 mt-1 flex-wrap">
-                  <span class="badge badge-outline badge-xs">{{ papelLabels[m.papel] }}</span>
                   @if (m.especialidade) {
-                    <span class="badge badge-secondary badge-xs">{{ m.especialidade }}</span>
-                  }
-                  @if (m.coordenador) {
-                    <span class="badge badge-neutral badge-xs">Coordenador</span>
+                    <span class="badge badge-secondary badge-sm">{{ m.especialidade }}</span>
                   }
                   @if (m.relacaoResponsavel) {
-                    <span class="badge badge-accent badge-xs">
+                    <span class="badge badge-accent badge-sm">
                       {{ m.relacaoResponsavel === 'outro' && m.descricaoRelacao
                         ? m.descricaoRelacao
                         : relacaoLabels[m.relacaoResponsavel] }}
                     </span>
+                  }
+                  @if (m.coordenador) {
+                    <span class="badge badge-neutral badge-sm">Coordenador</span>
                   }
                 </div>
                 @if (m.descricaoFuncao) {
