@@ -4,11 +4,11 @@ import { CriancaStateService } from '../crianca-state.service';
 import { CriancaService } from '../../../shared/services/crianca.service';
 import { UploadService } from '../../../shared/services/upload.service';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar';
-import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { ToastService } from '../../../shared/services/toast.service';
+import { RELACAO_RESPONSAVEL_LABELS, RelacaoResponsavel } from '../../../shared/models/crianca.models';
 
 @Component({
-  imports: [FormsModule, AvatarComponent, LoadingSpinnerComponent],
+  imports: [FormsModule, AvatarComponent],
   templateUrl: './crianca-perfil.html',
   host: { class: 'flex flex-col flex-1 min-h-0 overflow-y-auto' },
 })
@@ -30,6 +30,12 @@ export class CriancaPerfilComponent implements OnInit {
   diagnostico = signal('');
   cid10 = signal('');
   observacoes = signal('');
+  relacaoResponsavel = signal<RelacaoResponsavel | ''>('');
+  descricaoRelacao = signal('');
+  savingRelationship = signal(false);
+  relationshipSaved = signal(false);
+  relationshipSubmitted = signal(false);
+  relacoes = Object.entries(RELACAO_RESPONSAVEL_LABELS) as [RelacaoResponsavel, string][];
 
   ngOnInit() {
     const c = this.crianca();
@@ -40,6 +46,8 @@ export class CriancaPerfilComponent implements OnInit {
     this.diagnostico.set(c.diagnostico ?? '');
     this.cid10.set(c.cid10 ?? '');
     this.observacoes.set(c.observacoes ?? '');
+    this.relacaoResponsavel.set(c.relacaoResponsavel ?? '');
+    this.descricaoRelacao.set(c.descricaoRelacao ?? '');
   }
 
   onFotoSelected(event: Event) {
@@ -74,6 +82,31 @@ export class CriancaPerfilComponent implements OnInit {
       error: (err) => {
         this.toast.error(err.error?.message ?? 'Erro ao salvar. Tente novamente.');
         this.saving.set(false);
+      },
+    });
+  }
+
+  saveMyRelationship() {
+    this.relationshipSubmitted.set(true);
+    const c = this.crianca();
+    if (!c || c.papel !== 'responsavel'
+      || (this.relacaoResponsavel() === 'outro' && !this.descricaoRelacao().trim())) return;
+    this.savingRelationship.set(true);
+    this.criancaService.updateMyRelationship(c.id, {
+      relacaoResponsavel: this.relacaoResponsavel() || undefined,
+      descricaoRelacao: this.relacaoResponsavel() === 'outro'
+        ? this.descricaoRelacao() || undefined
+        : undefined,
+    }).subscribe({
+      next: updated => {
+        this.state.set(updated);
+        this.savingRelationship.set(false);
+        this.relationshipSaved.set(true);
+        setTimeout(() => this.relationshipSaved.set(false), 3000);
+      },
+      error: (err) => {
+        this.toast.error(err.error?.message ?? 'Erro ao salvar seu vínculo.');
+        this.savingRelationship.set(false);
       },
     });
   }

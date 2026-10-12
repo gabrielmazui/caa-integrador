@@ -1,49 +1,68 @@
-<div class="flex flex-col flex-1 min-h-0">
+<div class="flex flex-col flex-1 min-h-0 bg-base-200/35">
+  <header class="bg-base-100/90 backdrop-blur border-b border-base-200 px-4 py-3 flex-shrink-0">
+    <div class="max-w-4xl mx-auto flex items-center gap-3">
+      <span class="h-10 w-10 rounded-2xl bg-primary/10 grid place-items-center text-lg">💬</span>
+      <div>
+        <h2 class="font-extrabold leading-tight">Conversa da equipe</h2>
+        <p class="text-xs text-base-content/50">Espaço reservado aos profissionais de {{ crianca()?.nome }}</p>
+      </div>
+    </div>
+  </header>
+
   @if (loading()) {
     <app-loading-spinner />
   } @else {
-    <!-- Message list -->
-    <div #messageList class="flex-1 overflow-y-auto flex flex-col gap-2 p-4">
-      @if (mensagens().length === 0) {
-        <div class="flex items-center justify-center h-full text-base-content/40 text-sm">
-          Nenhuma mensagem ainda. Comece a conversa! 💬
-        </div>
-      }
-      @for (m of mensagens(); track m.id) {
-        <div class="chat" [class.chat-end]="isOwn(m)" [class.chat-start]="!isOwn(m)">
-          <div class="chat-header text-xs text-base-content/50 mb-0.5">
-            {{ isOwn(m) ? 'Você' : m.remetenteNome }}
-            <time class="ml-1">{{ m.criadoEm | relativeTime }}</time>
+    <div #messageList class="scrollbar-calm flex-1 overflow-y-auto px-4 py-6">
+      <div class="max-w-3xl mx-auto flex flex-col gap-4">
+        @if (mensagens().length === 0) {
+          <div class="calm-surface rounded-3xl p-8 text-center my-auto">
+            <p class="text-3xl mb-3">💬</p>
+            <p class="font-extrabold">A conversa começa aqui</p>
+            <p class="text-sm text-base-content/55 mt-1">Compartilhe uma dúvida ou atualização com a equipe.</p>
           </div>
-          <div class="chat-bubble text-sm"
-            [class.chat-bubble-primary]="isOwn(m)">
-            {{ m.conteudo }}
+        }
+        @for (m of mensagens(); track m.id) {
+          <div class="flex items-end gap-2" [class.flex-row-reverse]="isOwn(m)">
+            <div class="h-8 w-8 rounded-full grid place-items-center text-xs font-extrabold shrink-0"
+              [class.bg-primary]="isOwn(m)" [class.text-primary-content]="isOwn(m)"
+              [class.bg-secondary/20]="!isOwn(m)">
+              {{ (isOwn(m) ? 'V' : m.remetenteNome.charAt(0)).toUpperCase() }}
+            </div>
+            <div class="max-w-[78%] sm:max-w-[65%]">
+              <div class="flex items-center gap-2 px-1 mb-1" [class.justify-end]="isOwn(m)">
+                <span class="text-[11px] font-bold text-base-content/55">{{ isOwn(m) ? 'Você' : m.remetenteNome }}</span>
+                <time class="text-[10px] text-base-content/35">{{ m.criadoEm | relativeTime }}</time>
+              </div>
+              <div class="px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
+                [class.bg-primary]="isOwn(m)" [class.text-primary-content]="isOwn(m)"
+                [class.rounded-2xl]="true" [class.rounded-br-md]="isOwn(m)" [class.rounded-bl-md]="!isOwn(m)"
+                [class.bg-base-100]="!isOwn(m)" [class.border]="!isOwn(m)" [class.border-base-200]="!isOwn(m)">
+                {{ m.conteudo }}
+              </div>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
     </div>
 
-    <!-- Input -->
-    <div class="flex gap-2 p-3 border-t border-base-200 bg-base-100">
-      <textarea
-        class="textarea textarea-bordered flex-1 resize-none text-sm"
-        rows="1"
-        placeholder="Digite uma mensagem..."
-        [ngModel]="newMessage()"
-        (ngModelChange)="newMessage.set($event)"
-        (keydown)="onKeydown($event)"
-        aria-label="Campo de mensagem"
-      ></textarea>
-      <button
-        class="btn btn-primary btn-circle"
-        (click)="send()"
-        [disabled]="sending() || !newMessage().trim()"
-        aria-label="Enviar mensagem"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
-        </svg>
-      </button>
+    <div class="flex-shrink-0 px-3 pb-3 sm:px-4 sm:pb-4 bg-gradient-to-t from-base-200/70 to-transparent">
+      <div class="max-w-3xl mx-auto calm-surface rounded-2xl p-2 flex items-end gap-2">
+        <textarea class="textarea textarea-ghost flex-1 resize-none text-sm min-h-10 max-h-28 focus:outline-none px-3 py-2"
+          rows="1" placeholder="Escreva uma mensagem..."
+          [ngModel]="newMessage()" (ngModelChange)="newMessage.set($event)"
+          (keydown)="onKeydown($event)" aria-label="Campo de mensagem"></textarea>
+        <button class="btn btn-primary btn-sm btn-circle shrink-0" (click)="send()"
+          [disabled]="sending() || !newMessage().trim()" aria-label="Enviar mensagem">
+          @if (sending()) {
+            <span class="loading loading-spinner loading-xs"></span>
+          } @else {
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+            </svg>
+          }
+        </button>
+      </div>
+      <p class="max-w-3xl mx-auto text-[10px] text-base-content/35 mt-1.5 px-3">Enter envia · Shift + Enter quebra a linha</p>
     </div>
   }
 </div>

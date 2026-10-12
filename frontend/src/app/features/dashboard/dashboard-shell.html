@@ -1,12 +1,13 @@
 <div class="h-screen flex flex-col bg-base-100">
 
   <!-- Top Navbar -->
-  <nav class="sticky top-0 z-30 bg-base-100 border-b border-base-200 flex-shrink-0">
-    <div class="h-14 px-4 flex items-center gap-3 max-w-screen-xl mx-auto w-full">
+  <nav class="sticky top-0 z-30 bg-base-100/90 backdrop-blur-xl border-b border-base-200 flex-shrink-0 shadow-sm">
+    <div class="h-16 px-4 flex items-center gap-3 max-w-screen-xl mx-auto w-full">
 
       <!-- Logo -->
-      <a routerLink="/home" class="font-extrabold text-primary text-base whitespace-nowrap mr-1">
-        🌸 CAA
+      <a routerLink="/home" class="flex items-center gap-2 font-extrabold text-primary whitespace-nowrap mr-1">
+        <span class="grid place-items-center h-9 w-9 rounded-xl bg-primary/10 text-lg">🌸</span>
+        <span class="hidden sm:inline">CAA Integrador</span>
       </a>
 
       <!-- Child switcher — só quando em /crianca/:id -->
@@ -52,14 +53,31 @@
 
 <!-- Profile dropdown -->
       <div class="dropdown dropdown-end dropdown-bottom">
-        <button tabindex="0" class="btn btn-ghost btn-circle">
+        <button tabindex="0" class="flex items-center gap-2 px-1 py-1 rounded-full sm:rounded-2xl hover:bg-base-200/60 transition-colors normal-case">
           <app-avatar
             [fotoUrl]="auth.currentUser()?.fotoUrl ?? null"
             [nome]="auth.currentUser()?.nome ?? 'U'"
             size="sm" />
+          <span class="hidden sm:flex flex-col items-start leading-tight max-w-44">
+            <span class="font-bold text-sm truncate w-full">{{ auth.currentUser()?.nome }}</span>
+            <span class="flex items-center gap-1 mt-0.5">
+              <span class="badge badge-primary badge-xs">
+                {{ auth.isProfissional() ? 'Profissional' : 'Responsável' }}
+              </span>
+              @if (auth.currentUser()?.especialidade; as especialidade) {
+                <span class="badge badge-secondary badge-xs max-w-28 truncate">{{ especialidade }}</span>
+              }
+            </span>
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="hidden sm:block h-3.5 w-3.5 opacity-50" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
         </button>
-        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box shadow-lg border border-base-200 w-44 p-1 mt-1">
-          <li class="menu-title text-xs px-2 py-1 opacity-60">{{ auth.currentUser()?.nome }}</li>
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-2xl shadow-xl border border-base-200 w-56 p-2 mt-2">
+          <li class="menu-title px-3 py-2">
+            <span class="text-sm font-bold text-base-content">{{ auth.currentUser()?.nome }}</span>
+            <span class="text-xs font-normal opacity-60">{{ auth.currentUser()?.especialidade || (auth.isProfissional() ? 'Profissional' : 'Responsável') }}</span>
+          </li>
           <li><a routerLink="/perfil">Meu perfil</a></li>
           <li><button (click)="logout()">Sair</button></li>
         </ul>

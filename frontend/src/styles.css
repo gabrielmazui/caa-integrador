@@ -51,3 +51,35 @@
 @theme {
   --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif;
 }
+
+html, body {
+  min-height: 100%;
+  background: var(--color-base-100);
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 8% 4%, color-mix(in oklch, var(--color-secondary) 12%, transparent) 0, transparent 24rem),
+    radial-gradient(circle at 92% 16%, color-mix(in oklch, var(--color-accent) 10%, transparent) 0, transparent 28rem);
+  background-attachment: fixed;
+}
+
+.calm-surface {
+  background: color-mix(in oklch, var(--color-base-100) 88%, white);
+  border: 1px solid color-mix(in oklch, var(--color-base-300) 72%, transparent);
+  box-shadow: 0 18px 45px -34px color-mix(in oklch, var(--color-primary) 48%, transparent);
+}
+
+.soft-grid {
+  background-image: radial-gradient(color-mix(in oklch, var(--color-primary) 13%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.scrollbar-calm {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-base-300) transparent;
+}
+
+audio {
+  color-scheme: light;
+}

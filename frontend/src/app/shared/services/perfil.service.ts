@@ -6,7 +6,7 @@ export interface PerfilUsuario {
   id: string;
   nome: string;
   email: string;
-  tipoUsuario: 'profissional' | 'familiar';
+  tipoUsuario: 'profissional' | 'responsavel';
   especialidade: string | null;
   registroProfissional: string | null;
   telefone: string | null;

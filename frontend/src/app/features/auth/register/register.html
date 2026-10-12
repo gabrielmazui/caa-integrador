@@ -21,16 +21,16 @@
         <p class="label-text font-semibold mb-2">Quem é você?</p>
         <div class="grid grid-cols-2 gap-3">
           <label class="cursor-pointer">
-            <input type="radio" name="tipo" class="sr-only" value="familiar"
-              [checked]="tipoUsuario() === 'familiar'"
-              (change)="tipoUsuario.set('familiar')" />
+            <input type="radio" name="tipo" class="sr-only" value="responsavel"
+              [checked]="tipoUsuario() === 'responsavel'"
+              (change)="tipoUsuario.set('responsavel')" />
             <div class="border-2 rounded-xl p-4 text-center transition"
-              [class.border-primary]="tipoUsuario() === 'familiar'"
-              [class.bg-primary]="tipoUsuario() === 'familiar'"
-              [class.text-primary-content]="tipoUsuario() === 'familiar'"
-              [class.border-base-300]="tipoUsuario() !== 'familiar'">
+              [class.border-primary]="tipoUsuario() === 'responsavel'"
+              [class.bg-primary]="tipoUsuario() === 'responsavel'"
+              [class.text-primary-content]="tipoUsuario() === 'responsavel'"
+              [class.border-base-300]="tipoUsuario() !== 'responsavel'">
               <div class="text-2xl mb-1">👨‍👩‍👧</div>
-              <p class="font-bold text-sm">Familiar</p>
+              <p class="font-bold text-sm">Responsável</p>
               <p class="text-xs opacity-70">Pai, mãe ou responsável</p>
             </div>
           </label>
@@ -87,10 +87,28 @@
 
         @if (isProfissional()) {
           <label class="form-control">
-            <div class="label"><span class="label-text font-semibold">Especialidade</span></div>
-            <input type="text" class="input input-bordered" placeholder="Ex: Fonoaudiologia"
-              [ngModel]="especialidade()" (ngModelChange)="especialidade.set($event)" name="especialidade" />
+            <div class="label"><span class="label-text font-semibold">Especialidade *</span></div>
+            <select class="select select-bordered"
+              [class.select-error]="submitted() && !especialidade()"
+              [ngModel]="especialidadeSelecionada()"
+              (ngModelChange)="especialidadeSelecionada.set($event)" name="especialidade">
+              <option value="">Selecione</option>
+              @for (opcao of especialidades; track opcao) {
+                <option [value]="opcao">{{ opcao }}</option>
+              }
+              <option value="outro">Outro</option>
+            </select>
           </label>
+          @if (especialidadeSelecionada() === 'outro') {
+            <label class="form-control">
+              <div class="label"><span class="label-text font-semibold">Qual é a especialidade? *</span></div>
+              <input type="text" class="input input-bordered"
+                [class.input-error]="submitted() && !outraEspecialidade().trim()"
+                placeholder="Digite sua especialidade"
+                [ngModel]="outraEspecialidade()"
+                (ngModelChange)="outraEspecialidade.set($event)" name="outraEspecialidade" />
+            </label>
+          }
           <label class="form-control">
             <div class="label"><span class="label-text font-semibold">Registro profissional</span></div>
             <input type="text" class="input input-bordered" placeholder="Ex: CRFa 12345"

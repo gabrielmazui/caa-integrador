@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AnotacaoPei, AnotacaoPeiRequest, CATEGORIA_LABELS, CategoriaPei } from '../../../../shared/models/pei.models';
 import { PeiService } from '../../../../shared/services/pei.service';
@@ -9,8 +9,9 @@ import { ToastService } from '../../../../shared/services/toast.service';
   imports: [FormsModule],
   templateUrl: './new-anotacao.html',
 })
-export class NewAnotacaoComponent {
+export class NewAnotacaoComponent implements OnInit {
   criancaId = input.required<string>();
+  existing = input<AnotacaoPei | null>(null);
   created = output<AnotacaoPei>();
   close = output<void>();
 
@@ -24,6 +25,16 @@ export class NewAnotacaoComponent {
   ano = signal(new Date().getFullYear());
   loading = signal(false);
   submitted = signal(false);
+
+  ngOnInit() {
+    const annotation = this.existing();
+    if (annotation) {
+      this.categoria.set(annotation.categoria);
+      this.conteudo.set(annotation.conteudo);
+      this.semestre.set(annotation.semestre);
+      this.ano.set(annotation.ano);
+    }
+  }
 
   setSemestre(v: string) {
     this.semestre.set(+v as 1 | 2);
@@ -39,7 +50,10 @@ export class NewAnotacaoComponent {
       semestre: this.semestre(),
       ano: this.ano(),
     };
-    this.peiService.create(this.criancaId(), req).subscribe({
+    const operation = this.existing()
+      ? this.peiService.update(this.criancaId(), this.existing()!.id, req)
+      : this.peiService.create(this.criancaId(), req);
+    operation.subscribe({
       next: (a) => { this.created.emit(a); this.loading.set(false); },
       error: (err) => {
         this.toast.error(err.error?.message ?? 'Erro ao salvar. Tente novamente.');

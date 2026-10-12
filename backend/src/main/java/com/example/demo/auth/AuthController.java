@@ -45,6 +45,12 @@ public class AuthController {
     @Transactional
     public TokenResponse register(@Valid @RequestBody RegisterRequest request) {
         UUID id = UUID.randomUUID();
+        String userType = normalizeUserType(request.tipoUsuario());
+        String specialty = normalizedSpecialty(request.especialidade());
+        if ("profissional".equals(userType) && specialty == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "Informe a especialidade profissional");
+        }
         jdbc.sql("""
                 INSERT INTO usuarios (id, nome, email, senha_hash, tipo_usuario, especialidade, registro_profissional)
                 VALUES (:id, :nome, :email, :senha, :tipo, :especialidade, :registro)
@@ -53,8 +59,8 @@ public class AuthController {
             .param("nome", request.nome().trim())
             .param("email", request.email().trim().toLowerCase())
             .param("senha", encoder.encode(request.senha()))
-            .param("tipo", request.tipoUsuario())
-            .param("especialidade", request.especialidade())
+            .param("tipo", userType)
+            .param("especialidade", "profissional".equals(userType) ? specialty : null)
             .param("registro", request.registroProfissional())
             .update();
         return tokenFor(id);
@@ -96,7 +102,7 @@ public class AuthController {
         @NotBlank @Size(max = 255) String nome,
         @NotBlank @Email @Size(max = 255) String email,
         @NotBlank @Size(min = 8, max = 72) String senha,
-        @NotBlank @Pattern(regexp = "profissional|familiar") String tipoUsuario,
+        @NotBlank @Pattern(regexp = "profissional|responsavel|familiar") String tipoUsuario,
         @Size(max = 100) String especialidade,
         @Size(max = 100) String registroProfissional) {}
 
@@ -104,4 +110,12 @@ public class AuthController {
     public record TokenResponse(String accessToken, String tokenType, long expiresIn, UsuarioResponse usuario) {}
     public record UsuarioResponse(UUID id, String nome, String email, String tipoUsuario,
                                   String especialidade, String registroProfissional, String fotoUrl) {}
+
+    private String normalizeUserType(String type) {
+        return "familiar".equals(type) ? "responsavel" : type;
+    }
+
+    private String normalizedSpecialty(String specialty) {
+        return specialty == null || specialty.isBlank() ? null : specialty.trim();
+    }
 }

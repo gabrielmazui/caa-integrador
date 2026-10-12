@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/src/tailwind-generated.css
 
 # Node
 /node_modules

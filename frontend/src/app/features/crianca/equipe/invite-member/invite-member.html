@@ -16,7 +16,7 @@
       </label>
 
       <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Papel</span></div>
+        <div class="label"><span class="label-text font-semibold">Tipo de vínculo</span></div>
         <select class="select select-bordered" [ngModel]="papel()" (ngModelChange)="papel.set($event)" name="papel">
           @for (p of papeis; track p[0]) {
             <option [value]="p[0]">{{ p[1] }}</option>
@@ -24,11 +24,34 @@
         </select>
       </label>
 
-      <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Descrição da função <span class="text-base-content/40 font-normal">(opcional)</span></span></div>
-        <input type="text" class="input input-bordered" placeholder="Ex: Terapeuta ABA às terças"
-          [ngModel]="descricaoFuncao()" (ngModelChange)="descricaoFuncao.set($event)" name="descricao" />
-      </label>
+      @if (papel() === 'responsavel') {
+        <label class="form-control">
+          <div class="label"><span class="label-text font-semibold">Parentesco <span class="text-base-content/40 font-normal">(opcional)</span></span></div>
+          <select class="select select-bordered" [ngModel]="relacaoResponsavel()" (ngModelChange)="relacaoResponsavel.set($event)" name="relacao">
+            <option value="">Não informar</option>
+            @for (r of relacoes; track r[0]) {
+              <option [value]="r[0]">{{ r[1] }}</option>
+            }
+          </select>
+        </label>
+
+        @if (relacaoResponsavel() === 'outro') {
+          <label class="form-control">
+            <div class="label"><span class="label-text font-semibold">Qual é o parentesco? *</span></div>
+            <input type="text" class="input input-bordered"
+              [class.input-error]="submitted() && !descricaoRelacao().trim()"
+              placeholder="Ex: Avó, tio, irmão"
+              [ngModel]="descricaoRelacao()" (ngModelChange)="descricaoRelacao.set($event)" name="descricaoRelacao" />
+            @if (submitted() && !descricaoRelacao().trim()) {
+              <p class="text-error text-xs mt-1">Informe o parentesco</p>
+            }
+          </label>
+        }
+      } @else {
+        <p class="text-xs text-base-content/60 rounded-lg border border-base-300 p-3">
+          A especialidade será obtida automaticamente do perfil profissional.
+        </p>
+      }
 
       <div class="modal-action">
         <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>

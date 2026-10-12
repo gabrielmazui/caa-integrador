@@ -20,4 +20,12 @@ export class PeiService {
   create(criancaId: string, req: AnotacaoPeiRequest) {
     return this.http.post<AnotacaoPei>(this.base(criancaId), req);
   }
+
+  update(criancaId: string, annotationId: string, req: AnotacaoPeiRequest) {
+    return this.http.put<AnotacaoPei>(`${this.base(criancaId)}/${annotationId}`, req);
+  }
+
+  delete(criancaId: string, annotationId: string) {
+    return this.http.delete<void>(`${this.base(criancaId)}/${annotationId}`);
+  }
 }

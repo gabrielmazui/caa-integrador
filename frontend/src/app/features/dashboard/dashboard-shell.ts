@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { AuthService } from '../../core/auth/auth.service';
 import { CriancaService } from '../../shared/services/crianca.service';
@@ -11,7 +11,7 @@ import { AvatarComponent } from '../../shared/components/avatar/avatar';
 import { ToastComponent } from '../../shared/components/toast/toast';
 
 @Component({
-  imports: [FormsModule, RouterOutlet, RouterLink, RouterLinkActive, AvatarComponent, ToastComponent],
+  imports: [FormsModule, RouterOutlet, RouterLink, AvatarComponent, ToastComponent],
   templateUrl: './dashboard-shell.html',
 })
 export class DashboardShellComponent implements OnInit {

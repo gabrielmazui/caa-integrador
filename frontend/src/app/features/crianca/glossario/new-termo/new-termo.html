@@ -1,7 +1,7 @@
 <div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="termo-modal-title">
   <div class="modal-box max-w-md">
     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close.emit()" aria-label="Fechar">✕</button>
-    <h2 id="termo-modal-title" class="font-bold text-lg mb-4">Novo termo</h2>
+    <h2 id="termo-modal-title" class="font-bold text-lg mb-4">{{ existing() ? 'Editar termo' : 'Novo termo' }}</h2>
 
     <form (ngSubmit)="submit()" class="flex flex-col gap-4">
       <label class="form-control">
@@ -31,7 +31,7 @@
         <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>
         <button type="submit" class="btn btn-primary" [disabled]="loading()">
           @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
-          Salvar
+          {{ existing() ? 'Salvar alterações' : 'Salvar' }}
         </button>
       </div>
     </form>

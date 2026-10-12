@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-1 items-center justify-center gap-10 px-4 py-12">
+<div class="w-full max-w-screen-xl mx-auto flex flex-col flex-1 gap-8 px-4 sm:px-8 py-8 sm:py-12">
 
   @if (loading()) {
     <div class="flex flex-1 items-center justify-center">
@@ -6,22 +6,57 @@
     </div>
   } @else {
 
-    @if (criancas().length === 0 && !auth.isProfissional()) {
+    <header class="relative overflow-hidden rounded-3xl calm-surface p-6 sm:p-9 soft-grid">
+      <div class="relative z-10 max-w-2xl">
+        <span class="badge badge-primary badge-outline mb-3">Seu espaço de acompanhamento</span>
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">Quem vamos acompanhar hoje?</h1>
+        <p class="text-sm sm:text-base text-base-content/60 mt-2">Encontre uma criança e acesse registros, equipe e evolução em um só lugar.</p>
+        <label class="input input-bordered bg-base-100 shadow-sm flex items-center gap-3 mt-6 max-w-xl rounded-2xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary/60" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+          </svg>
+          <input class="grow" type="search" placeholder="Buscar pelo nome da criança..."
+            [ngModel]="search()" (ngModelChange)="search.set($event)" />
+          @if (search()) {
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" (click)="search.set('')" aria-label="Limpar busca">✕</button>
+          }
+        </label>
+      </div>
+      <div class="absolute -right-10 -bottom-16 h-52 w-52 rounded-full bg-secondary/15"></div>
+      <div class="absolute right-24 -top-14 h-36 w-36 rounded-full bg-accent/15"></div>
+    </header>
+
+    @if (criancas().length === 0) {
       <div class="text-center text-base-content/50 max-w-xs">
         <p class="text-base">Nenhuma criança vinculada ainda.</p>
-        <p class="text-sm mt-1">Aguarde ser adicionado à equipe de uma criança por um profissional.</p>
+        <p class="text-sm mt-1">Você pode criar uma criança ou aguardar um convite para uma equipe.</p>
       </div>
-    } @else {
-      <div class="flex flex-wrap justify-center gap-8">
+    }
+    @if (search() && filteredCriancas().length === 0) {
+      <div class="calm-surface rounded-3xl px-6 py-12 text-center">
+        <p class="text-3xl mb-3">🔎</p>
+        <p class="font-bold">Nenhuma criança encontrada</p>
+        <p class="text-sm text-base-content/55 mt-1">Tente buscar por outro nome.</p>
+      </div>
+    }
 
-        @for (c of criancas(); track c.id) {
+    <section>
+      <div class="flex items-end justify-between gap-4 mb-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Acompanhamentos</p>
+          <h2 class="text-xl font-extrabold mt-1">Suas crianças</h2>
+        </div>
+        <span class="text-sm text-base-content/50">{{ filteredCriancas().length }} {{ filteredCriancas().length === 1 ? 'criança' : 'crianças' }}</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+
+        @for (c of filteredCriancas(); track c.id) {
           <a [routerLink]="['/crianca', c.id, 'feed']"
-             class="group flex flex-col items-center gap-3 cursor-pointer">
-            <div class="rounded-2xl overflow-hidden ring-4 ring-transparent group-hover:ring-primary transition-all duration-200 group-hover:scale-105">
-              <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="xl" />
-            </div>
+             class="group calm-surface rounded-3xl p-4 flex flex-col items-center gap-3 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="xl" />
             <div class="text-center">
-              <p class="font-semibold group-hover:text-primary transition-colors">{{ c.nome }}</p>
+              <p class="font-extrabold group-hover:text-primary transition-colors">{{ c.nome }}</p>
               @if (c.dataNascimento) {
                 <p class="text-xs text-base-content/50">{{ calcAge(c.dataNascimento) }}</p>
               }
@@ -29,20 +64,20 @@
           </a>
         }
 
-        @if (auth.isProfissional()) {
+        @if (!search()) {
           <button (click)="goToNovaCrianca()"
-            class="group flex flex-col items-center gap-3 cursor-pointer">
-            <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-base-300 flex items-center justify-center group-hover:border-primary group-hover:bg-primary/5 transition-all duration-200 group-hover:scale-105">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/30 group-hover:text-primary transition-colors" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <p class="text-sm text-base-content/50 group-hover:text-primary transition-colors">Nova criança</p>
-          </button>
+          class="group rounded-3xl border-2 border-dashed border-primary/20 min-h-44 p-4 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all">
+          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/30 group-hover:text-primary transition-colors" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <p class="text-sm font-bold text-base-content/60 group-hover:text-primary transition-colors">Adicionar criança</p>
+        </button>
         }
 
       </div>
-    }
+    </section>
   }
 
 </div>
