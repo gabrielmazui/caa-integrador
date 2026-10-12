@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,6 +73,30 @@ public class PerfilController {
             .param("id", id)
             .query(PerfilResponse.class).single();
     }
+
+    @GetMapping("/{id}")
+    public PerfilPublicoResponse publicProfile(@PathVariable UUID id, Authentication auth) {
+        UUID viewer = CurrentUser.id(auth);
+        boolean allowed = viewer.equals(id) || jdbc.sql("""
+            SELECT EXISTS (
+                SELECT 1 FROM equipe_crianca a
+                JOIN equipe_crianca b ON a.crianca_id = b.crianca_id
+                JOIN criancas c ON c.id = a.crianca_id
+                WHERE a.usuario_id = :viewer AND b.usuario_id = :id
+                  AND a.status = 'ativo' AND b.status IN ('ativo', 'convidado')
+                  AND c.ativo = true AND c.excluido_em IS NULL
+            )
+            """).param("viewer", viewer).param("id", id).query(Boolean.class).single();
+        if (!allowed) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Perfil indisponível");
+        return jdbc.sql("""
+            SELECT id, nome, foto_url, bio, tipo_usuario, especialidade
+            FROM usuarios WHERE id = :id AND ativo = true AND excluido_em IS NULL
+            """).param("id", id).query(PerfilPublicoResponse.class).optional()
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil indisponível"));
+    }
+
+    public record PerfilPublicoResponse(UUID id, String nome, String fotoUrl, String bio,
+                                        String tipoUsuario, String especialidade) {}
 
     public record PerfilRequest(
         @Size(max = 255) String nome,

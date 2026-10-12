@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, signal, computed, output, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal, computed, input, output, OnDestroy } from '@angular/core';
 import { UploadService } from '../../services/upload.service';
 import { Arquivo } from '../../models/feed.models';
 
@@ -13,6 +13,9 @@ export class MediaCaptureComponent implements OnDestroy {
   private uploadService = inject(UploadService);
 
   uploaded = output<Arquivo>();
+  busy = output<boolean>();
+  disabled = input(false);
+  private cancelled = false;
 
   mode = signal<CaptureMode | null>(null);
   phase = signal<CapturePhase>('requesting');
@@ -35,6 +38,9 @@ export class MediaCaptureComponent implements OnDestroy {
   private timerInterval: ReturnType<typeof setInterval> | null = null;
 
   async open(captureMode: CaptureMode) {
+    if (this.disabled() || this.mode()) return;
+    this.cancelled = false;
+    this.busy.emit(true);
     this.errorMsg.set(null);
     this.chunks = [];
     this.photoBlob = null;
@@ -46,6 +52,7 @@ export class MediaCaptureComponent implements OnDestroy {
           ? { audio: true }
           : { video: { facingMode: 'environment' }, audio: captureMode === 'video' };
       this.stream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (this.cancelled) { this.stopStream(); return; }
       this.phase.set('ready');
       if (captureMode !== 'audio') {
         setTimeout(() => {
@@ -74,7 +81,10 @@ export class MediaCaptureComponent implements OnDestroy {
     this.recorder.start(100);
     this.phase.set('recording');
     this.duration.set(0);
-    this.timerInterval = setInterval(() => this.duration.update(d => d + 1), 1000);
+    this.timerInterval = setInterval(() => {
+      this.duration.update(d => d + 1);
+      if (this.duration() >= 120) this.stopRecording();
+    }, 1000);
   }
 
   stopRecording() {
@@ -83,6 +93,7 @@ export class MediaCaptureComponent implements OnDestroy {
   }
 
   private onRecordingStop() {
+    if (this.cancelled) return;
     const isAudio = this.mode() === 'audio';
     const mimeType = this.recorder?.mimeType ?? (isAudio ? 'audio/webm' : 'video/webm');
     const ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
@@ -121,6 +132,12 @@ export class MediaCaptureComponent implements OnDestroy {
   }
 
   private uploadFile(file: File) {
+    if (file.size > 50 * 1024 * 1024) {
+      this.stopStream();
+      this.errorMsg.set('A gravação ultrapassou 50 MB. Feche e grave novamente.');
+      this.phase.set('ready');
+      return;
+    }
     this.phase.set('uploading');
     this.stopStream();
     this.uploadService.upload(file).subscribe({
@@ -137,7 +154,8 @@ export class MediaCaptureComponent implements OnDestroy {
 
   close() {
     if (this.phase() === 'uploading') return;
-    if (this.phase() === 'recording') this.stopRecording();
+    this.cancelled = true;
+    if (this.timerInterval) { clearInterval(this.timerInterval); this.timerInterval = null; }
     this.stopStream();
     this.resetState();
   }
@@ -151,6 +169,7 @@ export class MediaCaptureComponent implements OnDestroy {
   }
 
   private resetState() {
+    this.busy.emit(false);
     this.mode.set(null);
     this.phase.set('requesting');
     this.errorMsg.set(null);
@@ -164,6 +183,7 @@ export class MediaCaptureComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.cancelled = true;
     this.stopStream();
     if (this.timerInterval) clearInterval(this.timerInterval);
   }

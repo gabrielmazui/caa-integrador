@@ -1,12 +1,15 @@
 @if (loading()) {
   <app-loading-spinner />
 } @else if (perfil(); as p) {
-<div class="w-full max-w-md mx-auto px-4 py-10 flex flex-col gap-8">
+<div class="profile-page w-full max-w-5xl mx-auto px-4 py-8">
+  <h1 class="text-2xl font-extrabold mb-6">Meu perfil</h1>
+  <div class="profile-layout">
 
   <!-- Avatar + identidade -->
-  <div class="flex flex-col items-center gap-3">
-    <label class="cursor-pointer relative group">
-      <app-avatar [fotoUrl]="fotoUrl()" [nome]="nome() || p.nome" size="lg" />
+  <div class="profile-identity">
+    <div class="profile-cover" aria-hidden="true"></div>
+    <label class="profile-photo-edit cursor-pointer relative group">
+      <app-avatar [fotoUrl]="fotoUrl()" [nome]="nome() || p.nome" size="xl" />
       <div class="absolute inset-0 rounded-full bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         @if (uploadingFoto()) {
           <span class="loading loading-spinner loading-sm text-white"></span>
@@ -16,20 +19,24 @@
           </svg>
         }
       </div>
-      <input type="file" class="hidden" accept="image/*" (change)="onFotoSelected($event)" />
+      <input type="file" class="sr-only" accept="image/*" aria-label="Alterar foto de perfil" [disabled]="uploadingFoto()" (change)="onFotoSelected($event)" />
     </label>
-    <div class="text-center">
-      <p class="font-bold text-lg leading-tight">{{ p.nome }}</p>
-      <p class="text-sm text-base-content/60">{{ p.email }}</p>
+    <span class="text-xs text-primary font-semibold mt-2">Alterar foto</span>
+    <div class="text-center px-5 pb-6 w-full">
+      <p class="font-extrabold text-xl leading-tight mt-3 break-words">{{ nome() || p.nome }}</p>
+      <p class="text-sm text-base-content/60 mt-2 break-all">{{ p.email }}</p>
       <span class="badge badge-outline badge-sm mt-1">
         {{ p.tipoUsuario === 'profissional' ? 'Profissional' : 'Responsável' }}
       </span>
+      @if (p.especialidade) { <p class="text-sm text-primary font-semibold mt-3">{{ p.especialidade }}</p> }
+      @if (bio()) { <p class="profile-bio">{{ bio() }}</p> }
     </div>
   </div>
 
   <!-- Form -->
-  <div class="card bg-base-100 shadow-sm">
-    <div class="card-body gap-5">
+  <div class="profile-form card bg-base-100 shadow-sm">
+    <div class="card-body gap-5 p-5 sm:p-7">
+      <h2 class="font-extrabold text-lg pb-3 border-b border-base-200">Suas informações</h2>
 
       <div class="flex flex-col gap-1">
         <label class="text-sm font-semibold">Nome *</label>
@@ -91,14 +98,15 @@
         @if (saved()) {
           <span class="text-success text-sm font-medium">Salvo!</span>
         }
-        <button class="btn btn-primary btn-sm" (click)="save()" [disabled]="saving()">
+        <button class="btn btn-primary rounded-xl" (click)="save()" [disabled]="saving() || uploadingFoto()">
           @if (saving()) { <span class="loading loading-spinner loading-xs"></span> }
-          Salvar
+          Salvar alterações
         </button>
       </div>
 
     </div>
   </div>
 
+</div>
 </div>
 }

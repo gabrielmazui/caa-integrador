@@ -1,37 +1,58 @@
-<div class="w-full max-w-5xl mx-auto px-4 py-6 sm:py-8">
-  <header class="rounded-3xl calm-surface p-5 sm:p-7 mb-7">
-    <div class="flex flex-col sm:flex-row sm:items-end gap-4">
+<div class="w-full max-w-6xl mx-auto px-4 py-6 sm:py-8">
+  <header class="glossary-hero rounded-[2rem] p-5 sm:p-8 mb-6 overflow-hidden relative">
+    <div class="glossary-orb glossary-orb-one"></div>
+    <div class="glossary-orb glossary-orb-two"></div>
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-end gap-6">
       <div class="flex-1">
-        <p class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Palavras que ajudam</p>
-        <h2 class="text-2xl font-extrabold mt-1">Glossário</h2>
+        <h2 class="text-3xl sm:text-4xl font-black mt-3 tracking-tight">Glossário de {{ criancaNome() }}</h2>
       </div>
       @if (auth.isProfissional()) {
-        <button class="btn btn-primary btn-sm rounded-xl" (click)="showModal.set(true)">+ Novo termo</button>
+        <button class="btn btn-primary rounded-2xl shadow-lg shadow-primary/20 hover:-translate-y-0.5 transition-transform" (click)="openNewTerm()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 0 1 1 1v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H4a1 1 0 1 1 0-2h5V4a1 1 0 0 1 1-1Z"/></svg>
+          Novo termo
+        </button>
       }
     </div>
-    <label class="input input-bordered bg-base-100 flex items-center gap-3 mt-5 rounded-2xl">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary/60" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
-      <input class="grow" type="search" placeholder="Buscar palavra ou assunto..." [ngModel]="search()" (ngModelChange)="search.set($event)" />
-    </label>
+
+    <div class="relative z-10 mt-7 flex flex-col md:flex-row gap-3">
+      <label class="glossary-search flex-1 flex items-center gap-3 rounded-2xl px-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary/65 shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.5 3a5.5 5.5 0 1 0 3.473 9.767l3.63 3.63a1 1 0 0 0 1.414-1.414l-3.63-3.63A5.5 5.5 0 0 0 8.5 3ZM5 8.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0Z" clip-rule="evenodd"/></svg>
+        <input class="glossary-search-input grow bg-transparent h-12 text-sm" type="search" placeholder="Buscar termo ou parte da definição..." [ngModel]="search()" (ngModelChange)="search.set($event)" />
+        @if (search()) {
+          <button type="button" class="btn btn-ghost btn-xs btn-circle" (click)="search.set('')" aria-label="Limpar busca">✕</button>
+        }
+      </label>
+    </div>
   </header>
 
   @if (loading()) {
     <app-loading-spinner />
   } @else if (termos().length === 0) {
     <app-empty-state titulo="Glossário vazio" descricao="Nenhum termo cadastrado ainda."
-      [ctaLabel]="auth.isProfissional() ? 'Adicionar termo' : ''" (cta)="showModal.set(true)" />
+      [ctaLabel]="auth.isProfissional() ? 'Adicionar termo' : ''" (cta)="openNewTerm()" />
+  } @else if (visibleTerms().length === 0) {
+    <div class="calm-surface rounded-3xl p-10 text-center">
+      <div class="h-14 w-14 rounded-2xl bg-primary/10 text-primary grid place-items-center mx-auto text-2xl">⌕</div>
+      <p class="font-extrabold mt-4">Nenhum termo encontrado</p>
+      <p class="text-sm text-base-content/50 mt-1">Tente buscar por outra palavra.</p>
+      <button class="btn btn-ghost btn-sm mt-3" (click)="search.set('')">Limpar busca</button>
+    </div>
   } @else {
     @if (especificos().length > 0) {
       <section class="mb-9">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="h-9 w-1.5 rounded-full bg-primary"></span>
-          <div><h3 class="font-extrabold">Para {{ criancaNome() }}</h3><p class="text-xs text-base-content/50">Termos adicionados pela equipe</p></div>
+        <div class="flex items-end justify-between gap-3 mb-4 px-1">
+          <div><h3 class="text-lg font-black">Para {{ criancaNome() }}</h3><p class="text-sm text-base-content/50">Termos personalizados pela equipe</p></div>
+          <span class="text-xs font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-full">{{ especificos().length }} {{ especificos().length === 1 ? 'termo' : 'termos' }}</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           @for (t of especificos(); track t.id) {
-            <button type="button" (click)="selectedTerm.set(t)" class="group calm-surface rounded-2xl p-4 text-left hover:border-primary/40 hover:-translate-y-0.5 transition-all flex items-center gap-3">
-              <span class="h-10 w-10 rounded-full bg-primary/10 text-primary grid place-items-center font-extrabold text-lg shrink-0">{{ t.termo.charAt(0).toUpperCase() }}</span>
-              <span class="min-w-0"><span class="font-bold group-hover:text-primary block truncate">{{ t.termo }}</span><span class="block text-xs text-base-content/45 truncate mt-0.5">{{ t.definicao }}</span></span>
+            <button type="button" (click)="selectedTerm.set(t)" class="glossary-card group text-left" [class.just-saved]="recentlySavedId() === t.id">
+              <span class="glossary-letter">{{ t.termo.charAt(0).toUpperCase() }}</span>
+              <span class="min-w-0 flex-1">
+                <span class="flex items-start justify-between gap-3"><strong class="text-lg group-hover:text-primary transition-colors">{{ t.termo }}</strong><span class="glossary-arrow">→</span></span>
+                <span class="block text-sm leading-relaxed text-base-content/58 mt-1 line-clamp-2">{{ t.definicao }}</span>
+                <span class="block text-[11px] text-base-content/38 mt-3">Atualizado {{ t.atualizadoEm | relativeTime }}</span>
+              </span>
             </button>
           }
         </div>
@@ -40,43 +61,46 @@
 
     @if (global().length > 0) {
       <section>
-        <div class="flex items-center gap-3 mb-4">
-          <span class="h-9 w-1.5 rounded-full bg-accent"></span>
-          <div><h3 class="font-extrabold">Termos gerais</h3><p class="text-xs text-base-content/50">Conceitos usados no acompanhamento</p></div>
+        <div class="flex items-end justify-between gap-3 mb-4 px-1">
+          <div><h3 class="text-lg font-black">Termos gerais</h3><p class="text-sm text-base-content/50">Conceitos úteis para todos</p></div>
+          <span class="text-xs font-bold text-accent-content bg-accent/15 px-2.5 py-1 rounded-full">{{ global().length }} {{ global().length === 1 ? 'termo' : 'termos' }}</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           @for (t of global(); track t.id) {
-            <button type="button" (click)="selectedTerm.set(t)" class="group calm-surface rounded-2xl p-4 text-left hover:border-accent/50 hover:-translate-y-0.5 transition-all flex items-center gap-3">
-              <span class="h-10 w-10 rounded-full bg-accent/15 text-accent-content grid place-items-center font-extrabold text-lg shrink-0">{{ t.termo.charAt(0).toUpperCase() }}</span>
-              <span class="min-w-0"><span class="font-bold group-hover:text-primary block truncate">{{ t.termo }}</span><span class="block text-xs text-base-content/45 truncate mt-0.5">{{ t.definicao }}</span></span>
+            <button type="button" (click)="selectedTerm.set(t)" class="glossary-card glossary-card-global group text-left" [class.just-saved]="recentlySavedId() === t.id">
+              <span class="glossary-letter">{{ t.termo.charAt(0).toUpperCase() }}</span>
+              <span class="min-w-0 flex-1">
+                <span class="flex items-start justify-between gap-3"><strong class="text-lg group-hover:text-primary transition-colors">{{ t.termo }}</strong><span class="glossary-arrow">→</span></span>
+                <span class="block text-sm leading-relaxed text-base-content/58 mt-1 line-clamp-2">{{ t.definicao }}</span>
+                <span class="block text-[11px] text-base-content/38 mt-3">Atualizado {{ t.atualizadoEm | relativeTime }}</span>
+              </span>
             </button>
           }
         </div>
       </section>
     }
-
-    @if (search() && global().length === 0 && especificos().length === 0) {
-      <div class="text-center py-12 text-base-content/50"><p class="font-bold">Nenhum termo encontrado</p><p class="text-sm mt-1">Tente buscar por outra palavra.</p></div>
-    }
   }
 
   @if (selectedTerm(); as term) {
-    <div class="modal modal-open" role="dialog" aria-modal="true" (click)="selectedTerm.set(null)">
-      <article class="modal-box max-w-lg rounded-3xl p-0 overflow-hidden" (click)="$event.stopPropagation()">
-        <div class="bg-primary/8 p-6 border-b border-primary/10">
+    <div class="modal modal-open glossary-detail-modal" role="dialog" aria-modal="true" (click)="selectedTerm.set(null)">
+      <article class="modal-box max-w-xl rounded-[2rem] p-0 overflow-hidden" (click)="$event.stopPropagation()">
+        <div class="glossary-detail-head p-6 sm:p-7">
           <div class="flex items-start justify-between gap-4">
-            <div><span class="text-xs font-bold text-primary uppercase tracking-wider">{{ term.global ? 'Termo geral' : 'Para ' + criancaNome() }}</span><h3 class="text-2xl font-extrabold mt-2">{{ term.termo }}</h3></div>
+            <div class="flex items-center gap-4">
+              <span class="h-14 w-14 rounded-2xl bg-primary text-primary-content grid place-items-center text-2xl font-black shadow-lg shadow-primary/20">{{ term.termo.charAt(0).toUpperCase() }}</span>
+              <div><span class="text-[11px] font-extrabold text-primary uppercase tracking-[0.15em]">{{ term.global ? 'Termo geral' : 'Para ' + criancaNome() }}</span><h3 class="text-2xl sm:text-3xl font-black mt-1">{{ term.termo }}</h3></div>
+            </div>
             <button class="btn btn-ghost btn-sm btn-circle" (click)="selectedTerm.set(null)" aria-label="Fechar">✕</button>
           </div>
         </div>
-        <div class="p-6">
-          <p class="leading-relaxed whitespace-pre-wrap">{{ term.definicao }}</p>
-          <div class="mt-6 pt-4 border-t border-base-200 text-xs text-base-content/50 space-y-1">
-            <p>Criado por <strong class="text-base-content/70">{{ term.criadoPorNome }}</strong> · {{ term.criadoEm | relativeTime }}</p>
-            @if (term.editadoPorNome) { <p>Editado por <strong class="text-base-content/70">{{ term.editadoPorNome }}</strong> · {{ term.atualizadoEm | relativeTime }}</p> }
+        <div class="p-6 sm:p-7">
+          <p class="leading-7 whitespace-pre-wrap text-base-content/80">{{ term.definicao }}</p>
+          <div class="mt-7 pt-5 border-t border-base-200 text-xs text-base-content/50 space-y-1.5">
+            <p>Criado por <strong class="text-base-content/75">{{ term.criadoPorNome }}</strong> · {{ term.criadoEm | relativeTime }}</p>
+            @if (term.editadoPorNome) { <p>Editado por <strong class="text-base-content/75">{{ term.editadoPorNome }}</strong> · {{ term.atualizadoEm | relativeTime }}</p> }
           </div>
           @if (auth.isProfissional() && !term.global) {
-            <div class="flex justify-end gap-2 mt-5"><button class="btn btn-ghost btn-sm text-error" (click)="delete(term)">Excluir</button><button class="btn btn-primary btn-sm" (click)="edit(term)">Editar</button></div>
+            <div class="flex justify-end gap-2 mt-6"><button class="btn btn-ghost btn-sm text-error rounded-xl" (click)="delete(term)">Excluir</button><button class="btn btn-primary btn-sm rounded-xl" (click)="edit(term)">Editar termo</button></div>
           }
         </div>
       </article>

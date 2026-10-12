@@ -1,4 +1,7 @@
-<div class="avatar" [class.avatar-placeholder]="!fotoUrl()">
+<div class="avatar profile-avatar" [class.avatar-placeholder]="!fotoUrl()"
+  [attr.role]="userId() ? 'button' : null" [attr.tabindex]="userId() ? 0 : null"
+  [attr.aria-label]="userId() ? 'Ver perfil de ' + nome() : null"
+  (click)="openProfile($event)" (keydown.enter)="openProfile($event)" (keydown.space)="$event.preventDefault(); openProfile($event)">
   <div
     class="rounded-full aspect-square overflow-hidden flex items-center justify-center shadow-none"
     [class]="sizeClass()"
@@ -14,3 +17,20 @@
     }
   </div>
 </div>
+<dialog #profileDialog class="person-dialog" (click)="$event.stopPropagation(); $event.target === profileDialog && profileDialog.close()">
+  <button autofocus type="button" class="btn btn-ghost btn-circle btn-sm absolute right-3 top-3" (click)="profileDialog.close()" aria-label="Fechar perfil">✕</button>
+  @if (profile(); as p) {
+    <div class="person-cover"></div>
+    <div class="person-content">
+      @if (p.fotoUrl) { <img class="person-photo" [src]="p.fotoUrl" [alt]="p.nome" /> }
+      @else { <div class="person-photo person-initial">{{ p.nome.charAt(0) }}</div> }
+      <h2 class="text-2xl font-extrabold mt-4">{{ p.nome }}</h2>
+      <span class="badge badge-primary badge-soft mt-2">{{ p.especialidade || (p.tipoUsuario === 'profissional' ? 'Profissional' : 'Responsável') }}</span>
+      <p class="whitespace-pre-wrap leading-relaxed text-base-content/70 mt-5">{{ p.bio || 'Ainda não adicionou uma bio.' }}</p>
+    </div>
+  } @else if (profileError()) {
+    <p class="p-8">Não foi possível carregar este perfil.</p>
+  } @else {
+    <div class="p-12 text-center"><span class="loading loading-spinner text-primary"></span></div>
+  }
+</dialog>

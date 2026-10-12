@@ -33,12 +33,17 @@ export class GlossarioComponent {
   search = signal('');
   selectedTerm = signal<Termo | null>(null);
   editingTerm = signal<Termo | null>(null);
+  recentlySavedId = signal<string | null>(null);
+
+  visibleTerms = computed(() => this.termos().filter(t => {
+    return this.matchesSearch(t);
+  }));
 
   global = computed(() =>
-    this.termos().filter(t => t.global && this.matchesSearch(t))
+    this.visibleTerms().filter(t => t.global)
   );
   especificos = computed(() =>
-    this.termos().filter(t => !t.global && this.matchesSearch(t))
+    this.visibleTerms().filter(t => !t.global)
   );
 
   constructor() {
@@ -57,11 +62,24 @@ export class GlossarioComponent {
   }
 
   onSaved(t: Termo) {
+    const wasEditing = !!this.editingTerm();
     this.termos.update(prev => [...prev.filter(item => item.id !== t.id), t]
       .sort((a, b) => a.termo.localeCompare(b.termo)));
     this.showModal.set(false);
     this.editingTerm.set(null);
-    this.selectedTerm.set(t);
+    this.selectedTerm.set(null);
+    this.search.set('');
+    this.recentlySavedId.set(t.id);
+    this.toast.success(wasEditing ? 'Alterações salvas.' : 'Termo adicionado ao glossário.');
+    window.setTimeout(() => {
+      if (this.recentlySavedId() === t.id) this.recentlySavedId.set(null);
+    }, 2600);
+  }
+
+  openNewTerm() {
+    this.editingTerm.set(null);
+    this.selectedTerm.set(null);
+    this.showModal.set(true);
   }
 
   edit(term: Termo) {

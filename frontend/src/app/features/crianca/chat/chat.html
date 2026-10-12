@@ -1,68 +1,93 @@
-<div class="flex flex-col flex-1 min-h-0 bg-base-200/35">
-  <header class="bg-base-100/90 backdrop-blur border-b border-base-200 px-4 py-3 flex-shrink-0">
-    <div class="max-w-4xl mx-auto flex items-center gap-3">
-      <span class="h-10 w-10 rounded-2xl bg-primary/10 grid place-items-center text-lg">💬</span>
-      <div>
-        <h2 class="font-extrabold leading-tight">Conversa da equipe</h2>
-        <p class="text-xs text-base-content/50">Espaço reservado aos profissionais de {{ crianca()?.nome }}</p>
-      </div>
+<section class="conversation">
+  <header class="conversation-header">
+    <app-avatar [fotoUrl]="crianca()?.fotoUrl ?? null" [nome]="crianca()?.nome ?? ''" size="md" />
+    <div class="conversation-heading">
+      <h2>{{ crianca()?.nome }}</h2>
+      <span>Chat</span>
     </div>
   </header>
 
   @if (loading()) {
     <app-loading-spinner />
+  } @else if (loadError()) {
+    <div class="conversation-empty"><p>Não foi possível carregar a conversa.</p><button class="btn btn-ghost btn-sm" (click)="loadMessages()">Tentar novamente</button></div>
   } @else {
-    <div #messageList class="scrollbar-calm flex-1 overflow-y-auto px-4 py-6">
-      <div class="max-w-3xl mx-auto flex flex-col gap-4">
-        @if (mensagens().length === 0) {
-          <div class="calm-surface rounded-3xl p-8 text-center my-auto">
-            <p class="text-3xl mb-3">💬</p>
-            <p class="font-extrabold">A conversa começa aqui</p>
-            <p class="text-sm text-base-content/55 mt-1">Compartilhe uma dúvida ou atualização com a equipe.</p>
-          </div>
+    <div #messageList class="conversation-scroll scrollbar-calm">
+      <div class="conversation-messages" [class.is-empty]="!mensagens().length">
+        @if (!mensagens().length) {
+          <p class="conversation-start">Inicie uma conversa</p>
         }
-        @for (m of mensagens(); track m.id) {
-          <div class="flex items-end gap-2" [class.flex-row-reverse]="isOwn(m)">
-            <div class="h-8 w-8 rounded-full grid place-items-center text-xs font-extrabold shrink-0"
-              [class.bg-primary]="isOwn(m)" [class.text-primary-content]="isOwn(m)"
-              [class.bg-secondary/20]="!isOwn(m)">
-              {{ (isOwn(m) ? 'V' : m.remetenteNome.charAt(0)).toUpperCase() }}
-            </div>
-            <div class="max-w-[78%] sm:max-w-[65%]">
-              <div class="flex items-center gap-2 px-1 mb-1" [class.justify-end]="isOwn(m)">
-                <span class="text-[11px] font-bold text-base-content/55">{{ isOwn(m) ? 'Você' : m.remetenteNome }}</span>
-                <time class="text-[10px] text-base-content/35">{{ m.criadoEm | relativeTime }}</time>
+        @for (m of mensagens(); track m.id; let i = $index) {
+          @if (startsDay(i)) {
+            <div class="conversation-date"><span>{{ dayLabel(m.criadoEm) }}</span></div>
+          }
+          <div class="message-row" [class.own]="isOwn(m)" [class.continued]="sameSender(i)">
+            @if (!isOwn(m)) {
+              <div class="message-avatar" [class.avatar-spacer]="sameSender(i)">
+                <app-avatar #person [userId]="m.remetenteId" [nome]="m.remetenteNome" size="sm" />
               </div>
-              <div class="px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap shadow-sm"
-                [class.bg-primary]="isOwn(m)" [class.text-primary-content]="isOwn(m)"
-                [class.rounded-2xl]="true" [class.rounded-br-md]="isOwn(m)" [class.rounded-bl-md]="!isOwn(m)"
-                [class.bg-base-100]="!isOwn(m)" [class.border]="!isOwn(m)" [class.border-base-200]="!isOwn(m)">
-                {{ m.conteudo }}
-              </div>
+            }
+            <div class="message-bubble">
+              @if (!isOwn(m) && !sameSender(i)) {
+                <span class="message-author">{{ m.remetenteNome }}</span>
+              }
+              @if (m.conteudo) { <p class="message-text">{{ m.conteudo }}</p> }
+              @if (m.anexos?.length) {
+                <div class="message-media">
+                  <app-media-gallery [items]="images(m.anexos)" />
+                  @for (a of m.anexos; track a.id) {
+                    @if (a.tipo === 'audio' || a.tipo === 'video') {
+                      <app-media-player [kind]="a.tipo" [src]="a.url" />
+                    } @else if (a.tipo !== 'imagem') {
+                      <a class="document-attachment" [href]="a.url" target="_blank" rel="noopener">{{ a.nomeArquivo || 'Documento' }} ↗</a>
+                    }
+                  }
+                </div>
+              }
+              <time class="message-time" [attr.datetime]="m.criadoEm">{{ timeLabel(m.criadoEm) }}</time>
             </div>
           </div>
         }
       </div>
     </div>
 
-    <div class="flex-shrink-0 px-3 pb-3 sm:px-4 sm:pb-4 bg-gradient-to-t from-base-200/70 to-transparent">
-      <div class="max-w-3xl mx-auto calm-surface rounded-2xl p-2 flex items-end gap-2">
-        <textarea class="textarea textarea-ghost flex-1 resize-none text-sm min-h-10 max-h-28 focus:outline-none px-3 py-2"
-          rows="1" placeholder="Escreva uma mensagem..."
-          [ngModel]="newMessage()" (ngModelChange)="newMessage.set($event)"
-          (keydown)="onKeydown($event)" aria-label="Campo de mensagem"></textarea>
-        <button class="btn btn-primary btn-sm btn-circle shrink-0" (click)="send()"
-          [disabled]="sending() || !newMessage().trim()" aria-label="Enviar mensagem">
-          @if (sending()) {
-            <span class="loading loading-spinner loading-xs"></span>
-          } @else {
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-            </svg>
-          }
-        </button>
+    <footer class="conversation-footer">
+      <div class="conversation-composer">
+        @if (attachments().length) {
+          <div class="composer-previews">
+            @for (a of attachments(); track a.id) {
+              <div class="attachment-preview">
+                @if (a.tipo === 'imagem') { <img [src]="a.url" alt="Imagem anexada" /> }
+                @else { <span>{{ a.tipo === 'audio' ? 'Áudio' : a.tipo === 'video' ? 'Vídeo' : a.nomeArquivo }}</span> }
+                <button type="button" (click)="removeAttachment(a.id)" [disabled]="sending()" aria-label="Remover anexo">✕</button>
+              </div>
+            }
+          </div>
+        }
+        <div class="composer-row">
+          <button type="button" class="composer-tool" [class.selected]="showTools()" (click)="showTools.set(!showTools())"
+            [attr.aria-expanded]="showTools()" aria-controls="chat-attachment-tools" aria-label="Anexos e gravações" title="Anexos e gravações">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          </button>
+          <textarea #composer rows="1" class="composer-input" placeholder="Escreva uma mensagem"
+            [disabled]="sending()" maxlength="5000" [ngModel]="newMessage()" (ngModelChange)="newMessage.set($event)"
+            (input)="resizeComposer(composer)" (keydown)="onKeydown($event)" aria-label="Mensagem"></textarea>
+          <button type="button" class="composer-send" (click)="send()"
+            [disabled]="sending() || uploading() || capturing() || (!newMessage().trim() && !attachments().length)" aria-label="Enviar mensagem">
+            @if (sending()) { <span class="loading loading-spinner loading-xs"></span> }
+            @else { <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 14-7-4 14-4-5-6-2Z" stroke-linejoin="round"/><path d="m11 14 8-9"/></svg> }
+          </button>
+        </div>
+        <div id="chat-attachment-tools" class="composer-tools" [hidden]="!showTools()">
+          <app-file-upload label="Arquivo" accept="image/*,audio/*,video/*,application/pdf,.doc,.docx,.txt"
+            [maxFiles]="5 - attachments().length" [disabled]="sending() || capturing() || attachments().length >= 5"
+            (busy)="uploading.set($event)" (uploaded)="addAttachment($event)" />
+          <app-media-capture [disabled]="sending() || uploading() || attachments().length >= 5"
+            (busy)="capturing.set($event)" (uploaded)="addAttachment($event)" />
+          <span class="composer-limits">5 arquivos · 50 MB cada · gravações até 2 min</span>
+        </div>
+        @if (uploading()) { <p class="composer-status" role="status">Enviando anexos…</p> }
       </div>
-      <p class="max-w-3xl mx-auto text-[10px] text-base-content/35 mt-1.5 px-3">Enter envia · Shift + Enter quebra a linha</p>
-    </div>
+    </footer>
   }
-</div>
+</section>

@@ -1,37 +1,48 @@
-<div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="termo-modal-title">
-  <div class="modal-box max-w-md">
-    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close.emit()" aria-label="Fechar">✕</button>
-    <h2 id="termo-modal-title" class="font-bold text-lg mb-4">{{ existing() ? 'Editar termo' : 'Novo termo' }}</h2>
+<div class="modal modal-open term-editor" role="dialog" aria-modal="true" aria-labelledby="termo-modal-title">
+  <div class="modal-box max-w-lg rounded-[2rem] p-0 overflow-hidden">
+    <div class="term-editor-head px-6 py-5 sm:px-7">
+      <div class="flex items-center gap-3 pr-10">
+        <span class="h-11 w-11 rounded-2xl bg-primary/12 text-primary grid place-items-center text-xl" aria-hidden="true">Aa</span>
+        <div>
+          <p class="text-[11px] text-primary font-extrabold uppercase tracking-[0.14em]">Glossário</p>
+          <h2 id="termo-modal-title" class="font-black text-xl">{{ existing() ? 'Editar termo' : 'Adicionar novo termo' }}</h2>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4" (click)="close.emit()" aria-label="Fechar">✕</button>
+    </div>
 
-    <form (ngSubmit)="submit()" class="flex flex-col gap-4">
-      <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Termo *</span></div>
-        <input type="text" class="input input-bordered"
+    <form (ngSubmit)="submit()" class="p-6 sm:p-7 flex flex-col gap-5">
+      <p class="text-sm text-base-content/55 -mt-1">Escreva de um jeito simples, para que qualquer pessoa da rede de apoio consiga entender.</p>
+
+      <label class="form-control gap-1.5">
+        <div class="flex items-center justify-between"><span class="text-sm font-bold">Termo</span><span class="text-[11px] text-base-content/40">Obrigatório</span></div>
+        <input type="text" class="input input-bordered w-full rounded-2xl bg-base-100"
           [class.input-error]="submitted() && !termo().trim()"
-          placeholder="Ex: PECS"
-          [ngModel]="termo()" (ngModelChange)="termo.set($event)" required name="termo" />
+          placeholder="Ex.: PECS"
+          [ngModel]="termo()" (ngModelChange)="termo.set($event)" required name="termo" autofocus />
         @if (submitted() && !termo().trim()) {
-          <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          <p class="text-error text-xs">Digite o nome do termo.</p>
         }
       </label>
 
-      <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Definição *</span></div>
-        <textarea class="textarea textarea-bordered resize-none"
+      <label class="form-control gap-1.5">
+        <div class="flex items-center justify-between"><span class="text-sm font-bold">Definição</span><span class="text-[11px] text-base-content/40">Obrigatório</span></div>
+        <textarea class="textarea textarea-bordered w-full rounded-2xl resize-none bg-base-100 leading-relaxed"
           [class.textarea-error]="submitted() && !definicao().trim()"
-          rows="4"
-          placeholder="Explique o termo de forma clara..."
+          rows="6" maxlength="1200"
+          placeholder="Explique o que significa e, se ajudar, dê um exemplo prático..."
           [ngModel]="definicao()" (ngModelChange)="definicao.set($event)" required name="definicao"></textarea>
-        @if (submitted() && !definicao().trim()) {
-          <p class="text-error text-xs mt-1">Campo obrigatório</p>
-        }
+        <div class="flex justify-between gap-3">
+          @if (submitted() && !definicao().trim()) { <p class="text-error text-xs">Adicione uma explicação.</p> } @else { <span></span> }
+          <span class="text-[11px] text-base-content/35">{{ definicao().length }}/1200</span>
+        </div>
       </label>
 
-      <div class="modal-action">
-        <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>
-        <button type="submit" class="btn btn-primary" [disabled]="loading()">
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-base-200">
+        <button type="button" class="btn btn-ghost rounded-xl" (click)="close.emit()">Cancelar</button>
+        <button type="submit" class="btn btn-primary rounded-xl min-w-32" [disabled]="loading()">
           @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
-          {{ existing() ? 'Salvar alterações' : 'Salvar' }}
+          {{ existing() ? 'Salvar alterações' : 'Adicionar termo' }}
         </button>
       </div>
     </form>

@@ -9,6 +9,7 @@
   {{ label() }}
   <input
     type="file"
+    [disabled]="disabled() || uploading()"
     class="hidden"
     [accept]="accept()"
     [multiple]="multiple()"

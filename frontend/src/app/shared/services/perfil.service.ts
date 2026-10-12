@@ -24,6 +24,8 @@ export interface PerfilUpdateRequest {
   fotoUrl?: string;
 }
 
+export type PerfilPublico = Pick<PerfilUsuario, 'id' | 'nome' | 'fotoUrl' | 'bio' | 'tipoUsuario' | 'especialidade'>;
+
 @Injectable({ providedIn: 'root' })
 export class PerfilService {
   private http = inject(HttpClient);
@@ -31,6 +33,10 @@ export class PerfilService {
 
   get() {
     return this.http.get<PerfilUsuario>(this.url);
+  }
+
+  getPublic(id: string) {
+    return this.http.get<PerfilPublico>(this.url + '/' + id);
   }
 
   update(req: PerfilUpdateRequest) {

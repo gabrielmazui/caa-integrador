@@ -1,4 +1,4 @@
-import { Component, input, output, signal, inject, OnInit } from '@angular/core';
+import { Component, input, output, signal, inject, computed, OnInit } from '@angular/core';
 import { Comentario, Registro } from '../../../../shared/models/feed.models';
 import { Crianca } from '../../../../shared/models/crianca.models';
 import { FeedService } from '../../../../shared/services/feed.service';
@@ -6,10 +6,12 @@ import { AuthService } from '../../../../core/auth/auth.service';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar';
 import { RelativeTimePipe } from '../../../../shared/components/relative-time.pipe';
 import { FormsModule } from '@angular/forms';
+import { MediaPlayerComponent } from '../../../../shared/components/media-player/media-player';
+import { MediaGalleryComponent } from '../../../../shared/components/media-gallery/media-gallery';
 
 @Component({
   selector: 'app-post-detail',
-  imports: [AvatarComponent, RelativeTimePipe, FormsModule],
+  imports: [AvatarComponent, RelativeTimePipe, FormsModule, MediaPlayerComponent, MediaGalleryComponent],
   templateUrl: './post-detail.html',
 })
 export class PostDetailComponent implements OnInit {
@@ -25,6 +27,7 @@ export class PostDetailComponent implements OnInit {
   loading = signal(true);
   newComment = signal('');
   sending = signal(false);
+  images = computed(() => (this.registro().anexos ?? []).filter(a => a.tipo === 'imagem'));
 
   ngOnInit() {
     this.feedService.getComentarios(this.crianca().id, this.registro().id).subscribe({

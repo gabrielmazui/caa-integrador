@@ -2,7 +2,6 @@
   <header class="relative overflow-hidden rounded-3xl calm-surface p-5 sm:p-7 mb-6">
     <div class="relative z-10 flex flex-col sm:flex-row sm:items-end gap-5">
       <div class="flex-1">
-        <p class="text-xs uppercase tracking-[0.18em] text-primary font-bold">Plano educacional individualizado</p>
         <h2 class="text-2xl font-extrabold mt-1">PEI de {{ criancaNome() }}</h2>
       </div>
       <button class="btn btn-primary btn-sm rounded-xl" (click)="showModal.set(true)">+ Nova anotação</button>
@@ -39,7 +38,7 @@
                   <div class="flex items-center gap-2"><span class="font-bold text-base-content/60">{{ a.autorNome }}</span><span>•</span><span>{{ a.criadoEm | relativeTime }}</span><span class="ml-auto">{{ a.semestre }}º sem. / {{ a.ano }}</span></div>
                   @if (a.editadoPorNome) { <p class="mt-1">Editado por <strong>{{ a.editadoPorNome }}</strong> · {{ a.atualizadoEm | relativeTime }}</p> }
                 </div>
-                <div class="flex justify-end gap-1 mt-2"><button class="btn btn-ghost btn-xs text-error" (click)="delete(a)">Excluir</button><button class="btn btn-ghost btn-xs text-primary" (click)="edit(a)">Editar</button></div>
+                <div class="flex justify-end gap-1 mt-2"><button class="btn btn-ghost btn-xs text-error" (click)="delete(a)">Excluir</button><button class="btn btn-ghost btn-xs text-primary action-edit" (click)="edit(a)">Editar</button></div>
               </article>
             }
           </div>

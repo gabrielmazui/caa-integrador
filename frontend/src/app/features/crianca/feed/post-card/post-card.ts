@@ -3,10 +3,12 @@ import { Anexo, Registro } from '../../../../shared/models/feed.models';
 import { Crianca } from '../../../../shared/models/crianca.models';
 import { AvatarComponent } from '../../../../shared/components/avatar/avatar';
 import { RelativeTimePipe } from '../../../../shared/components/relative-time.pipe';
+import { MediaPlayerComponent } from '../../../../shared/components/media-player/media-player';
+import { MediaGalleryComponent } from '../../../../shared/components/media-gallery/media-gallery';
 
 @Component({
   selector: 'app-post-card',
-  imports: [AvatarComponent, RelativeTimePipe],
+  imports: [AvatarComponent, RelativeTimePipe, MediaPlayerComponent, MediaGalleryComponent],
   templateUrl: './post-card.html',
 })
 export class PostCardComponent {

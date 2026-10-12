@@ -28,10 +28,10 @@
         @for (m of membros(); track m.id) {
           <li class="card card-compact bg-base-100 shadow-sm">
             <div class="card-body flex-row items-center gap-4">
-              <app-avatar [fotoUrl]="m.fotoUrl" [nome]="m.nome" size="md" />
+              <app-avatar #person [userId]="m.id" [fotoUrl]="m.fotoUrl" [nome]="m.nome" size="md" />
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <span class="font-semibold">{{ m.nome }}</span>
+                  <button type="button" class="font-semibold hover:text-primary" (click)="person.openProfile($event)">{{ m.nome }}</button>
                   @if (m.status === 'convidado') {
                     <span class="badge badge-warning badge-xs">Convite pendente</span>
                   }

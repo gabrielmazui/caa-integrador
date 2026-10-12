@@ -53,7 +53,7 @@
 
 <!-- Profile dropdown -->
       <div class="dropdown dropdown-end dropdown-bottom">
-        <button tabindex="0" class="flex items-center gap-2 px-1 py-1 rounded-full sm:rounded-2xl hover:bg-base-200/60 transition-colors normal-case">
+        <button tabindex="0" class="profile-trigger flex items-center gap-2 px-1 py-1 rounded-full sm:rounded-2xl normal-case">
           <app-avatar
             [fotoUrl]="auth.currentUser()?.fotoUrl ?? null"
             [nome]="auth.currentUser()?.nome ?? 'U'"
@@ -69,11 +69,11 @@
               }
             </span>
           </span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="hidden sm:block h-3.5 w-3.5 opacity-50" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="profile-chevron hidden sm:block h-3.5 w-3.5 opacity-50" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </button>
-        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-2xl shadow-xl border border-base-200 w-56 p-2 mt-2">
+        <ul tabindex="0" class="profile-menu dropdown-content menu bg-base-100 rounded-2xl shadow-xl border border-base-200 w-56 p-2 mt-2">
           <li class="menu-title px-3 py-2">
             <span class="text-sm font-bold text-base-content">{{ auth.currentUser()?.nome }}</span>
             <span class="text-xs font-normal opacity-60">{{ auth.currentUser()?.especialidade || (auth.isProfissional() ? 'Profissional' : 'Responsável') }}</span>

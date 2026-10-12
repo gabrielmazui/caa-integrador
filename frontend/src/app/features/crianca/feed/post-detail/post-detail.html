@@ -3,7 +3,7 @@
 
     <!-- Header -->
     <div class="flex items-start gap-3 p-5 border-b border-base-200 flex-shrink-0">
-      <app-avatar [fotoUrl]="registro().autorFotoUrl" [nome]="registro().autorNome" size="md" />
+      <app-avatar [userId]="registro().autorId" [fotoUrl]="registro().autorFotoUrl" [nome]="registro().autorNome" size="md" />
       <div class="flex-1 min-w-0">
         <p class="font-semibold">{{ registro().autorNome }}</p>
         <p class="text-xs text-base-content/50">{{ registro().criadoEm | relativeTime }}</p>
@@ -39,25 +39,20 @@
 
       @if (registro().anexos && registro().anexos!.length > 0) {
         <div class="flex flex-col gap-3 mt-4">
+          <app-media-gallery [items]="images()" />
           @for (a of registro().anexos!; track a.id) {
             @if (a.tipo === 'imagem') {
-              <img [src]="a.url" [alt]="a.nomeArquivo ?? 'imagem'"
-                class="rounded-2xl object-contain w-full max-h-[32rem] bg-base-200" loading="lazy" />
             } @else if (a.tipo === 'video') {
-              <div class="rounded-2xl overflow-hidden bg-neutral">
-                <video controls [src]="a.url" class="w-full max-h-[32rem]" preload="metadata"></video>
-              </div>
+              <app-media-player kind="video" [src]="a.url" />
             } @else if (a.tipo === 'audio') {
-              <div class="rounded-2xl bg-primary/6 border border-primary/10 p-4">
-                <audio controls [src]="a.url" class="w-full" preload="metadata"></audio>
-              </div>
+              <app-media-player kind="audio" [src]="a.url" />
             } @else {
               <a [href]="a.url" target="_blank" rel="noopener"
                 class="flex items-center gap-3 p-4 rounded-2xl border border-base-300 hover:bg-base-200 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd"/>
                 </svg>
-                <span class="text-sm truncate">Abrir documento</span>
+                <span class="text-sm truncate">{{ a.nomeArquivo || 'Documento' }}</span>
               </a>
             }
           }
@@ -76,7 +71,7 @@
       } @else {
         @for (c of comments(); track c.id) {
           <div class="flex items-start gap-3">
-            <app-avatar [fotoUrl]="c.autorFotoUrl" [nome]="c.autorNome" size="xs" />
+            <app-avatar [userId]="c.autorId" [fotoUrl]="c.autorFotoUrl" [nome]="c.autorNome" size="xs" />
             <div class="flex-1 bg-base-200 rounded-2xl px-4 py-2.5">
               <div class="flex items-baseline gap-2">
                 <span class="text-xs font-semibold">{{ c.autorNome }}</span>

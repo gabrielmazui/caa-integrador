@@ -45,7 +45,7 @@
 
         @for (c of filteredCriancas(); track c.id) {
           <a [routerLink]="['/crianca', c.id, 'feed']"
-             class="group calm-surface rounded-3xl p-4 flex flex-col items-center gap-3 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+             class="child-card group rounded-3xl p-5 flex flex-col items-center gap-4 cursor-pointer">
             <app-avatar [fotoUrl]="c.fotoUrl" [nome]="c.nome" size="xl" />
             <div class="text-center">
               <p class="font-extrabold group-hover:text-primary transition-colors">{{ c.nome }}</p>
@@ -58,7 +58,7 @@
 
         @if (!search()) {
           <button (click)="goToNovaCrianca()"
-          class="group rounded-3xl border-2 border-dashed border-primary/20 min-h-44 p-4 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all">
+          class="child-card child-card-add group rounded-3xl min-h-44 p-5 flex flex-col items-center justify-center gap-4 cursor-pointer">
           <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-base-content/30 group-hover:text-primary transition-colors" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
