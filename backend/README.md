@@ -73,6 +73,56 @@ Authorization: Bearer <accessToken>
 
 ## Rotas iniciais
 
+### Saúde e diagnóstico
+
+| Método | Rota | Acesso | Uso |
+| --- | --- | --- | --- |
+| GET | `/api/health` | Público | Saúde geral, incluindo banco e espaço em disco |
+| GET | `/api/health/liveness` | Público | Verifica se a aplicação está viva, independentemente do banco |
+| GET | `/api/health/readiness` | Público | Verifica se está pronta para receber tráfego e se o banco responde |
+| GET | `/api/info` | JWT | Nome, versão e data da compilação |
+| GET | `/api/metrics` | JWT + perfil dev | Lista métricas disponíveis |
+| GET | `/api/metrics/jvm.memory.used` | JWT + perfil dev | Memória utilizada pela JVM |
+| GET | `/api/metrics/http.server.requests` | JWT + perfil dev | Estatísticas das requisições; aparece após haver tráfego |
+| GET | `/api/mappings` | JWT + perfil dev | Rotas registradas e métodos HTTP aceitos |
+
+As rotas de saúde retornam o status, por exemplo `{"status":"UP"}`. A rota
+geral também pode listar os grupos públicos `liveness` e `readiness`, sem expor
+componentes ou detalhes internos.
+`DOWN` e `OUT_OF_SERVICE` retornam HTTP 503. Uma falha no banco deixa a
+readiness indisponível, sem transformar a liveness em uma falha que provoque
+reinicializações desnecessárias. O Docker e o seed aguardam a readiness.
+Durante a inicialização, antes do servidor abrir a porta, a conexão pode ser recusada.
+
+Ative os diagnósticos adicionais somente no ambiente de desenvolvimento:
+
+```powershell
+$env:SPRING_PROFILES_ACTIVE = "dev"
+.\gradlew.bat bootRun
+```
+
+Teste a saúde sem login:
+
+```bash
+curl -i http://localhost:8080/api/health/readiness
+```
+
+Para consultar diagnósticos, use o token recebido no login:
+
+```bash
+curl -H "Authorization: Bearer SEU_TOKEN" http://localhost:8080/api/info
+curl -H "Authorization: Bearer SEU_TOKEN" http://localhost:8080/api/metrics
+```
+
+As informações de build são geradas pelo Gradle em `bootRun` e `bootJar`.
+Os endpoints de ambiente, configurações, heap dump e desligamento não são
+expostos. As operações do Actuator são somente leitura; os diagnósticos não
+alteram logs ou configurações em execução. Sem o perfil dev, métricas e
+mapeamentos não são publicados via HTTP.
+
+Erros que chegam ao fallback `/error`, incluindo URLs inexistentes, retornam JSON
+com status, mensagem e caminho original. A página Whitelabel do Spring não é exposta.
+
 ### Autenticação
 
 | Método | Rota | Uso |
@@ -93,6 +143,9 @@ Authorization: Bearer <accessToken>
 | `DELETE` | `/api/criancas/{criancaId}/membros/{usuarioId}` | Remover um membro da equipe |
 | `POST` | `/api/criancas/{criancaId}/sair` | Sair da equipe ou excluir a criança quando for o último membro |
 | `PUT` | `/api/criancas/{criancaId}/meu-vinculo` | Alterar somente o próprio parentesco com a criança |
+
+A data de nascimento, quando informada, deve estar entre a data atual e 100 anos atrás.
+Datas futuras e idades acima de 100 anos são rejeitadas no cadastro e na edição.
 
 Os vínculos da equipe são `profissional` ou `responsavel`. A especialidade fica
 no perfil do profissional, enquanto responsáveis podem informar opcionalmente o

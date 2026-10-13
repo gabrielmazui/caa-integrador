@@ -26,6 +26,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/register/register').then(m => m.RegisterComponent),
   },
   {
+    path: 'error',
+    loadComponent: () => import('./features/error/error-page').then(m => m.ErrorPageComponent),
+  },
+  {
     path: '',
     canActivate: [authGuard],
     loadComponent: () => import('./features/dashboard/dashboard-shell').then(m => m.DashboardShellComponent),
@@ -58,5 +62,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'error' },
 ];

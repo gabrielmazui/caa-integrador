@@ -31,7 +31,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-sS", "-o", "/dev/null", "http://localhost:8080/api/auth/login"]
+      test: ["CMD", "curl", "-fsS", "--max-time", "4", "-o", "/dev/null", "http://localhost:8080/api/health/readiness"]
       interval: 5s
       timeout: 5s
       retries: 20

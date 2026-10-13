@@ -1,6 +1,7 @@
 package com.example.demo.crianca;
 
 import com.example.demo.shared.CurrentUser;
+import com.example.demo.shared.validation.NotOlderThan;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
@@ -416,12 +417,16 @@ public class CriancaController {
     }
 
     public record CriancaRequest(@NotBlank @Size(max = 255) String nome,
-                                 @PastOrPresent LocalDate dataNascimento,
+                                 @PastOrPresent(message = "não pode estar no futuro")
+                                 @NotOlderThan(years = 100, message = "a idade não pode ser maior que 100 anos")
+                                 LocalDate dataNascimento,
                                  @Size(max = 5000) String observacoes,
                                  @Nullable @Pattern(regexp = "mae|pai|outro") String relacaoResponsavel,
                                  @Size(max = 150) String descricaoRelacao) {}
     public record CriancaUpdateRequest(@Size(max = 255) String nome,
-                                       @PastOrPresent LocalDate dataNascimento,
+                                       @PastOrPresent(message = "não pode estar no futuro")
+                                       @NotOlderThan(years = 100, message = "a idade não pode ser maior que 100 anos")
+                                       LocalDate dataNascimento,
                                        @Size(max = 1000) String fotoUrl,
                                        @Size(max = 5000) String observacoes,
                                        @Size(max = 255) String diagnostico,

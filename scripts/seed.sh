@@ -18,7 +18,7 @@ require_node() {
 require_node
 
 log "Aguardando a API em $BASE..."
-until curl -sS -o /dev/null "$BASE/auth/login"; do
+until curl -fsS --max-time 4 -o /dev/null "$BASE/health/readiness"; do
   sleep 2
 done
 
