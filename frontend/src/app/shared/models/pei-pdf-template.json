@@ -1,0 +1,3622 @@
+[
+  {
+    "key": "identificacao",
+    "title": "Identificação do estudante",
+    "fields": [
+      {
+        "key": "escola",
+        "label": "Escola",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              116,
+              124,
+              519,
+              140
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "elaborado",
+        "label": "Elaborado por",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              154,
+              144,
+              519,
+              162
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "data",
+        "label": "Data de elaboração",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              186,
+              165,
+              519,
+              182
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "nome",
+        "label": "Nome completo",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              235,
+              244,
+              519,
+              263
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "nascimento",
+        "label": "Data de nascimento",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              235,
+              276,
+              519,
+              295
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "idade",
+        "label": "Idade",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              235,
+              308,
+              519,
+              327
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "serie",
+        "label": "Série/ano",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              235,
+              340,
+              519,
+              359
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "equipe",
+        "label": "Equipe responsável",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              235,
+              372,
+              519,
+              391
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 0,
+        "rect": [
+          72,
+          186,
+          532,
+          400
+        ]
+      }
+    ],
+    "heading": {
+      "page": 0,
+      "rect": [
+        72.0,
+        186.23291015625,
+        292.0,
+        199.63916015625
+      ],
+      "original": "1. Identificação do Estudante"
+    }
+  },
+  {
+    "key": "anamnese",
+    "title": "Anamnese",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              77,
+              502,
+              519,
+              560
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 0,
+        "rect": [
+          72,
+          475.0115966796875,
+          529,
+          562
+        ]
+      }
+    ],
+    "heading": {
+      "page": 0,
+      "rect": [
+        72.0,
+        476.0115966796875,
+        292.0,
+        489.4178466796875
+      ],
+      "original": "Anamnese – Resumo:"
+    }
+  },
+  {
+    "key": "checklist",
+    "title": "Resultados de checklists",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              77,
+              618,
+              519,
+              654
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 0,
+        "rect": [
+          72,
+          590.5028076171875,
+          529,
+          656
+        ]
+      }
+    ],
+    "heading": {
+      "page": 0,
+      "rect": [
+        72.0,
+        591.5028076171875,
+        292.0,
+        604.9090576171875
+      ],
+      "original": "Checklist – Resultados:"
+    }
+  },
+  {
+    "key": "protocolo",
+    "title": "Protocolo aplicado",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 0,
+            "rect": [
+              72,
+              727,
+              519,
+              764
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 0,
+        "rect": [
+          72,
+          705.9940185546875,
+          529,
+          766
+        ]
+      }
+    ],
+    "heading": {
+      "page": 0,
+      "rect": [
+        72.0,
+        706.9940185546875,
+        292.0,
+        720.4002685546875
+      ],
+      "original": "Protocolo Aplicado:"
+    }
+  },
+  {
+    "key": "resultado_protocolo",
+    "title": "Resultados do protocolo",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 1,
+            "rect": [
+              77,
+              119,
+              519,
+              178
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 1,
+        "rect": [
+          72,
+          92.0908203125,
+          529,
+          180
+        ]
+      }
+    ],
+    "heading": {
+      "page": 1,
+      "rect": [
+        72.0,
+        93.0908203125,
+        292.711669921875,
+        106.4970703125
+      ],
+      "original": "Resultados do Protocolo de avaliacao:"
+    }
+  },
+  {
+    "key": "observacao_sala",
+    "title": "Observação em sala de aula",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 1,
+            "rect": [
+              77,
+              235,
+              519,
+              314
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 1,
+        "rect": [
+          72,
+          207.58203125,
+          529,
+          316
+        ]
+      }
+    ],
+    "heading": {
+      "page": 1,
+      "rect": [
+        72.0,
+        208.58203125,
+        292.0,
+        221.98828125
+      ],
+      "original": "Observação em Sala de Aula:"
+    }
+  },
+  {
+    "key": "observacao_recreio",
+    "title": "Observação no recreio",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 1,
+            "rect": [
+              77,
+              371,
+              519,
+              430
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 1,
+        "rect": [
+          72,
+          343.771484375,
+          529,
+          432
+        ]
+      }
+    ],
+    "heading": {
+      "page": 1,
+      "rect": [
+        72.0,
+        344.771484375,
+        292.0,
+        358.177734375
+      ],
+      "original": "Observação no Recreio:"
+    }
+  },
+  {
+    "key": "observacao_outros",
+    "title": "Observação em outros ambientes",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Texto",
+        "boxes": [
+          {
+            "page": 1,
+            "rect": [
+              77,
+              487,
+              519,
+              649
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 1,
+        "rect": [
+          72,
+          459.2626953125,
+          529,
+          651
+        ]
+      }
+    ],
+    "heading": {
+      "page": 1,
+      "rect": [
+        72.0,
+        460.2626953125,
+        292.0,
+        473.6689453125
+      ],
+      "original": "Observação em Outros Ambientes:"
+    }
+  },
+  {
+    "key": "estudo_caso",
+    "title": "Estudo de caso",
+    "fields": [
+      {
+        "key": "texto",
+        "label": "Estudo de caso",
+        "boxes": [
+          {
+            "page": 2,
+            "rect": [
+              84,
+              78,
+              519,
+              757
+            ]
+          },
+          {
+            "page": 3,
+            "rect": [
+              84,
+              78,
+              519,
+              239
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 1,
+        "rect": [
+          72,
+          679,
+          529,
+          734
+        ]
+      },
+      {
+        "page": 2,
+        "rect": [
+          72,
+          72,
+          529,
+          762
+        ]
+      },
+      {
+        "page": 3,
+        "rect": [
+          72,
+          72,
+          529,
+          241
+        ]
+      }
+    ],
+    "heading": {
+      "page": 1,
+      "rect": [
+        72.0,
+        679.2451171875,
+        292.0,
+        692.6513671875
+      ],
+      "original": "3. Estudo de Caso"
+    }
+  },
+  {
+    "key": "objetivo",
+    "title": "Objetivo 1",
+    "fields": [
+      {
+        "key": "acao",
+        "label": "Ação mensurável",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              204,
+              548,
+              519,
+              568
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "antecedente",
+        "label": "Antecedente",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              204,
+              580,
+              519,
+              600
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "ambiente",
+        "label": "Ambiente",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              204,
+              612,
+              519,
+              632
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "criterio",
+        "label": "Critério de acerto",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              204,
+              644,
+              519,
+              664
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "dias",
+        "label": "Dias consecutivos",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              204,
+              676,
+              519,
+              696
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "passos",
+        "label": "Passos de ensino",
+        "boxes": [
+          {
+            "page": 3,
+            "rect": [
+              90,
+              744,
+              519,
+              762
+            ]
+          },
+          {
+            "page": 4,
+            "rect": [
+              90,
+              72,
+              519,
+              131
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 3,
+        "rect": [
+          72,
+          489,
+          529,
+          765
+        ]
+      },
+      {
+        "page": 4,
+        "rect": [
+          72,
+          72,
+          529,
+          149
+        ]
+      }
+    ],
+    "heading": {
+      "page": 3,
+      "rect": [
+        72.0,
+        489.6591796875,
+        292.0,
+        503.0654296875
+      ],
+      "original": "Objetivo 1 – Exemplo preenchido",
+      "always": true
+    }
+  },
+  {
+    "key": "objetivo_2",
+    "title": "Objetivo 2",
+    "fields": [
+      {
+        "key": "acao",
+        "label": "Ação mensurável",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              193.8602294921875,
+              181,
+              519,
+              199
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "antecedente",
+        "label": "Antecedente",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              160.5438232421875,
+              202,
+              519,
+              220
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "ambiente",
+        "label": "Ambiente",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              143.8504638671875,
+              223,
+              519,
+              241
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "criterio",
+        "label": "Critério de acerto",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              186.5242919921875,
+              244,
+              519,
+              262
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "dias",
+        "label": "Dias consecutivos",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              192.5301513671875,
+              264,
+              519,
+              282
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "passos",
+        "label": "Passos de ensino",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              95,
+              306,
+              519,
+              364
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 4,
+        "rect": [
+          72,
+          158,
+          529,
+          365
+        ]
+      }
+    ],
+    "heading": {
+      "page": 4,
+      "rect": [
+        77.25,
+        161.185546875,
+        297.25,
+        174.591796875
+      ],
+      "original": "EXEMPLO PARA PREENCHER",
+      "always": true
+    }
+  },
+  {
+    "key": "adaptacao_ambiente",
+    "title": "Adaptações de ambiente",
+    "fields": [
+      {
+        "key": "sentar",
+        "label": "Lugar para sentar",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              453,
+              519,
+              491
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "organizacao",
+        "label": "Organização da sala",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              506,
+              519,
+              544
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "calma",
+        "label": "Canto para se acalmar",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              558,
+              519,
+              596
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "entrada",
+        "label": "Horário de entrada",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              611,
+              519,
+              649
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "saida",
+        "label": "Horário de saída",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              664,
+              519,
+              702
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "alimentacao",
+        "label": "Alimentação",
+        "boxes": [
+          {
+            "page": 4,
+            "rect": [
+              176,
+              716,
+              519,
+              736
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "recreio",
+        "label": "Recreio",
+        "boxes": [
+          {
+            "page": 5,
+            "rect": [
+              176,
+              78,
+              519,
+              116
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "outras",
+        "label": "Outras adaptações",
+        "boxes": [
+          {
+            "page": 5,
+            "rect": [
+              176,
+              131,
+              519,
+              169
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 4,
+        "rect": [
+          72,
+          394,
+          529,
+          746
+        ]
+      },
+      {
+        "page": 5,
+        "rect": [
+          72,
+          72,
+          529,
+          340
+        ]
+      }
+    ],
+    "heading": {
+      "page": 4,
+      "rect": [
+        72.0,
+        394.8662109375,
+        292.0,
+        408.2724609375
+      ],
+      "original": "5. Adaptações de Ambiente"
+    }
+  },
+  {
+    "key": "recursos",
+    "title": "Recursos",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 5,
+            "rect": [
+              268.2659912109375,
+              737.5986328125,
+              375.01800537109375,
+              752.0048828125
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 6,
+            "rect": [
+              109.26600646972656,
+              99.0908203125,
+              196.00201416015625,
+              113.4970703125
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 6,
+            "rect": [
+              236.25,
+              99.0908203125,
+              376.36199951171875,
+              113.4970703125
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_3",
+        "label": "Especificar opção / outros 4",
+        "boxes": [
+          {
+            "page": 6,
+            "rect": [
+              435.3479919433594,
+              78.392578125,
+              508.7400207519531,
+              92.798828125
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "recursos_0",
+        "label": "Ábaco",
+        "page": 5,
+        "rect": [
+          77.25,
+          444.615234375,
+          89.25,
+          456.615234375
+        ]
+      },
+      {
+        "id": "recursos_1",
+        "label": "Material concreto de Matemática",
+        "page": 5,
+        "rect": [
+          236.25,
+          444.615234375,
+          248.25,
+          456.615234375
+        ]
+      },
+      {
+        "id": "recursos_2",
+        "label": "Régua de leitura",
+        "page": 5,
+        "rect": [
+          396.0,
+          444.615234375,
+          408.0,
+          456.615234375
+        ]
+      },
+      {
+        "id": "recursos_3",
+        "label": "Lupa",
+        "page": 5,
+        "rect": [
+          77.25,
+          497.26171875,
+          89.25,
+          509.26171875
+        ]
+      },
+      {
+        "id": "recursos_4",
+        "label": "Material ampliado",
+        "page": 5,
+        "rect": [
+          236.25,
+          497.26171875,
+          248.25,
+          509.26171875
+        ]
+      },
+      {
+        "id": "recursos_5",
+        "label": "Impressão em braille",
+        "page": 5,
+        "rect": [
+          396.0,
+          497.26171875,
+          408.0,
+          509.26171875
+        ]
+      },
+      {
+        "id": "recursos_6",
+        "label": "Leitor de tela",
+        "page": 5,
+        "rect": [
+          77.25,
+          529.2099609375,
+          89.25,
+          541.2099609375
+        ]
+      },
+      {
+        "id": "recursos_7",
+        "label": "Audiodescrição",
+        "page": 5,
+        "rect": [
+          236.25,
+          529.2099609375,
+          248.25,
+          541.2099609375
+        ]
+      },
+      {
+        "id": "recursos_8",
+        "label": "Calculadora",
+        "page": 5,
+        "rect": [
+          396.0,
+          529.2099609375,
+          408.0,
+          541.2099609375
+        ]
+      },
+      {
+        "id": "recursos_9",
+        "label": "Computador",
+        "page": 5,
+        "rect": [
+          77.25,
+          561.158203125,
+          89.25,
+          573.158203125
+        ]
+      },
+      {
+        "id": "recursos_10",
+        "label": "Tablet",
+        "page": 5,
+        "rect": [
+          236.25,
+          561.158203125,
+          248.25,
+          573.158203125
+        ]
+      },
+      {
+        "id": "recursos_11",
+        "label": "Plano inclinado",
+        "page": 5,
+        "rect": [
+          396.0,
+          561.158203125,
+          408.0,
+          573.158203125
+        ]
+      },
+      {
+        "id": "recursos_12",
+        "label": "Comunicação Alternativa (CAA)",
+        "page": 5,
+        "rect": [
+          77.25,
+          593.1064453125,
+          89.25,
+          605.1064453125
+        ]
+      },
+      {
+        "id": "recursos_13",
+        "label": "Cartões de comunicação",
+        "page": 5,
+        "rect": [
+          236.25,
+          593.1064453125,
+          248.25,
+          605.1064453125
+        ]
+      },
+      {
+        "id": "recursos_14",
+        "label": "Folha grossa",
+        "page": 5,
+        "rect": [
+          396.0,
+          593.1064453125,
+          408.0,
+          605.1064453125
+        ]
+      },
+      {
+        "id": "recursos_15",
+        "label": "Agenda visual",
+        "page": 5,
+        "rect": [
+          77.25,
+          645.7529296875,
+          89.25,
+          657.7529296875
+        ]
+      },
+      {
+        "id": "recursos_16",
+        "label": "Checklist visual",
+        "page": 5,
+        "rect": [
+          236.25,
+          645.7529296875,
+          248.25,
+          657.7529296875
+        ]
+      },
+      {
+        "id": "recursos_17",
+        "label": "Folhas A3",
+        "page": 5,
+        "rect": [
+          396.0,
+          645.7529296875,
+          408.0,
+          657.7529296875
+        ]
+      },
+      {
+        "id": "recursos_18",
+        "label": "Adaptador de lápis",
+        "page": 5,
+        "rect": [
+          77.25,
+          685.5029296875,
+          89.25,
+          697.5029296875
+        ]
+      },
+      {
+        "id": "recursos_19",
+        "label": "Lápis engrossado",
+        "page": 5,
+        "rect": [
+          236.25,
+          685.5029296875,
+          248.25,
+          697.5029296875
+        ]
+      },
+      {
+        "id": "recursos_20",
+        "label": "Guia para escrita",
+        "page": 5,
+        "rect": [
+          396.0,
+          685.5029296875,
+          408.0,
+          697.5029296875
+        ]
+      },
+      {
+        "id": "recursos_21",
+        "label": "Tesoura adaptada",
+        "page": 5,
+        "rect": [
+          77.25,
+          717.451171875,
+          89.25,
+          729.451171875
+        ]
+      },
+      {
+        "id": "recursos_22",
+        "label": "Recursos visuais",
+        "page": 5,
+        "rect": [
+          236.25,
+          717.451171875,
+          248.25,
+          729.451171875
+        ]
+      },
+      {
+        "id": "recursos_23",
+        "label": "Apoio antiderrapante na mesa",
+        "page": 5,
+        "rect": [
+          396.0,
+          717.451171875,
+          408.0,
+          729.451171875
+        ]
+      },
+      {
+        "id": "recursos_24",
+        "label": "Tecnologia assistiva",
+        "page": 6,
+        "rect": [
+          77.25,
+          78.943359375,
+          89.25,
+          90.943359375
+        ]
+      },
+      {
+        "id": "recursos_25",
+        "label": "Material tátil",
+        "page": 6,
+        "rect": [
+          236.25,
+          78.943359375,
+          248.25,
+          90.943359375
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 5,
+        "rect": [
+          72,
+          440,
+          529,
+          756
+        ]
+      },
+      {
+        "page": 6,
+        "rect": [
+          72,
+          76,
+          529,
+          115
+        ]
+      }
+    ],
+    "heading": {
+      "page": 5,
+      "rect": [
+        72.0,
+        364.7197265625,
+        292.0,
+        378.1259765625
+      ],
+      "original": "6. Recursos"
+    }
+  },
+  {
+    "key": "adaptacao_material",
+    "title": "Adaptação de material",
+    "fields": [],
+    "options": [
+      {
+        "id": "adaptacao_material_0",
+        "label": "Caderno adaptado",
+        "page": 6,
+        "rect": [
+          77.25,
+          226.3828125,
+          89.25,
+          238.3828125
+        ]
+      },
+      {
+        "id": "adaptacao_material_1",
+        "label": "Caderno com pauta ampliada",
+        "page": 6,
+        "rect": [
+          225.0,
+          226.3828125,
+          237.0,
+          238.3828125
+        ]
+      },
+      {
+        "id": "adaptacao_material_2",
+        "label": "Caderno sem pauta",
+        "page": 6,
+        "rect": [
+          378.0,
+          226.3828125,
+          390.0,
+          238.3828125
+        ]
+      },
+      {
+        "id": "adaptacao_material_3",
+        "label": "Livro ampliado",
+        "page": 6,
+        "rect": [
+          77.25,
+          279.029296875,
+          89.25,
+          291.029296875
+        ]
+      },
+      {
+        "id": "adaptacao_material_4",
+        "label": "Livro digital",
+        "page": 6,
+        "rect": [
+          225.0,
+          279.029296875,
+          237.0,
+          291.029296875
+        ]
+      },
+      {
+        "id": "adaptacao_material_5",
+        "label": "Livro em braille",
+        "page": 6,
+        "rect": [
+          378.0,
+          279.029296875,
+          390.0,
+          291.029296875
+        ]
+      },
+      {
+        "id": "adaptacao_material_6",
+        "label": "Material impresso ampliado",
+        "page": 6,
+        "rect": [
+          77.25,
+          310.9775390625,
+          89.25,
+          322.9775390625
+        ]
+      },
+      {
+        "id": "adaptacao_material_7",
+        "label": "Material com alto contraste",
+        "page": 6,
+        "rect": [
+          225.0,
+          310.9775390625,
+          237.0,
+          322.9775390625
+        ]
+      },
+      {
+        "id": "adaptacao_material_8",
+        "label": "Textos CAIXA ALTA",
+        "page": 6,
+        "rect": [
+          378.0,
+          310.9775390625,
+          390.0,
+          322.9775390625
+        ]
+      },
+      {
+        "id": "adaptacao_material_9",
+        "label": "Folhas avulsas",
+        "page": 6,
+        "rect": [
+          77.25,
+          363.6240234375,
+          89.25,
+          375.6240234375
+        ]
+      },
+      {
+        "id": "adaptacao_material_10",
+        "label": "Uso de recursos concretos",
+        "page": 6,
+        "rect": [
+          225.0,
+          363.6240234375,
+          237.0,
+          375.6240234375
+        ]
+      },
+      {
+        "id": "adaptacao_material_11",
+        "label": "Textos com imagens",
+        "page": 6,
+        "rect": [
+          378.0,
+          363.6240234375,
+          390.0,
+          375.6240234375
+        ]
+      },
+      {
+        "id": "adaptacao_material_12",
+        "label": "Uso de material plastificado",
+        "page": 6,
+        "rect": [
+          77.25,
+          416.2705078125,
+          89.25,
+          428.2705078125
+        ]
+      },
+      {
+        "id": "adaptacao_material_13",
+        "label": "Uso de material tátil",
+        "page": 6,
+        "rect": [
+          225.0,
+          416.2705078125,
+          237.0,
+          428.2705078125
+        ]
+      },
+      {
+        "id": "adaptacao_material_14",
+        "label": "Uso de material visual",
+        "page": 6,
+        "rect": [
+          378.0,
+          416.2705078125,
+          390.0,
+          428.2705078125
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 6,
+        "rect": [
+          72,
+          223,
+          529,
+          453
+        ]
+      }
+    ],
+    "heading": {
+      "page": 6,
+      "rect": [
+        72.0,
+        146.4873046875,
+        292.0,
+        159.8935546875
+      ],
+      "original": "ADAPTAÇÃO DE MATERIAL"
+    }
+  },
+  {
+    "key": "adaptacao_sala",
+    "title": "Adaptação da sala de aula",
+    "fields": [],
+    "options": [
+      {
+        "id": "adaptacao_sala_0",
+        "label": "Mesa adaptada",
+        "page": 6,
+        "rect": [
+          77.25,
+          563.7099609375,
+          89.25,
+          575.7099609375
+        ]
+      },
+      {
+        "id": "adaptacao_sala_1",
+        "label": "Cadeira adaptada",
+        "page": 6,
+        "rect": [
+          236.25,
+          563.7099609375,
+          248.25,
+          575.7099609375
+        ]
+      },
+      {
+        "id": "adaptacao_sala_2",
+        "label": "Apoio para os pés",
+        "page": 6,
+        "rect": [
+          406.5,
+          563.7099609375,
+          418.5,
+          575.7099609375
+        ]
+      },
+      {
+        "id": "adaptacao_sala_3",
+        "label": "Lugar estratégico para sentar (Frente, fundo, lado do professor)",
+        "page": 6,
+        "rect": [
+          77.25,
+          595.658203125,
+          89.25,
+          607.658203125
+        ]
+      },
+      {
+        "id": "adaptacao_sala_4",
+        "label": "Organização fixa do lugar na sala",
+        "page": 6,
+        "rect": [
+          236.25,
+          595.658203125,
+          248.25,
+          607.658203125
+        ]
+      },
+      {
+        "id": "adaptacao_sala_5",
+        "label": "Espaço delimitado com dicas visuais",
+        "page": 6,
+        "rect": [
+          406.5,
+          595.658203125,
+          418.5,
+          607.658203125
+        ]
+      },
+      {
+        "id": "adaptacao_sala_6",
+        "label": "Redução de ruídos",
+        "page": 6,
+        "rect": [
+          77.25,
+          669.0029296875,
+          89.25,
+          681.0029296875
+        ]
+      },
+      {
+        "id": "adaptacao_sala_7",
+        "label": "Espaço para regulação sensorial",
+        "page": 6,
+        "rect": [
+          236.25,
+          669.0029296875,
+          248.25,
+          681.0029296875
+        ]
+      },
+      {
+        "id": "adaptacao_sala_8",
+        "label": "Espaço com itens de preferência",
+        "page": 6,
+        "rect": [
+          406.5,
+          669.0029296875,
+          418.5,
+          681.0029296875
+        ]
+      },
+      {
+        "id": "adaptacao_sala_9",
+        "label": "Espaço para circular",
+        "page": 6,
+        "rect": [
+          77.25,
+          721.6494140625,
+          89.25,
+          733.6494140625
+        ]
+      },
+      {
+        "id": "adaptacao_sala_10",
+        "label": "Área livre para movimento",
+        "page": 6,
+        "rect": [
+          236.25,
+          721.6494140625,
+          248.25,
+          733.6494140625
+        ]
+      },
+      {
+        "id": "adaptacao_sala_11",
+        "label": "Redução de estímulos visuais",
+        "page": 6,
+        "rect": [
+          406.5,
+          721.6494140625,
+          418.5,
+          733.6494140625
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 6,
+        "rect": [
+          72,
+          560,
+          529,
+          758
+        ]
+      }
+    ],
+    "heading": {
+      "page": 6,
+      "rect": [
+        72.0,
+        483.814453125,
+        292.0,
+        497.220703125
+      ],
+      "original": "ADAPTAÇÃO DA SALA DE AULA"
+    }
+  },
+  {
+    "key": "adaptacao_atividade",
+    "title": "Adaptação de atividades",
+    "fields": [
+      {
+        "key": "outros_0",
+        "label": "Outros 1",
+        "boxes": [
+          {
+            "page": 7,
+            "rect": [
+              382.5,
+              503.720703125,
+              519,
+              517.720703125
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "adaptacao_atividade_0",
+        "label": "Redução da quantidade de atividades",
+        "page": 7,
+        "rect": [
+          77.25,
+          172.986328125,
+          89.25,
+          184.986328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_1",
+        "label": "Redução da quantidade de questões",
+        "page": 7,
+        "rect": [
+          232.5,
+          172.986328125,
+          244.5,
+          184.986328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_2",
+        "label": "Atividades com material concreto",
+        "page": 7,
+        "rect": [
+          382.5,
+          172.986328125,
+          394.5,
+          184.986328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_3",
+        "label": "Atividades divididas em etapas pequenas",
+        "page": 7,
+        "rect": [
+          77.25,
+          225.6328125,
+          89.25,
+          237.6328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_4",
+        "label": "Atividades com apoio visual",
+        "page": 7,
+        "rect": [
+          232.5,
+          225.6328125,
+          244.5,
+          237.6328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_5",
+        "label": "Questões de ligar",
+        "page": 7,
+        "rect": [
+          382.5,
+          225.6328125,
+          394.5,
+          237.6328125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_6",
+        "label": "Substituição da escrita por marcar",
+        "page": 7,
+        "rect": [
+          77.25,
+          278.279296875,
+          89.25,
+          290.279296875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_7",
+        "label": "Questões de circular",
+        "page": 7,
+        "rect": [
+          232.5,
+          278.279296875,
+          244.5,
+          290.279296875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_8",
+        "label": "Questões de completar",
+        "page": 7,
+        "rect": [
+          382.5,
+          278.279296875,
+          394.5,
+          290.279296875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_9",
+        "label": "Questões de múltipla escolha",
+        "page": 7,
+        "rect": [
+          77.25,
+          330.92578125,
+          89.25,
+          342.92578125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_10",
+        "label": "Questões de colocar com igual (=)",
+        "page": 7,
+        "rect": [
+          232.5,
+          330.92578125,
+          244.5,
+          342.92578125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_11",
+        "label": "Respostas por colagem",
+        "page": 7,
+        "rect": [
+          382.5,
+          330.92578125,
+          394.5,
+          342.92578125
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_12",
+        "label": "Respostas por apontar",
+        "page": 7,
+        "rect": [
+          77.25,
+          383.572265625,
+          89.25,
+          395.572265625
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_13",
+        "label": "Respostas por múltipla escolha",
+        "page": 7,
+        "rect": [
+          232.5,
+          383.572265625,
+          244.5,
+          395.572265625
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_14",
+        "label": "Atividade prática (fazer)",
+        "page": 7,
+        "rect": [
+          382.5,
+          383.572265625,
+          394.5,
+          395.572265625
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_15",
+        "label": "Atividade oral",
+        "page": 7,
+        "rect": [
+          77.25,
+          436.21875,
+          89.25,
+          448.21875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_16",
+        "label": "Atividade digitada",
+        "page": 7,
+        "rect": [
+          232.5,
+          436.21875,
+          244.5,
+          448.21875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_17",
+        "label": "Atividade em pequeno grupo",
+        "page": 7,
+        "rect": [
+          382.5,
+          436.21875,
+          394.5,
+          448.21875
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_18",
+        "label": "Atividade individual",
+        "page": 7,
+        "rect": [
+          77.25,
+          488.865234375,
+          89.25,
+          500.865234375
+        ]
+      },
+      {
+        "id": "adaptacao_atividade_19",
+        "label": "Atividade em dupla",
+        "page": 7,
+        "rect": [
+          232.5,
+          488.865234375,
+          244.5,
+          500.865234375
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 7,
+        "rect": [
+          72,
+          170,
+          529,
+          515
+        ]
+      }
+    ],
+    "heading": {
+      "page": 7,
+      "rect": [
+        72.0,
+        93.0908203125,
+        292.0,
+        106.4970703125
+      ],
+      "original": "ADAPTAÇÃO DE ATIVIDADES"
+    }
+  },
+  {
+    "key": "adaptacao_tempo",
+    "title": "Adaptação de tempo",
+    "fields": [
+      {
+        "key": "outros_0",
+        "label": "Outros 1",
+        "boxes": [
+          {
+            "page": 7,
+            "rect": [
+              408.0,
+              711.6083984375,
+              519,
+              736
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "adaptacao_tempo_0",
+        "label": "Pausas durante a atividade (dentro da sala de aula)",
+        "page": 7,
+        "rect": [
+          77.25,
+          623.408203125,
+          89.25,
+          635.408203125
+        ]
+      },
+      {
+        "id": "adaptacao_tempo_1",
+        "label": "Pausas durante a atividade (sair da sala de aula)",
+        "page": 7,
+        "rect": [
+          245.25,
+          623.408203125,
+          257.25,
+          635.408203125
+        ]
+      },
+      {
+        "id": "adaptacao_tempo_2",
+        "label": "Sair da sala durante a atividade",
+        "page": 7,
+        "rect": [
+          408.0,
+          623.408203125,
+          420.0,
+          635.408203125
+        ]
+      },
+      {
+        "id": "adaptacao_tempo_3",
+        "label": "Mais tempo para realizar a atividade",
+        "page": 7,
+        "rect": [
+          77.25,
+          696.7529296875,
+          89.25,
+          708.7529296875
+        ]
+      },
+      {
+        "id": "adaptacao_tempo_4",
+        "label": "Mais tempo para avaliações",
+        "page": 7,
+        "rect": [
+          245.25,
+          696.7529296875,
+          257.25,
+          708.7529296875
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 7,
+        "rect": [
+          72,
+          620,
+          529,
+          736
+        ]
+      }
+    ],
+    "heading": {
+      "page": 7,
+      "rect": [
+        72.0,
+        543.5126953125,
+        292.0,
+        556.9189453125
+      ],
+      "original": "ADAPTAÇÃO DE TEMPO"
+    }
+  },
+  {
+    "key": "seguranca_gatilhos",
+    "title": "Gatilhos",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              77.25,
+              302.77734375,
+              157.3140106201172,
+              317.18359375
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              277.998046875,
+              286.90869140625,
+              358.0620422363281,
+              301.31494140625
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              378.0,
+              302.77734375,
+              458.06402587890625,
+              317.18359375
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_gatilhos_0",
+        "label": "Transições sem aviso prévio",
+        "page": 8,
+        "rect": [
+          77.25,
+          158.49755859375,
+          89.25,
+          170.49755859375
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_1",
+        "label": "Aumento repentino de demandas",
+        "page": 8,
+        "rect": [
+          216.0,
+          158.49755859375,
+          228.0,
+          170.49755859375
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_2",
+        "label": "Mudança inesperada de atividade",
+        "page": 8,
+        "rect": [
+          378.0,
+          158.49755859375,
+          390.0,
+          170.49755859375
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_3",
+        "label": "Ambientes com ruído elevado",
+        "page": 8,
+        "rect": [
+          77.25,
+          201.48486328125,
+          89.25,
+          213.48486328125
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_4",
+        "label": "Ambientes muito movimentados",
+        "page": 8,
+        "rect": [
+          216.0,
+          201.48486328125,
+          228.0,
+          213.48486328125
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_5",
+        "label": "Excesso de estímulos visuais",
+        "page": 8,
+        "rect": [
+          378.0,
+          201.48486328125,
+          390.0,
+          213.48486328125
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_6",
+        "label": "Retirada de itens preferidos",
+        "page": 8,
+        "rect": [
+          77.25,
+          244.47216796875,
+          89.25,
+          256.47216796875
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_7",
+        "label": "Interrupção de atividade de interesse",
+        "page": 8,
+        "rect": [
+          216.0,
+          244.47216796875,
+          228.0,
+          256.47216796875
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_8",
+        "label": "Espera prolongada",
+        "page": 8,
+        "rect": [
+          378.0,
+          244.47216796875,
+          390.0,
+          256.47216796875
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_9",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          77.25,
+          287.45947265625,
+          89.25,
+          299.45947265625
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_10",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          216.0,
+          287.45947265625,
+          228.0,
+          299.45947265625
+        ]
+      },
+      {
+        "id": "seguranca_gatilhos_11",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          378.0,
+          287.45947265625,
+          390.0,
+          299.45947265625
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 8,
+        "rect": [
+          72,
+          155,
+          529,
+          320
+        ]
+      }
+    ],
+    "heading": {
+      "page": 8,
+      "rect": [
+        72.0,
+        93.0908203125,
+        292.0,
+        106.4970703125
+      ],
+      "original": "GATILHOS"
+    }
+  },
+  {
+    "key": "seguranca_sinais",
+    "title": "Sinais iniciais",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              77.25,
+              561.451171875,
+              157.3140106201172,
+              575.857421875
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              213.75,
+              561.451171875,
+              293.81402587890625,
+              575.857421875
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 8,
+            "rect": [
+              424.998046875,
+              545.58251953125,
+              505.0620422363281,
+              559.98876953125
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_sinais_0",
+        "label": "Levantar-se repetidamente",
+        "page": 8,
+        "rect": [
+          77.25,
+          390.052734375,
+          89.25,
+          402.052734375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_1",
+        "label": "Andar pela sala",
+        "page": 8,
+        "rect": [
+          213.75,
+          390.052734375,
+          225.75,
+          402.052734375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_2",
+        "label": "Dificuldade em iniciar a atividade",
+        "page": 8,
+        "rect": [
+          363.0,
+          390.052734375,
+          375.0,
+          402.052734375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_3",
+        "label": "Balançar mãos",
+        "page": 8,
+        "rect": [
+          77.25,
+          433.0400390625,
+          89.25,
+          445.0400390625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_4",
+        "label": "Balançar pernas",
+        "page": 8,
+        "rect": [
+          213.75,
+          433.0400390625,
+          225.75,
+          445.0400390625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_5",
+        "label": "Repetir sons",
+        "page": 8,
+        "rect": [
+          363.0,
+          433.0400390625,
+          375.0,
+          445.0400390625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_6",
+        "label": "Repetir palavras",
+        "page": 8,
+        "rect": [
+          77.25,
+          460.15869140625,
+          89.25,
+          472.15869140625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_7",
+        "label": "Chorar em baixa intensidade",
+        "page": 8,
+        "rect": [
+          213.75,
+          460.15869140625,
+          225.75,
+          472.15869140625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_8",
+        "label": "Empurrar materiais",
+        "page": 8,
+        "rect": [
+          363.0,
+          460.15869140625,
+          375.0,
+          472.15869140625
+        ]
+      },
+      {
+        "id": "seguranca_sinais_9",
+        "label": "Recusar a atividade",
+        "page": 8,
+        "rect": [
+          77.25,
+          503.14599609375,
+          89.25,
+          515.14599609375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_10",
+        "label": "Evitar contato com o material",
+        "page": 8,
+        "rect": [
+          213.75,
+          503.14599609375,
+          225.75,
+          515.14599609375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_11",
+        "label": "Aumentar agitação corporal",
+        "page": 8,
+        "rect": [
+          363.0,
+          503.14599609375,
+          375.0,
+          515.14599609375
+        ]
+      },
+      {
+        "id": "seguranca_sinais_12",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          77.25,
+          546.13330078125,
+          89.25,
+          558.13330078125
+        ]
+      },
+      {
+        "id": "seguranca_sinais_13",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          213.75,
+          546.13330078125,
+          225.75,
+          558.13330078125
+        ]
+      },
+      {
+        "id": "seguranca_sinais_14",
+        "label": "Outros:",
+        "page": 8,
+        "rect": [
+          363.0,
+          546.13330078125,
+          375.0,
+          558.13330078125
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 8,
+        "rect": [
+          72,
+          387,
+          529,
+          579
+        ]
+      }
+    ],
+    "heading": {
+      "page": 8,
+      "rect": [
+        72.0,
+        324.64599609375,
+        292.0,
+        338.05224609375
+      ],
+      "original": "SINAIS INICIAIS"
+    }
+  },
+  {
+    "key": "seguranca_comportamento",
+    "title": "Forma mais severa",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              139.248046875,
+              78.392578125,
+              219.31204223632812,
+              92.798828125
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              255.75,
+              94.26123046875,
+              335.81402587890625,
+              108.66748046875
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              394.5,
+              94.26123046875,
+              474.56402587890625,
+              108.66748046875
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_comportamento_0",
+        "label": "Chorar intensamente (>1 minuto)",
+        "page": 8,
+        "rect": [
+          77.25,
+          648.7265625,
+          89.25,
+          660.7265625
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_1",
+        "label": "Gritar de forma contínua",
+        "page": 8,
+        "rect": [
+          255.75,
+          648.7265625,
+          267.75,
+          660.7265625
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_2",
+        "label": "Tentar sair do ambiente",
+        "page": 8,
+        "rect": [
+          394.5,
+          648.7265625,
+          406.5,
+          660.7265625
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_3",
+        "label": "Empurrar colegas",
+        "page": 8,
+        "rect": [
+          77.25,
+          691.7138671875,
+          89.25,
+          703.7138671875
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_4",
+        "label": "Empurrar adultos",
+        "page": 8,
+        "rect": [
+          255.75,
+          691.7138671875,
+          267.75,
+          703.7138671875
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_5",
+        "label": "Arremessar objetos",
+        "page": 8,
+        "rect": [
+          394.5,
+          691.7138671875,
+          406.5,
+          703.7138671875
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_6",
+        "label": "Bater em objetos",
+        "page": 8,
+        "rect": [
+          77.25,
+          718.83251953125,
+          89.25,
+          730.83251953125
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_7",
+        "label": "Tentar agredir colegas",
+        "page": 8,
+        "rect": [
+          255.75,
+          718.83251953125,
+          267.75,
+          730.83251953125
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_8",
+        "label": "Tentar agredir adultos",
+        "page": 8,
+        "rect": [
+          394.5,
+          718.83251953125,
+          406.5,
+          730.83251953125
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_9",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          77.25,
+          78.943359375,
+          89.25,
+          90.943359375
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_10",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          255.75,
+          78.943359375,
+          267.75,
+          90.943359375
+        ]
+      },
+      {
+        "id": "seguranca_comportamento_11",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          394.5,
+          78.943359375,
+          406.5,
+          90.943359375
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 8,
+        "rect": [
+          72,
+          646,
+          529,
+          750
+        ]
+      },
+      {
+        "page": 9,
+        "rect": [
+          72,
+          76,
+          529,
+          110
+        ]
+      }
+    ],
+    "heading": {
+      "page": 8,
+      "rect": [
+        72.0,
+        583.31982421875,
+        292.0,
+        596.72607421875
+      ],
+      "original": "FORMA MAIS SEVERA"
+    }
+  },
+  {
+    "key": "seguranca_acalmar",
+    "title": "Como acalmar",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              139.248046875,
+              368.8037109375,
+              219.31204223632812,
+              383.2099609375
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              237.75,
+              384.67236328125,
+              317.81402587890625,
+              399.07861328125
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              384.0,
+              384.67236328125,
+              464.06402587890625,
+              399.07861328125
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_acalmar_0",
+        "label": "Entregar imediatamente o que o estudante quer",
+        "page": 9,
+        "rect": [
+          77.25,
+          197.4052734375,
+          89.25,
+          209.4052734375
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_1",
+        "label": "Abraçar",
+        "page": 9,
+        "rect": [
+          237.75,
+          197.4052734375,
+          249.75,
+          209.4052734375
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_2",
+        "label": "Cantar",
+        "page": 9,
+        "rect": [
+          384.0,
+          197.4052734375,
+          396.0,
+          209.4052734375
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_3",
+        "label": "Diminuir estímulos visuais",
+        "page": 9,
+        "rect": [
+          77.25,
+          240.392578125,
+          89.25,
+          252.392578125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_4",
+        "label": "Diminuir estímulos sonoros",
+        "page": 9,
+        "rect": [
+          237.75,
+          240.392578125,
+          249.75,
+          252.392578125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_5",
+        "label": "Orientar verbalmente a pausa",
+        "page": 9,
+        "rect": [
+          384.0,
+          240.392578125,
+          396.0,
+          252.392578125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_6",
+        "label": "Conduzir ao canto de calma",
+        "page": 9,
+        "rect": [
+          77.25,
+          283.3798828125,
+          89.25,
+          295.3798828125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_7",
+        "label": "Oferecer espaço para acalmar",
+        "page": 9,
+        "rect": [
+          237.75,
+          283.3798828125,
+          249.75,
+          295.3798828125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_8",
+        "label": "Permanecer próximo",
+        "page": 9,
+        "rect": [
+          384.0,
+          283.3798828125,
+          396.0,
+          295.3798828125
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_9",
+        "label": "Oferecer recurso de comunicação",
+        "page": 9,
+        "rect": [
+          77.25,
+          326.3671875,
+          89.25,
+          338.3671875
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_10",
+        "label": "Oferecer opção de pausa",
+        "page": 9,
+        "rect": [
+          237.75,
+          326.3671875,
+          249.75,
+          338.3671875
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_11",
+        "label": "Oferecer ajuda",
+        "page": 9,
+        "rect": [
+          384.0,
+          326.3671875,
+          396.0,
+          338.3671875
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_12",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          77.25,
+          369.3544921875,
+          89.25,
+          381.3544921875
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_13",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          237.75,
+          369.3544921875,
+          249.75,
+          381.3544921875
+        ]
+      },
+      {
+        "id": "seguranca_acalmar_14",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          384.0,
+          369.3544921875,
+          396.0,
+          381.3544921875
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 9,
+        "rect": [
+          72,
+          194,
+          529,
+          400
+        ]
+      }
+    ],
+    "heading": {
+      "page": 9,
+      "rect": [
+        72.0,
+        131.99853515625,
+        292.0,
+        145.40478515625
+      ],
+      "original": "COMO ACALMAR"
+    }
+  },
+  {
+    "key": "seguranca_prevenir",
+    "title": "Como prevenir",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              77.25,
+              690.9521484375,
+              157.3140106201172,
+              705.3583984375
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              224.25,
+              690.9521484375,
+              304.31402587890625,
+              705.3583984375
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 9,
+            "rect": [
+              433.998046875,
+              675.083984375,
+              514.0620727539062,
+              689.490234375
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_prevenir_0",
+        "label": "Entregar o que o estudante quer",
+        "page": 9,
+        "rect": [
+          77.25,
+          487.81640625,
+          89.25,
+          499.81640625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_1",
+        "label": "Avisar antes das transições",
+        "page": 9,
+        "rect": [
+          224.25,
+          487.81640625,
+          236.25,
+          499.81640625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_2",
+        "label": "Antecipar mudanças",
+        "page": 9,
+        "rect": [
+          372.0,
+          487.81640625,
+          384.0,
+          499.81640625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_3",
+        "label": "Dividir atividades complexas",
+        "page": 9,
+        "rect": [
+          77.25,
+          530.8037109375,
+          89.25,
+          542.8037109375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_4",
+        "label": "Reduzir demandas",
+        "page": 9,
+        "rect": [
+          224.25,
+          530.8037109375,
+          236.25,
+          542.8037109375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_5",
+        "label": "Oferecer escolhas",
+        "page": 9,
+        "rect": [
+          372.0,
+          530.8037109375,
+          384.0,
+          542.8037109375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_6",
+        "label": "Oferecer pausas entre atividades",
+        "page": 9,
+        "rect": [
+          77.25,
+          573.791015625,
+          89.25,
+          585.791015625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_7",
+        "label": "Oferecer pausas para sair da sala",
+        "page": 9,
+        "rect": [
+          224.25,
+          573.791015625,
+          236.25,
+          585.791015625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_8",
+        "label": "Alternar atividades preferidas e atividades novas",
+        "page": 9,
+        "rect": [
+          372.0,
+          573.791015625,
+          384.0,
+          585.791015625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_9",
+        "label": "Apresentar rotina visual",
+        "page": 9,
+        "rect": [
+          77.25,
+          632.646484375,
+          89.25,
+          644.646484375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_10",
+        "label": "Reforçar sinais iniciais",
+        "page": 9,
+        "rect": [
+          224.25,
+          632.646484375,
+          236.25,
+          644.646484375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_11",
+        "label": "Usar timer",
+        "page": 9,
+        "rect": [
+          372.0,
+          632.646484375,
+          384.0,
+          644.646484375
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_12",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          77.25,
+          675.634765625,
+          89.25,
+          687.634765625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_13",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          224.25,
+          675.634765625,
+          236.25,
+          687.634765625
+        ]
+      },
+      {
+        "id": "seguranca_prevenir_14",
+        "label": "Outros:",
+        "page": 9,
+        "rect": [
+          372.0,
+          675.634765625,
+          384.0,
+          687.634765625
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 9,
+        "rect": [
+          72,
+          485,
+          529,
+          707
+        ]
+      }
+    ],
+    "heading": {
+      "page": 9,
+      "rect": [
+        72.0,
+        422.40966796875,
+        292.0,
+        435.81591796875
+      ],
+      "original": "COMO PREVENIR"
+    }
+  },
+  {
+    "key": "seguranca_substituta",
+    "title": "Habilidade substituta",
+    "fields": [
+      {
+        "key": "detalhe_0",
+        "label": "Especificar opção / outros 1",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              77.25,
+              250.341796875,
+              157.3140106201172,
+              264.748046875
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_1",
+        "label": "Especificar opção / outros 2",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              268.998046875,
+              234.47265625,
+              349.0620422363281,
+              248.87890625
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "detalhe_2",
+        "label": "Especificar opção / outros 3",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              430.248046875,
+              234.47265625,
+              510.3120422363281,
+              248.87890625
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [
+      {
+        "id": "seguranca_substituta_0",
+        "label": "Apontar para pedir pausa",
+        "page": 10,
+        "rect": [
+          77.25,
+          106.0625,
+          89.25,
+          118.0625
+        ]
+      },
+      {
+        "id": "seguranca_substituta_1",
+        "label": "Entregar cartão para pedir pausa",
+        "page": 10,
+        "rect": [
+          207.0,
+          106.0625,
+          219.0,
+          118.0625
+        ]
+      },
+      {
+        "id": "seguranca_substituta_2",
+        "label": "Pedir ajuda vocal/com cartão",
+        "page": 10,
+        "rect": [
+          368.25,
+          106.0625,
+          380.25,
+          118.0625
+        ]
+      },
+      {
+        "id": "seguranca_substituta_3",
+        "label": "Aceitar ajuda",
+        "page": 10,
+        "rect": [
+          77.25,
+          149.048828125,
+          89.25,
+          161.048828125
+        ]
+      },
+      {
+        "id": "seguranca_substituta_4",
+        "label": "Pedir mudança de atividade",
+        "page": 10,
+        "rect": [
+          207.0,
+          149.048828125,
+          219.0,
+          161.048828125
+        ]
+      },
+      {
+        "id": "seguranca_substituta_5",
+        "label": "Aceitar mudança de atividade",
+        "page": 10,
+        "rect": [
+          368.25,
+          149.048828125,
+          380.25,
+          161.048828125
+        ]
+      },
+      {
+        "id": "seguranca_substituta_6",
+        "label": "Comunicar desconforto",
+        "page": 10,
+        "rect": [
+          77.25,
+          192.037109375,
+          89.25,
+          204.037109375
+        ]
+      },
+      {
+        "id": "seguranca_substituta_7",
+        "label": "Comunicar necessidade de pausa",
+        "page": 10,
+        "rect": [
+          207.0,
+          192.037109375,
+          219.0,
+          204.037109375
+        ]
+      },
+      {
+        "id": "seguranca_substituta_8",
+        "label": "Brincar junto com colegas",
+        "page": 10,
+        "rect": [
+          368.25,
+          192.037109375,
+          380.25,
+          204.037109375
+        ]
+      },
+      {
+        "id": "seguranca_substituta_9",
+        "label": "Outros:",
+        "page": 10,
+        "rect": [
+          77.25,
+          235.0234375,
+          89.25,
+          247.0234375
+        ]
+      },
+      {
+        "id": "seguranca_substituta_10",
+        "label": "Outros:",
+        "page": 10,
+        "rect": [
+          207.0,
+          235.0234375,
+          219.0,
+          247.0234375
+        ]
+      },
+      {
+        "id": "seguranca_substituta_11",
+        "label": "Outros:",
+        "page": 10,
+        "rect": [
+          368.25,
+          235.0234375,
+          380.25,
+          247.0234375
+        ]
+      }
+    ],
+    "hide": [
+      {
+        "page": 10,
+        "rect": [
+          72,
+          103,
+          529,
+          267
+        ]
+      }
+    ],
+    "heading": {
+      "page": 9,
+      "rect": [
+        72.0,
+        728.689453125,
+        292.0,
+        742.095703125
+      ],
+      "original": "HABILIDADE SUBSTITUTA"
+    }
+  },
+  {
+    "key": "seguranca_responsaveis",
+    "title": "Responsáveis pelo plano de segurança",
+    "fields": [
+      {
+        "key": "direto",
+        "label": "Responsável direto",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              217,
+              329,
+              519,
+              347
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "apoio",
+        "label": "Responsável de apoio",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              233,
+              350,
+              519,
+              368
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "acionar",
+        "label": "Quem acionar",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              326,
+              370,
+              519,
+              388
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "como",
+        "label": "Como acionar",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              189,
+              412,
+              519,
+              430
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 10,
+        "rect": [
+          72,
+          308,
+          529,
+          449
+        ]
+      }
+    ],
+    "heading": {
+      "page": 10,
+      "rect": [
+        72.0,
+        308.77734375,
+        292.0,
+        322.18359375
+      ],
+      "original": "Responsáveis pelo Plano de Segurança"
+    }
+  },
+  {
+    "key": "revisao",
+    "title": "Datas para revisão do PEI",
+    "fields": [
+      {
+        "key": "1",
+        "label": "Revisão 1",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              97,
+              501,
+              519,
+              519
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "2",
+        "label": "Revisão 2",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              97,
+              526,
+              519,
+              544
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "3",
+        "label": "Revisão 3",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              97,
+              551,
+              519,
+              569
+            ]
+          }
+        ],
+        "size": 12
+      },
+      {
+        "key": "4",
+        "label": "Revisão 4",
+        "boxes": [
+          {
+            "page": 10,
+            "rect": [
+              97,
+              576,
+              519,
+              594
+            ]
+          }
+        ],
+        "size": 12
+      }
+    ],
+    "options": [],
+    "hide": [
+      {
+        "page": 10,
+        "rect": [
+          72,
+          474,
+          529,
+          594
+        ]
+      }
+    ],
+    "heading": {
+      "page": 10,
+      "rect": [
+        72.0,
+        474.36328125,
+        292.0,
+        487.76953125
+      ],
+      "original": "Datas para a revisão do PEI:"
+    }
+  }
+]

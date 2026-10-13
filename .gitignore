@@ -1,2 +1,3 @@
 .env
 .gradle-local/
+tmp/pei-qa/

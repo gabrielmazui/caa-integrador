@@ -1,27 +1,65 @@
 <div class="modal modal-open" role="dialog" aria-modal="true" aria-labelledby="pei-modal-title">
-  <div class="modal-box max-w-lg">
-    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="close.emit()" aria-label="Fechar">✕</button>
-    <h2 id="pei-modal-title" class="font-bold text-lg mb-4">{{ existing() ? 'Editar anotação' : 'Nova anotação PEI' }}</h2>
+  <div class="modal-box max-w-2xl">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" (click)="requestClose()" [disabled]="loading()" aria-label="Fechar">✕</button>
+    <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Construindo o PEI</p>
+    <h2 id="pei-modal-title" class="font-extrabold text-xl mb-4">{{ existing() ? 'Revisar uma anotação' : 'Um passo de cada vez' }}</h2>
 
     <form (ngSubmit)="submit()" class="flex flex-col gap-4">
       <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Categoria</span></div>
+        <div class="label"><span class="label-text font-semibold">O que você quer registrar?</span></div>
         <select class="select select-bordered" [ngModel]="categoria()" (ngModelChange)="categoria.set($event)" name="categoria">
-          @for (cat of categorias; track cat[0]) {
-            <option [value]="cat[0]">{{ cat[1] }}</option>
+          @for (group of groups; track group.title) {
+            <optgroup [label]="group.title">
+              @for (section of group.sections; track section.key) { <option [value]="section.key">{{ section.label }}</option> }
+            </optgroup>
           }
+          <optgroup label="Registros complementares">
+            @for (cat of legacy; track cat[0]) { <option [value]="cat[0]">{{ cat[1] }}</option> }
+          </optgroup>
         </select>
       </label>
 
+      @if (choices().length) {
+        <fieldset class="bg-base-200/60 rounded-2xl p-4">
+          <legend class="font-bold px-1">Marque o que se aplica</legend>
+          <p class="text-xs text-base-content/70 mb-3">Selecione apenas o que foi observado ou acordado pela equipe. Use o campo abaixo para outras opções.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            @for (option of choices(); track option) {
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-base-300 cursor-pointer" [class.bg-base-100]="selected().includes(option)">
+                <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" [checked]="selected().includes(option)" (change)="toggle(option)" [disabled]="loading()" />
+                <span class="text-sm">{{ option }}</span>
+              </label>
+            }
+          </div>
+        </fieldset>
+      }
+      @if (categoria() === 'objetivo' && !existing()) {
+        <fieldset class="bg-base-200/60 rounded-2xl p-4">
+          <legend class="font-bold">Vamos montar este objetivo</legend>
+          <p class="text-xs text-base-content/70 mb-4">Preencha o que já foi definido. Os exemplos são apenas orientações.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            @for (field of objectiveFields; track field.key) {
+              <label class="form-control">
+                <span class="text-sm font-bold mb-1">{{ field.label }}</span>
+                <textarea class="textarea textarea-bordered w-full" rows="2" [placeholder]="field.hint" [(ngModel)]="fields[field.key]" [name]="field.key" maxlength="1500"></textarea>
+              </label>
+            }
+          </div>
+        </fieldset>
+      }
       <label class="form-control">
-        <div class="label"><span class="label-text font-semibold">Conteúdo *</span></div>
+        <p class="text-sm text-base-content/70 mb-2">{{ orientacao() }}</p>
+        <div class="label"><span class="label-text font-semibold">{{ choices().length ? 'Quer acrescentar algum detalhe?' : 'Sua anotação' }}</span></div>
         <textarea class="textarea textarea-bordered resize-none"
-          [class.textarea-error]="submitted() && !conteudo().trim()"
+          [class.textarea-error]="submitted() && !content().trim()"
           rows="5"
-          placeholder="Descreva a observação, objetivo ou estratégia..."
-          [ngModel]="conteudo()" (ngModelChange)="conteudo.set($event)" required name="conteudo"></textarea>
-        @if (submitted() && !conteudo().trim()) {
-          <p class="text-error text-xs mt-1">Campo obrigatório</p>
+          [placeholder]="orientacao()" maxlength="10000"
+          [ngModel]="conteudo()" (ngModelChange)="conteudo.set($event)" name="conteudo"></textarea>
+        @if (submitted() && !content().trim()) {
+          <p class="text-error text-xs mt-1" role="alert">Marque uma opção ou escreva uma anotação para salvar.</p>
+        }
+        @if (content().length > 10000) {
+          <p class="text-error text-xs mt-1" role="alert">O registro completo deve ter até 10.000 caracteres.</p>
         }
       </label>
 
@@ -40,13 +78,12 @@
       </div>
 
       <div class="modal-action">
-        <button type="button" class="btn btn-ghost" (click)="close.emit()">Cancelar</button>
+        <button type="button" class="btn btn-ghost" (click)="requestClose()" [disabled]="loading()">Cancelar</button>
         <button type="submit" class="btn btn-primary" [disabled]="loading()">
           @if (loading()) { <span class="loading loading-spinner loading-sm"></span> }
-          {{ existing() ? 'Salvar alterações' : 'Salvar' }}
+          {{ existing() ? 'Salvar alterações' : 'Adicionar ao PEI' }}
         </button>
       </div>
     </form>
   </div>
-  <div class="modal-backdrop" (click)="close.emit()"></div>
 </div>

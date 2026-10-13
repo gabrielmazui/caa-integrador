@@ -138,7 +138,7 @@ public class PeiController {
     }
 
     public record AnotacaoRequest(
-        @NotBlank @Pattern(regexp = "comunicacao|socializacao|aprendizagem|autonomia|comportamento|sensorial|objetivo|estrategia|outro") String categoria,
+        @NotBlank @Pattern(regexp = "identificacao|anamnese|checklist|protocolo|resultado_protocolo|observacao_sala|observacao_recreio|observacao_outros|estudo_caso|objetivo|adaptacao_ambiente|recursos|adaptacao_material|adaptacao_sala|adaptacao_atividade|adaptacao_tempo|seguranca_gatilhos|seguranca_sinais|seguranca_comportamento|seguranca_acalmar|seguranca_prevenir|seguranca_substituta|seguranca_responsaveis|revisao|comunicacao|socializacao|aprendizagem|autonomia|comportamento|sensorial|estrategia|outro") String categoria,
         @NotBlank @Size(max = 10000) String conteudo,
         @Min(1) @Max(2) int semestre,
         @Min(2000) @Max(2200) int ano) {

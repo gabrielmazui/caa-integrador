@@ -182,3 +182,23 @@ usuário e aquela criança, não ao perfil global do responsável.
 | `POST` | `/api/criancas/{criancaId}/glossario` | Criar termo específico (profissionais) |
 
 O feed aplica a visibilidade também ao acesso aos comentários. Familiares não acessam chat ou anotações do PEI, mesmo que conheçam os identificadores das rotas.
+
+### Editor do PEI
+
+O PEI é um documento único por criança, ano e semestre. A tela permite editar
+os títulos, preencher os campos do modelo e ocultar partes sem apagar seus textos.
+Registros anteriores permanecem disponíveis para consulta e cópia.
+
+`GET/PUT /api/criancas/{criancaId}/pei?ano=2026&semestre=2` usa vínculo profissional.
+A migração V8 cria documentos_pei, preservando anotacoes_pei. O corpo contém
+`version` e `topics` (key, title, enabled, fields, selected). O salvamento é
+condicional à versão: conflitos retornam 409, sem sobrescrever outro profissional.
+
+A exportação preenche localmente o PDF-base de 12 páginas em frontend/public/pei.
+Não envia dados a conversores externos. Mantém tabelas e elementos do modelo;
+campos de exemplo são limpos, e textos grandes demais interrompem a exportação
+com aviso. O usuário deve revisar os dados antes de assinar o documento.
+
+Para atualizar o modelo, use scripts/prepare_pei_template.py com o PDF original
+(requer PyMuPDF). O teste frontend/pei-qa.ts gera um PDF sintético para inspeção
+e verifica a rejeição de texto que excede o espaço disponível.

@@ -1,53 +1,57 @@
-<div class="w-full max-w-5xl mx-auto px-4 py-6 sm:py-8">
-  <header class="relative overflow-hidden rounded-3xl calm-surface p-5 sm:p-7 mb-6">
-    <div class="relative z-10 flex flex-col sm:flex-row sm:items-end gap-5">
-      <div class="flex-1">
-        <h2 class="text-2xl font-extrabold mt-1">PEI de {{ criancaNome() }}</h2>
-      </div>
-      <button class="btn btn-primary btn-sm rounded-xl" (click)="showModal.set(true)">+ Nova anotação</button>
-    </div>
-
-    <div class="relative z-10 grid grid-cols-2 lg:grid-cols-4 gap-2 mt-6 p-3 bg-base-100/75 rounded-2xl border border-base-200">
-      <label><span class="text-[11px] font-bold text-base-content/50 ml-1">Ano</span><select class="select select-sm select-bordered rounded-xl w-full mt-1" [ngModel]="filterAno()" (ngModelChange)="filterAno.set(+$event); load()">@for (a of anos; track a) { <option [value]="a">{{ a }}</option> }</select></label>
-      <label><span class="text-[11px] font-bold text-base-content/50 ml-1">Semestre</span><select class="select select-sm select-bordered rounded-xl w-full mt-1" [ngModel]="filterSemestre()" (ngModelChange)="setFilterSemestre($event)"><option [value]="0">Todos</option><option [value]="1">1º semestre</option><option [value]="2">2º semestre</option></select></label>
-      <label><span class="text-[11px] font-bold text-base-content/50 ml-1">Categoria</span><select class="select select-sm select-bordered rounded-xl w-full mt-1" [ngModel]="filterCategoria()" (ngModelChange)="filterCategoria.set($event)"><option value="">Todas</option>@for (cat of todasCategorias; track cat[0]) { <option [value]="cat[0]">{{ cat[1] }}</option> }</select></label>
-      <label><span class="text-[11px] font-bold text-base-content/50 ml-1">Criado por</span><select class="select select-sm select-bordered rounded-xl w-full mt-1" [ngModel]="filterAutor()" (ngModelChange)="filterAutor.set($event)"><option value="">Todos</option>@for (autor of autores(); track autor.id) { <option [value]="autor.id">{{ autor.nome }}</option> }</select></label>
+<main class="pei-page">
+  <header class="pei-header">
+    <div><span class="eyebrow">PLANO EDUCACIONAL INDIVIDUALIZADO</span><h1>PEI de {{ child()?.nome }}</h1>
+      <p>Escreva aos poucos. Tudo fica reunido no mesmo documento.</p></div>
+    <div class="actions">
+      <button class="btn btn-ghost" [disabled]="!loaded() || busy()" (click)="download()">Baixar PDF</button>
+      <button class="btn btn-primary" [disabled]="!loaded() || busy()" (click)="save()">{{ busy() ? 'Aguarde…' : 'Salvar' }}</button>
     </div>
   </header>
-
-  @if (loading()) {
-    <app-loading-spinner />
-  } @else if (anotacoes().length === 0) {
-    <app-empty-state titulo="Nenhuma anotação PEI" descricao="Registre objetivos, estratégias e observações pedagógicas." ctaLabel="Nova anotação" (cta)="showModal.set(true)" />
-  } @else if (filteredAnnotations().length === 0) {
-    <div class="calm-surface rounded-3xl p-10 text-center"><p class="font-extrabold">Nenhum registro com esses filtros</p><p class="text-sm text-base-content/50 mt-1">Altere a categoria, o autor ou o período.</p></div>
-  } @else {
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
-      @for (cat of categorias(); track cat) {
-        <section class="calm-surface rounded-3xl overflow-hidden border-l-4" [class]="categoriaBorder[cat]">
-          <div class="px-5 py-4 border-b border-base-200 flex items-center gap-3">
-            <span class="h-9 w-9 rounded-full bg-base-200 grid place-items-center font-extrabold text-primary">{{ categoriaLabels[cat].charAt(0) }}</span>
-            <div class="flex-1"><h3 class="font-extrabold">{{ categoriaLabels[cat] }}</h3><p class="text-xs text-base-content/45">{{ byCategoria()[cat]?.length ?? 0 }} registros</p></div>
-            <span class="badge badge-sm" [class]="categoriaBadge[cat]">{{ categoriaLabels[cat] }}</span>
+  <div class="period">
+    <label>Ano <input type="number" min="2000" max="2200" [ngModel]="year" (change)="period(+$any($event.target).value, semester)" [disabled]="busy() || loading()" /></label>
+    <label>Período <select [ngModel]="semester" (ngModelChange)="period(year, $event)" [disabled]="busy() || loading()"><option [ngValue]="1">1º semestre</option><option [ngValue]="2">2º semestre</option></select></label>
+    <span role="status">{{ status() || (dirty() && !loading() ? 'Alterações não salvas' : '') }}</span>
+  </div>
+  @if (error()) { <div class="notice" role="alert">{{ error() }} <button class="btn btn-sm btn-ghost" (click)="!dirty() ? load() : null" [disabled]="dirty()">Recarregar</button></div> }
+  @if (loading()) { <p class="loading-text" role="status">Carregando o PEI…</p> }
+  @else if (loaded()) {
+    <div class="editor-layout">
+      <nav aria-label="Partes do PEI">
+        <p class="nav-label">PARTES DO DOCUMENTO</p>
+        @for (topic of document().topics; track topic.key) {
+          <button [class.active]="activeKey() === topic.key" [class.hidden-topic]="!topic.enabled" (click)="activeKey.set(topic.key)">
+            {{ topic.title }} @if (!topic.enabled) { <small>oculto</small> }
+          </button>
+        }
+      </nav>
+      <section class="paper">
+        <fieldset [disabled]="busy()">
+          <div class="section-top">
+            <label class="title-label">Título desta parte<input maxlength="160" [(ngModel)]="active().title" (ngModelChange)="edit()" /></label>
+            <label class="include"><input type="checkbox" [(ngModel)]="active().enabled" (ngModelChange)="edit()" /> Incluir no documento</label>
           </div>
-          <div class="p-3 flex flex-col gap-3">
-            @for (a of byCategoria()[cat]; track a.id) {
-              <article class="rounded-2xl bg-base-200/55 border border-base-200 p-4">
-                <p class="text-sm leading-relaxed whitespace-pre-wrap">{{ a.conteudo }}</p>
-                <div class="mt-3 pt-3 border-t border-base-300/60 text-[11px] text-base-content/45">
-                  <div class="flex items-center gap-2"><span class="font-bold text-base-content/60">{{ a.autorNome }}</span><span>•</span><span>{{ a.criadoEm | relativeTime }}</span><span class="ml-auto">{{ a.semestre }}º sem. / {{ a.ano }}</span></div>
-                  @if (a.editadoPorNome) { <p class="mt-1">Editado por <strong>{{ a.editadoPorNome }}</strong> · {{ a.atualizadoEm | relativeTime }}</p> }
-                </div>
-                <div class="flex justify-end gap-1 mt-2"><button class="btn btn-ghost btn-xs text-error" (click)="delete(a)">Excluir</button><button class="btn btn-ghost btn-xs text-primary action-edit" (click)="edit(a)">Editar</button></div>
-              </article>
-            }
-          </div>
-        </section>
-      }
+          @if (!active().enabled) { <p class="hint">Esta parte não aparecerá no PDF. Seu texto continua salvo.</p> }
+          @for (field of definition().fields; track field.key) {
+            <label class="field">{{ field.label }}
+              <textarea [rows]="field.boxes.length > 1 || field.boxes[0].rect[3] - field.boxes[0].rect[1] > 50 ? 5 : 2" maxlength="20000"
+                [ngModel]="active().fields[field.key] || ''" (ngModelChange)="active().fields[field.key] = $event; edit()" placeholder="Escreva aqui…"></textarea>
+            </label>
+          }
+          @if (definition().options.length) {
+            <p class="hint">Marque apenas o que faz sentido para este estudante.</p>
+            <div class="options">@for (option of definition().options; track option.id) {
+              <label><input type="checkbox" [checked]="active().selected.includes(option.id)" (change)="toggle(option.id, $any($event.target).checked)" /><span>{{ option.label }}</span></label>
+            }</div>
+          }
+          <p class="pdf-note">O PDF mantém o formato do modelo original. Se um texto ultrapassar o espaço disponível, avisaremos antes de baixar.</p>
+        </fieldset>
+      </section>
     </div>
+    @if (oldNotes().length) {
+      <details class="archive"><summary>Consultar textos anteriores ({{ oldNotes().length }})</summary>
+        <p>Os registros anteriores foram preservados. Copie os trechos que deseja aproveitar para a parte correspondente do PEI.</p>
+        @for (note of oldNotes(); track note.id) { <article><small>{{ note.autorNome }}</small><p class="old-text">{{ note.conteudo }}</p></article> }
+      </details>
+    }
   }
-
-  @if (showModal() || editingAnnotation()) {
-    <app-new-anotacao [criancaId]="criancaId()" [existing]="editingAnnotation()" (created)="onSaved($event)" (close)="showModal.set(false); editingAnnotation.set(null)" />
-  }
-</div>
+</main>

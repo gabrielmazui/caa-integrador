@@ -54,7 +54,7 @@ export const routes: Routes = [
           { path: '', redirectTo: 'feed', pathMatch: 'full' },
           { path: 'feed', loadComponent: () => import('./features/crianca/feed/feed').then(m => m.FeedComponent) },
           { path: 'chat', loadComponent: () => import('./features/crianca/chat/chat').then(m => m.ChatComponent) },
-          { path: 'pei', canActivate: [profissionalGuard], loadComponent: () => import('./features/crianca/pei/pei').then(m => m.PeiComponent) },
+          { path: 'pei', canActivate: [profissionalGuard], canDeactivate: [(component: { canLeave: () => boolean }) => component.canLeave()], loadComponent: () => import('./features/crianca/pei/pei').then(m => m.PeiComponent) },
           { path: 'glossario', loadComponent: () => import('./features/crianca/glossario/glossario').then(m => m.GlossarioComponent) },
           { path: 'equipe', loadComponent: () => import('./features/crianca/equipe/equipe').then(m => m.EquipeComponent) },
           { path: 'perfil', loadComponent: () => import('./features/crianca/perfil/crianca-perfil').then(m => m.CriancaPerfilComponent) },

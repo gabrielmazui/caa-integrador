@@ -1,0 +1,3 @@
+ALTER TABLE anotacoes_pei DROP CONSTRAINT chk_anotacao_pei_categoria;
+ALTER TABLE anotacoes_pei ADD CONSTRAINT chk_anotacao_pei_categoria
+    CHECK (categoria IN ('identificacao', 'anamnese', 'checklist', 'protocolo', 'resultado_protocolo', 'observacao_sala', 'observacao_recreio', 'observacao_outros', 'estudo_caso', 'objetivo', 'adaptacao_ambiente', 'recursos', 'adaptacao_material', 'adaptacao_sala', 'adaptacao_atividade', 'adaptacao_tempo', 'seguranca_gatilhos', 'seguranca_sinais', 'seguranca_comportamento', 'seguranca_acalmar', 'seguranca_prevenir', 'seguranca_substituta', 'seguranca_responsaveis', 'revisao', 'comunicacao', 'socializacao', 'aprendizagem', 'autonomia', 'comportamento', 'sensorial', 'estrategia', 'outro'));
